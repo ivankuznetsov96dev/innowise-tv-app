@@ -5,8 +5,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {MatCardModule} from '@angular/material/card';
 
 import { AppComponent } from './app.component';
-import {ChannelsComponent} from "./channels/channels.component";
-import {ChannelCardComponent} from "./chanel-card/channel-card.component";
+import {ChannelsComponent} from "./modules/chanels_module/channels/channels.component";
+import {ChannelCardComponent} from "./modules/chanels_module/chanel-card/channel-card.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
