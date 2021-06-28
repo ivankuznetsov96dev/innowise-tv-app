@@ -8,7 +8,7 @@ import { map, take, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 
-export class GetchannelsService {
+export class GetChannelsService {
   constructor(
     private http: HttpClient,
   ) {

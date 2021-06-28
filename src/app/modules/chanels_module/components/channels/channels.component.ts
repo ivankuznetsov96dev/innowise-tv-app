@@ -1,6 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {GetchannelsService} from "../../../../services/getchannels.service";
+import {GetChannelsService} from "../../../../services/get-channels.service";
 import {ChannelModel} from "../../interfaces/channel.model";
 
 
@@ -15,11 +14,11 @@ export class ChannelsComponent implements OnInit {
   public test: ChannelModel[] = [];
 
   constructor(
-    private http: GetchannelsService,
+    private getDataServ: GetChannelsService,
   ) {}
 
   ngOnInit(): void {
-    this.http.getChannelsData().subscribe(value => {
+    this.getDataServ.getChannelsData().subscribe(value => {
         const count = value
         this.test = count["channels"];
     })
