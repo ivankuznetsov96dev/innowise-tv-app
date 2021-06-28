@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {ChannelModel} from "../interfaces/channel.model";
+import {ChannelModel} from "../../interfaces/channel.model";
 
 @Component({
   selector: 'app-channel-card',

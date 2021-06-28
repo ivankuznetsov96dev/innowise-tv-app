@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {GetchannelsService} from "../../../services/getchannels.service";
-import {ChannelModel} from "../interfaces/channel.model";
+import {GetchannelsService} from "../../../../services/getchannels.service";
+import {ChannelModel} from "../../interfaces/channel.model";
 
 
 @Component({
