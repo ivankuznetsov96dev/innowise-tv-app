@@ -1,0 +1,17 @@
+<div class="wrapper">
+  <div class="channels">
+    <h1>Channels</h1>
+
+<!--    <cdk-virtual-scroll-viewport itemSize="600" (scrolledIndexChange)="incEnd()">-->
+<!--      <div *cdkVirtualFor="let channel of channelList">-->
+<!--&lt;!&ndash;        <app-channel-card [info]="channel"></app-channel-card>&ndash;&gt;-->
+<!--        {{channel | json}}-->
+<!--      </div>-->
+<!--    </cdk-virtual-scroll-viewport>-->
+
+<!--    <div *ngFor="let channel of channelList$ | async" cdkScrollable>-->
+    <div *ngFor="let channel of channelList" >
+      <app-channel-card [info]="channel"></app-channel-card>
+    </div>
+  </div>
+</div>
