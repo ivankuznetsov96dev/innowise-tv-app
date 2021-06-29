@@ -1,0 +1,9 @@
+<div class="wrapper">
+  <div class="channels">
+    <h1>Channels</h1>
+
+    <div *ngFor="let channel of channelList">
+      <app-channel-card [info]="channel"></app-channel-card>
+    </div>
+  </div>
+</div>
