@@ -4,4 +4,8 @@
   justify-content: space-between;
   flex-direction: column;
   width: 100%;
+
+  cdk-virtual-scroll-viewport {
+    height: 50%;
+  }
 }
