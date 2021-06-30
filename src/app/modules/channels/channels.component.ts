@@ -37,17 +37,17 @@ export class ChannelsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // this.channelList$ = this.getDataServ.getChannelsData();
 
-    console.log(this.route.snapshot.params);
-
-    this.router.events
-      .pipe(
-        filter((ev) => ev instanceof NavigationEnd),
-        takeUntil(this.endStream$),
-      )
-      .subscribe((value) => {
-        console.log(value);
-        this.channelSort();
-      });
+    // this.router.events
+    //   .pipe(
+    //     filter((ev) => ev instanceof NavigationEnd),
+    //     takeUntil(this.endStream$),
+    //   )
+    //   .subscribe((value) => {
+    //     this.channelSort();
+    //   });
+    this.getDataServ.getNvigationEndObs(this.endStream$).subscribe((value) => {
+      this.channelSort();
+    });
 
     this.getDataServ.getChannelsCategories().subscribe((value) => {
       this.categoriesList.push(...value);
@@ -56,7 +56,6 @@ export class ChannelsComponent implements OnInit, OnDestroy {
 
     this.getDataServ.getChannelsData().subscribe((value) => {
       this.channelList = value;
-      console.log(this.channelList);
       this.channelSort();
     });
   }
