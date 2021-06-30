@@ -12,9 +12,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ChannelsComponent } from './channels.component';
 import { ChannelCardComponent } from './components/channel-card/channel-card.component';
+import { ChipsComponent } from './components/chips/chips.component';
 
 @NgModule({
-  declarations: [ChannelsComponent, ChannelCardComponent],
+  declarations: [ChannelsComponent, ChannelCardComponent, ChipsComponent],
   imports: [
     BrowserModule,
     MatCardModule,
