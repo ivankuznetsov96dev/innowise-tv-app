@@ -17,6 +17,7 @@ import { CategoriesModel } from './interfaces/categories.model';
 export class ChannelsComponent implements OnInit, OnDestroy {
   // public channelList$: Observable<ChannelModel[]>;
   public channelList: ChannelModel[] = [];
+
   public filtredChannelList: ChannelModel[] = [];
 
   public categoriesList: CategoriesModel[] = [
@@ -62,11 +63,19 @@ export class ChannelsComponent implements OnInit, OnDestroy {
 
   public channelSort(): void {
     const channelsCategoryId = this.route.snapshot.params.channelsCategoryId - 0;
+    if (channelsCategoryId === 0) {
+      this.filtredChannelList = this.channelList;
+      return;
+    }
     this.filtredChannelList = this.channelList.filter((element) =>
       element.genres?.some((id) => channelsCategoryId === id),
     );
     console.log(this.filtredChannelList);
   }
+
+  // public trackFunction(index, item): string {
+  //   return item.id;
+  // }
 
   ngOnDestroy(): void {
     this.endStream$.next();
