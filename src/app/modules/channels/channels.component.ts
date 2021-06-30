@@ -61,6 +61,7 @@ export class ChannelsComponent implements OnInit, OnDestroy {
   }
 
   public channelSort(): void {
+    console.log(this.route.snapshot.params);
     const channelsCategoryId = this.route.snapshot.params.channelsCategoryId - 0;
     if (channelsCategoryId === 0) {
       this.filtredChannelList = this.channelList;
@@ -75,6 +76,10 @@ export class ChannelsComponent implements OnInit, OnDestroy {
   // public trackFunction(index, item): string {
   //   return item.id;
   // }
+
+  public test(): void {
+    console.log('Time');
+  }
 
   ngOnDestroy(): void {
     this.endStream$.next();

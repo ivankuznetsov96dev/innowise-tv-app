@@ -46,7 +46,6 @@ export class ChipsComponent implements OnInit, OnDestroy {
 
     this.selectedTag();
     this.getDataServ.getNvigationEndObs(this.endStream$).subscribe(() => {
-      console.log(this.route.snapshot.params);
       this.selectedTag();
     });
   }

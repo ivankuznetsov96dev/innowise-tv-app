@@ -5,6 +5,7 @@ import { ChannelInfoComponent } from './modules/channelInfo/channel-info.compone
 
 const routes: Routes = [
   { path: '', redirectTo: '/channels/0', pathMatch: 'full' },
+  { path: 'channels', redirectTo: '/channels/0', pathMatch: 'full' },
   { path: 'channels/:channelsCategoryId', component: ChannelsComponent },
   { path: 'channel-info/:channelId', component: ChannelInfoComponent },
 ];
