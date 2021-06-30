@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelModel } from './interfaces/channel.model';
+import { CategoriesModel } from './interfaces/categories.model';
 // import { ScrollDispatcher } from '@angular/cdk/overlay';
-import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-chanells',
@@ -13,28 +15,25 @@ export class ChannelsComponent implements OnInit {
   // public channelList$: Observable<ChannelModel[]>;
   public channelList: ChannelModel[] = [];
 
-  // public end: number = 10;
+  public categoriesList: CategoriesModel[] = [
+    { id: 0, is_main: true, name: 'Все каналы', name_en: 'Oll channels' },
+  ];
 
-  // constructor(private getDataServ: ChannelService, private scrollDispatcher: ScrollDispatcher) {
-  constructor(private getDataServ: ChannelService) {
-    // this.scrollDispatcher.scrolled().subscribe((x) => console.log(x));
-  }
+  constructor(private getDataServ: ChannelService) {}
 
   ngOnInit(): void {
     // this.channelList$ = this.getDataServ.getChannelsData();
     this.getDataServ.getChannelsData().subscribe((value) => {
       this.channelList = value;
-      this.getMaxRaiting();
+    });
+
+    this.getDataServ.getChannelsCategories().subscribe((value) => {
+      this.categoriesList.push(...value);
+      console.log(this.categoriesList);
     });
   }
 
-  public getMaxRaiting(): void {
-    // this.channelList.forEach(el => console.log(el.rank))
-    // console.log(this.channelList.sort((prev, next) => next.rank - prev.rank));
-    // const filtredChannelList = this.channelList.sort((prev, next) => {
-    //   return prev.rank - next.rank;
-    // });
-    //
-    // console.log(filtredChannelList);
-  }
+  // drop(event: CdkDragDrop<CategoriesModel[]>) {
+  //   moveItemInArray(this.categoriesList, event.previousIndex, event.currentIndex);
+  // }
 }

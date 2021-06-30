@@ -25,4 +25,8 @@ export class ChannelService {
       }),
     );
   }
+
+  getChannelsCategories(): Observable<any> {
+    return this.http.get('https://api.persik.by/v2/categories/channel');
+  }
 }

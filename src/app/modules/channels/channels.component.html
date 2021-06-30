@@ -9,6 +9,30 @@
 <!--      </div>-->
 <!--    </cdk-virtual-scroll-viewport>-->
 
+    <mat-chip-list  class="categories_chips" *ngIf="categoriesList.length !== 1">
+      <mat-chip
+        class="category_chip"
+        selected
+        *ngFor="let category of categoriesList">
+        {{category.name}}
+      </mat-chip>
+    </mat-chip-list>
+
+<!--    <mat-chip-list-->
+<!--      class="categories_chips"-->
+<!--      cdkDropList-->
+<!--      cdkDropListOrientation="horizontal"-->
+<!--      (cdkDropListDropped)="drop($event)">-->
+<!--      <mat-chip-->
+<!--        class="category_chip"-->
+<!--        cdkDrag-->
+<!--        *ngFor="let category of categoriesList">-->
+<!--        {{category.name}}-->
+<!--      </mat-chip>-->
+<!--    </mat-chip-list>-->
+
+    <mat-spinner *ngIf="channelList.length === 0"></mat-spinner>
+
 <!--    <div *ngFor="let channel of channelList$ | async" cdkScrollable>-->
     <div *ngFor="let channel of channelList" >
       <app-channel-card [info]="channel"></app-channel-card>
