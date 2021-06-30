@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter, takeUntil } from 'rxjs/operators';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelModel } from './interfaces/channel.model';
 import { CategoriesModel } from './interfaces/categories.model';
@@ -13,20 +14,39 @@ import { CategoriesModel } from './interfaces/categories.model';
   templateUrl: './channels.component.html',
   styleUrls: ['./channels.component.scss'],
 })
-export class ChannelsComponent implements OnInit {
+export class ChannelsComponent implements OnInit, OnDestroy {
   // public channelList$: Observable<ChannelModel[]>;
   public channelList: ChannelModel[] = [];
+  public filtredChannelList: ChannelModel[] = [];
 
   public categoriesList: CategoriesModel[] = [
     { id: 0, is_main: true, name: 'Все каналы', name_en: 'Oll channels' },
   ];
 
+  private endStream$: Subject<void> = new Subject<void>();
+
   // public checkedChip: number | string;
 
-  constructor(private getDataServ: ChannelService) {}
+  constructor(
+    private getDataServ: ChannelService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     // this.channelList$ = this.getDataServ.getChannelsData();
+
+    console.log(this.route.snapshot.params);
+
+    this.router.events
+      .pipe(
+        filter((ev) => ev instanceof NavigationEnd),
+        takeUntil(this.endStream$),
+      )
+      .subscribe((value) => {
+        console.log(value);
+        this.channelSort();
+      });
 
     this.getDataServ.getChannelsCategories().subscribe((value) => {
       this.categoriesList.push(...value);
@@ -35,10 +55,20 @@ export class ChannelsComponent implements OnInit {
 
     this.getDataServ.getChannelsData().subscribe((value) => {
       this.channelList = value;
+      console.log(this.channelList);
+      this.channelSort();
     });
   }
 
-  // drop(event: CdkDragDrop<CategoriesModel[]>) {
-  //   moveItemInArray(this.categoriesList, event.previousIndex, event.currentIndex);
-  // }
+  public channelSort(): void {
+    const channelsCategoryId = this.route.snapshot.params.channelsCategoryId - 0;
+    this.filtredChannelList = this.channelList.filter((element) =>
+      element.genres?.some((id) => channelsCategoryId === id),
+    );
+    console.log(this.filtredChannelList);
+  }
+
+  ngOnDestroy(): void {
+    this.endStream$.next();
+  }
 }

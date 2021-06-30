@@ -22,5 +22,6 @@ export class ChipsComponent implements OnInit {
 
   public changeCategory(id: number): void {
     this.router.navigate(['/channels', this.category.id]);
+    // this.location.replaceState(`/channel/${this.category.id}`);
   }
 }

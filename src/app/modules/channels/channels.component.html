@@ -2,24 +2,17 @@
   <div class="channels">
     <h1>Channels</h1>
 
-<!--    <cdk-virtual-scroll-viewport itemSize="600" (scrolledIndexChange)="incEnd()">-->
-<!--      <div *cdkVirtualFor="let channel of channelList">-->
-<!--&lt;!&ndash;        <app-channel-card [info]="channel"></app-channel-card>&ndash;&gt;-->
-<!--        {{channel | json}}-->
-<!--      </div>-->
-<!--    </cdk-virtual-scroll-viewport>-->
-
     <mat-chip-list  class="categories_chips" *ngIf="categoriesList.length !== 1">
-      <div *ngFor="let category of categoriesList"
-      >
+      <div *ngFor="let category of categoriesList">
         <app-chips [category]="category"></app-chips>
       </div>
     </mat-chip-list>
 
-    <mat-spinner *ngIf="channelList.length === 0"></mat-spinner>
+    <mat-spinner *ngIf="filtredChannelList.length === 0"></mat-spinner>
+<!--    <mat-spinner *ngIf="channelList.length === 0"></mat-spinner>-->
 
 <!--    <div *ngFor="let channel of channelList$ | async" cdkScrollable>-->
-    <div *ngFor="let channel of channelList" >
+    <div *ngFor="let channel of filtredChannelList" >
       <app-channel-card [info]="channel"></app-channel-card>
     </div>
   </div>
