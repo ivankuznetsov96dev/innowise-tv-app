@@ -9,7 +9,7 @@ import { ChannelService } from '../../services/channel.service';
   templateUrl: './chennel-info.component.html',
 })
 export class ChannelInfoComponent implements OnInit {
-  public channel_info: ChannelModel = {};
+  public channel_info!: ChannelModel;
 
   constructor(
     private router: Router,

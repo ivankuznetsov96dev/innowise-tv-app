@@ -8,6 +8,12 @@ const routes: Routes = [
   // { path: 'channels', redirectTo: '/channels/0', pathMatch: 'full' },
   { path: 'channels/:channelsCategoryId', component: ChannelsComponent },
   { path: 'channel-info/:channelId', component: ChannelInfoComponent },
+  // {
+  //   path: 'channel-info/:channelId',
+  //   loadChildren: () =>
+  //     import('./modules/channel-info/channel-info.module').then((mod) => mod.ChannelInfoModule),
+  //   component: ChannelInfoComponent,
+  // },
 ];
 
 @NgModule({
