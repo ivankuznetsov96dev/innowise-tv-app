@@ -2,13 +2,16 @@
   <div class="channels">
     <h1>Channels</h1>
 
-    <mat-chip-list  class="categories_chips" *ngIf="categoriesList.length !== 1">
-      <div *ngFor="let category of categoriesList">
-        <app-chips [category]="category"></app-chips>
+<!--    <mat-chip-list  class="categories_chips" *ngIf="categoriesList.length !== 1">-->
+    <mat-chip-list  class="categories_chips" *ngIf="categoriesList$ | async">
+      <div *ngFor="let category of categoriesList$ | async">
+        <app-chips
+          [category]="category"
+          (categotyId)="getCategotyId($event)"></app-chips>
       </div>
     </mat-chip-list>
 
-    <mat-spinner *ngIf="filtredChannelList.length === 0"></mat-spinner>
+    <mat-spinner *ngIf="!filtredChannelList"></mat-spinner>
 <!--    <mat-spinner *ngIf="channelList.length === 0"></mat-spinner>-->
 
 <!--    <div *ngFor="let channel of channelList$ | async" cdkScrollable>-->

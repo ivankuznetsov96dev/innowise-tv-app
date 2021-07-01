@@ -1,84 +1,79 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Location } from '@angular/common';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelModel } from './interfaces/channel.model';
-import { CategoriesModel } from './interfaces/categories.model';
-// import { ScrollDispatcher } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-chanells',
   templateUrl: './channels.component.html',
   styleUrls: ['./channels.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChannelsComponent implements OnInit, OnDestroy {
-  // public channelList$: Observable<ChannelModel[]>;
-  public channelList: ChannelModel[] = [];
+  public channelList$!: Observable<ChannelModel[]>;
 
-  public filtredChannelList: ChannelModel[] = [];
+  public channelList!: ChannelModel[];
 
-  public categoriesList: CategoriesModel[] = [
-    { id: 0, is_main: true, name: 'Все каналы', name_en: 'Oll channels' },
-  ];
+  public channelsCategoryId!: number;
+
+  public filtredChannelList!: ChannelModel[] | null;
+
+  public categoriesList$!: Observable<ChannelModel[]>;
 
   private endStream$: Subject<void> = new Subject<void>();
-
-  // public checkedChip: number | string;
 
   constructor(
     private getDataServ: ChannelService,
     private router: Router,
     private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
-    // this.channelList$ = this.getDataServ.getChannelsData();
+    this.categoriesList$ = this.getDataServ.getChannelsCategories();
 
-    // this.router.events
-    //   .pipe(
-    //     filter((ev) => ev instanceof NavigationEnd),
-    //     takeUntil(this.endStream$),
-    //   )
-    //   .subscribe((value) => {
-    //     this.channelSort();
-    //   });
-    this.getDataServ.getNvigationEndObs(this.endStream$).subscribe((value) => {
-      this.channelSort();
-    });
-
-    this.getDataServ.getChannelsCategories().subscribe((value) => {
-      this.categoriesList.push(...value);
-      console.log(this.categoriesList);
-    });
-
+    this.channelList$ = this.getDataServ.getChannelsData();
     this.getDataServ.getChannelsData().subscribe((value) => {
       this.channelList = value;
+      this.channelSort();
+      this.urlListener();
+    });
+  }
+
+  public urlListener(): void {
+    this.route.params.pipe(takeUntil(this.endStream$)).subscribe((value) => {
+      this.channelsCategoryId = parseInt(value.channelsCategoryId);
       this.channelSort();
     });
   }
 
   public channelSort(): void {
-    console.log(this.route.snapshot.params);
-    const channelsCategoryId = this.route.snapshot.params.channelsCategoryId - 0;
-    if (channelsCategoryId === 0) {
+    if (this.channelsCategoryId === 0) {
       this.filtredChannelList = this.channelList;
+      this.cdr.detectChanges();
       return;
     }
     this.filtredChannelList = this.channelList.filter((element) =>
-      element.genres?.some((id) => channelsCategoryId === id),
+      element.genres?.some((id) => this.channelsCategoryId === id),
     );
-    console.log(this.filtredChannelList);
+
+    if (this.filtredChannelList.length === 0) {
+      this.filtredChannelList = null;
+    }
+    this.cdr.detectChanges();
   }
 
-  // public trackFunction(index, item): string {
-  //   return item.id;
-  // }
-
-  public test(): void {
-    console.log('Time');
+  public getCategotyId(event: number): void {
+    console.log('Category ID: ', event);
+    this.router.navigate(['/channels', event]);
   }
 
   ngOnDestroy(): void {

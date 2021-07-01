@@ -1,17 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { from, Observable, Subject } from 'rxjs';
-import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
+import { from, Observable, of, Subject } from 'rxjs';
+import {
+  concat,
+  concatMap,
+  delay,
+  filter,
+  map,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+  zip,
+} from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 import { ChannelModel } from '../modules/channels/interfaces/channel.model';
+import { CategoriesModel } from '../modules/channels/interfaces/categories.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChannelService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
-  getChannelsData(): Observable<Array<ChannelModel>> {
+  public getChannelsData(): Observable<Array<ChannelModel>> {
     return this.http.get<{ channels: Array<{}> }>('https://api.persik.by/v2/content/channels').pipe(
       map((data) => {
         return data.channels;
@@ -19,22 +31,31 @@ export class ChannelService {
     );
   }
 
-  getChannel(id: string): Observable<{}[]> {
-    return this.http.get<{ channels: Array<{}> }>('https://api.persik.by/v2/content/channels').pipe(
-      map((data) => {
-        return data.channels.filter((obj: ChannelModel) => obj.current_tvshow_id === id);
-      }),
-    );
+  public getChannel(id: string): Observable<{}[]> {
+    return this.http
+      .get<{ channels: ChannelModel[] }>('https://api.persik.by/v2/content/channels')
+      .pipe(
+        map((data) => {
+          return data.channels.filter((obj: ChannelModel) => obj.current_tvshow_id === id);
+        }),
+      );
   }
 
-  getChannelsCategories(): Observable<any> {
-    return this.http.get('https://api.persik.by/v2/categories/channel');
+  public getChannelsCategories(): Observable<CategoriesModel[]> {
+    return this.http
+      .get('https://api.persik.by/v2/categories/channel')
+      .pipe(switchMap((data) => [this.modifyCategoryArray(data)]));
   }
 
-  getNvigationEndObs(endStream: Subject<void>): Observable<{}> {
-    return this.router.events.pipe(
-      filter((ev) => ev instanceof NavigationEnd),
-      takeUntil(endStream),
-    );
+  private modifyCategoryArray(data: any) {
+    data.unshift({ id: 0, is_main: true, name: 'Все каналы', name_en: 'All channels' });
+    return data;
   }
+
+  // getNvigationEndObs(endStream: Subject<void>): Observable<{}> {
+  //   return this.router.events.pipe(
+  //     filter((ev) => ev instanceof NavigationEnd),
+  //     takeUntil(endStream),
+  //   );
+  // }
 }

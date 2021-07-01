@@ -1,69 +1,40 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { CategoriesModel } from '../../interfaces/categories.model';
-import { ChannelService } from '../../../../services/channel.service';
 
 @Component({
   selector: 'app-chips',
   templateUrl: './chips.component.html',
   styleUrls: ['./chips.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChipsComponent implements OnInit, OnDestroy {
-  @Input() category: CategoriesModel = {
-    id: 0,
-    is_main: true,
-    name: 'Все каналы',
-    name_en: 'Oll channels',
-  };
+export class ChipsComponent implements OnInit {
+  @Input() category!: CategoriesModel;
 
-  public chipPicked = false;
-
-  public endStream$: Subject<void> = new Subject<void>();
+  @Output() categotyId: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(
     private location: Location,
     private route: ActivatedRoute,
-    private router: Router,
-    private getDataServ: ChannelService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
-  ngOnInit(): void {
-    // this.router.events
-    //   .pipe(
-    //     filter((ev) => ev instanceof NavigationEnd),
-    //     takeUntil(this.endStream$),
-    //   )
-    //   .subscribe((value) => {
-    //     if (this.route.snapshot.params.channelsCategoryId == this.category.id) {
-    //       this.chipPicked = true;
-    //     } else {
-    //       this.chipPicked = false;
-    //     }
-    //   });
-
-    this.selectedTag();
-    this.getDataServ.getNvigationEndObs(this.endStream$).subscribe(() => {
-      this.selectedTag();
-    });
-  }
+  ngOnInit(): void {}
 
   public changeCategory(): void {
-    this.router.navigate(['/channels', this.category.id]);
-    // this.location.replaceState(`/channel/${this.category.id}`);
+    this.categotyId.emit(this.category.id);
   }
 
-  public selectedTag(): void {
-    if (this.route.snapshot.params.channelsCategoryId == this.category.id) {
-      this.chipPicked = true;
-    } else {
-      this.chipPicked = false;
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.endStream$.next();
+  public selectedTag(): boolean {
+    return this.route.snapshot.params.channelsCategoryId == this.category.id;
   }
 }
