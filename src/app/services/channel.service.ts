@@ -60,4 +60,21 @@ export class ChannelService {
   //     takeUntil(endStream),
   //   );
   // }
+
+  // public getTvShows(channelId: number, date_start: string, date_end: string): void {
+  //   this.http
+  //     .get(`https://api.persik.by/v2/epg/tvshows?${channelId}&from=${date_start}&to=${date_end}`)
+  //     .pipe(map((data) => console.log(data)))
+  //     .subscribe();
+  // }
+
+  public getTvShows(channelId: number, date_start: string, date_end: string): Observable<any> {
+    return this.http
+      .get<{tvshows: {items: []}}>(
+        `https://api.persik.by/v2/epg/tvshows?channels[]=${channelId}&from=${date_start}&to=${date_end}`,
+      )
+      .pipe(
+        map((data) => data.tvshows.items)
+      );
+  }
 }
