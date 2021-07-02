@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ChannelModel } from '../channels/interfaces/channel.model';
 import { ChannelService } from '../../services/channel.service';
 
@@ -8,7 +9,7 @@ import { ChannelService } from '../../services/channel.service';
   templateUrl: './chennel-info.component.html',
 })
 export class ChannelInfoComponent implements OnInit {
-  public channel_info!: ChannelModel;
+  public channel_info$!: Observable<ChannelModel>;
 
   constructor(
     private router: Router,
@@ -17,8 +18,10 @@ export class ChannelInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.channel.getChannel(this.route.snapshot.params.channelId).subscribe((value) => {
-      this.channel_info = value[0];
-    });
+    // this.channel.getChannel(this.route.snapshot.params.channelId).subscribe((value) => {
+    //   this.channel_info = value[0];
+    // });
+    // this.channel.getChannelsData()
+    this.channel_info$ = this.channel.getChannelInfo();
   }
 }

@@ -1,7 +1,7 @@
-<mat-spinner *ngIf="!channel_info.name"></mat-spinner>
+<!--<mat-spinner *ngIf="channel_info$"></mat-spinner>-->
 
-<div *ngIf="channel_info.name">
-  <h1>{{channel_info?.name}}</h1>
+<div *ngIf="channel_info$ | async as channel_info">
+  <h1>{{channel_info.name}}</h1>
   <p>{{channel_info | json}}</p>
 
   <mat-form-field class="example-full-width" appearance="fill">

@@ -19,15 +19,25 @@ export class ChannelService {
     );
   }
 
-  public getChannel(id: string): Observable<{}[]> {
+  public getChannelInfo(): Observable<ChannelModel> {
     return this.http
-      .get<{ channels: ChannelModel[] }>('https://api.persik.by/v2/content/channels')
+      .get<{ channels: Array<{}> }>('https://api.persik.by/v2/content/channel?id[]=383')
       .pipe(
         map((data) => {
-          return data.channels.filter((obj: ChannelModel) => obj.current_tvshow_id === id);
+          return data.channels[0];
         }),
       );
   }
+
+  // public getChannel(id: string): Observable<{}[]> {
+  //   return this.http
+  //     .get<{ channels: ChannelModel[] }>('https://api.persik.by/v2/content/channels')
+  //     .pipe(
+  //       map((data) => {
+  //         return data.channels.filter((obj: ChannelModel) => obj.current_tvshow_id === id);
+  //       }),
+  //     );
+  // }
 
   public getChannelsCategories(): Observable<CategoriesModel[]> {
     // return this.http
