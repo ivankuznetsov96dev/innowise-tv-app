@@ -19,9 +19,9 @@ export class ChannelService {
     );
   }
 
-  public getChannelInfo(): Observable<ChannelModel> {
+  public getChannelInfo(id: number): Observable<ChannelModel> {
     return this.http
-      .get<{ channels: Array<{}> }>('https://api.persik.by/v2/content/channel?id[]=383')
+      .get<{ channels: Array<{}> }>(`https://api.persik.by/v2/content/channel?id[]=${id}`)
       .pipe(
         map((data) => {
           return data.channels[0];

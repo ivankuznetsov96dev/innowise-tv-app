@@ -5,8 +5,9 @@ import { ChannelModel } from '../channels/interfaces/channel.model';
 import { ChannelService } from '../../services/channel.service';
 
 @Component({
-  selector: 'app-chennel-info',
-  templateUrl: './chennel-info.component.html',
+  selector: 'app-channel-info',
+  templateUrl: './channel-info.component.html',
+  styleUrls: ['./channel-info.component.scss'],
 })
 export class ChannelInfoComponent implements OnInit {
   public channel_info$!: Observable<ChannelModel>;
@@ -22,6 +23,6 @@ export class ChannelInfoComponent implements OnInit {
     //   this.channel_info = value[0];
     // });
     // this.channel.getChannelsData()
-    this.channel_info$ = this.channel.getChannelInfo();
+    this.channel_info$ = this.channel.getChannelInfo(this.route.snapshot.params.channelId);
   }
 }
