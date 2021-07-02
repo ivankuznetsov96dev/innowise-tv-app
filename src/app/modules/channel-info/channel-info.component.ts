@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
 import { ChannelModel } from '../channels/interfaces/channel.model';
 import { ChannelService } from '../../services/channel.service';
 
@@ -9,7 +8,7 @@ import { ChannelService } from '../../services/channel.service';
   templateUrl: './chennel-info.component.html',
 })
 export class ChannelInfoComponent implements OnInit {
-  public channel_info: ChannelModel = {};
+  public channel_info!: ChannelModel;
 
   constructor(
     private router: Router,
