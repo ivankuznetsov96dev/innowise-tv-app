@@ -71,7 +71,7 @@ export class ChannelsComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  public getCategotyId(event: number): void {
+  public changeCategory(event: number): void {
     console.log('Category ID: ', event);
     this.router.navigate(['/channels', event]);
   }

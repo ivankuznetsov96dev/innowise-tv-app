@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -14,7 +13,6 @@ import { ChannelInfoComponent } from './channel-info.component';
 @NgModule({
   declarations: [ChannelInfoComponent],
   imports: [
-    // BrowserModule,
     CommonModule,
     MatCardModule,
     MatDatepickerModule,

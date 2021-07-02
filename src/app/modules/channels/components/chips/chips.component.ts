@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CategoriesModel } from '../../interfaces/categories.model';
@@ -15,23 +7,22 @@ import { CategoriesModel } from '../../interfaces/categories.model';
   selector: 'app-chips',
   templateUrl: './chips.component.html',
   styleUrls: ['./chips.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChipsComponent implements OnInit {
   @Input() category!: CategoriesModel;
 
-  @Output() categotyId: EventEmitter<number> = new EventEmitter<number>();
+  @Output() selectedCategory: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(
-    private location: Location,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  public colorFlag!: boolean;
 
-  ngOnInit(): void {}
+  constructor(private location: Location, private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.colorFlag = this.selectedTag();
+  }
 
   public changeCategory(): void {
-    this.categotyId.emit(this.category.id);
+    this.selectedCategory.emit(this.category.id);
   }
 
   public selectedTag(): boolean {

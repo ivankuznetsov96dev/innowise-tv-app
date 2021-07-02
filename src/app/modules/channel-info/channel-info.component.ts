@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
 import { ChannelModel } from '../channels/interfaces/channel.model';
 import { ChannelService } from '../../services/channel.service';
 

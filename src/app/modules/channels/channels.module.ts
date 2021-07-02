@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +16,7 @@ import { ChipsComponent } from './components/chips/chips.component';
 @NgModule({
   declarations: [ChannelsComponent, ChannelCardComponent, ChipsComponent],
   imports: [
-    BrowserModule,
+    CommonModule,
     MatCardModule,
     MatDatepickerModule,
     MatFormFieldModule,

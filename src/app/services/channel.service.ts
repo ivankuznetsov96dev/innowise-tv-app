@@ -1,19 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { from, Observable, of, Subject } from 'rxjs';
-import {
-  concat,
-  concatMap,
-  delay,
-  filter,
-  map,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-  zip,
-} from 'rxjs/operators';
-import { NavigationEnd, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ChannelModel } from '../modules/channels/interfaces/channel.model';
 import { CategoriesModel } from '../modules/channels/interfaces/categories.model';
 
@@ -42,15 +30,19 @@ export class ChannelService {
   }
 
   public getChannelsCategories(): Observable<CategoriesModel[]> {
+    // return this.http
+    //   .get('https://api.persik.by/v2/categories/channel')
+    //   .pipe(switchMap((data) => [this.modifyCategoryArray(data)]));
+    const allGenresCategory = { id: 0, is_main: true, name: 'Все каналы', name_en: 'All channels' };
     return this.http
       .get('https://api.persik.by/v2/categories/channel')
-      .pipe(switchMap((data) => [this.modifyCategoryArray(data)]));
+      .pipe(map((data: any) => [allGenresCategory, ...data]));
   }
 
-  private modifyCategoryArray(data: any) {
-    data.unshift({ id: 0, is_main: true, name: 'Все каналы', name_en: 'All channels' });
-    return data;
-  }
+  // private modifyCategoryArray(data: any) {
+  //   data.unshift({ id: 0, is_main: true, name: 'Все каналы', name_en: 'All channels' });
+  //   return data;
+  // }
 
   // getNvigationEndObs(endStream: Subject<void>): Observable<{}> {
   //   return this.router.events.pipe(
