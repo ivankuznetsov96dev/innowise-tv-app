@@ -1,10 +1,31 @@
+%flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .tvshow_card {
   max-width: 400px;
   margin-bottom: 10px;
+  cursor: pointer;
+
+  .show_title {
+    @extend %flex-between;
+  }
+
+  .live {
+    color: red;
+  }
+
+  .recording {
+    color: green;
+  }
+
+  mat-progress-bar {
+    width: 200px;
+  }
 
   .ether_time {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @extend %flex-between;
   }
 }
