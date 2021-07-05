@@ -9,9 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ChannelInfoComponent } from './channel-info.component';
+import { TvshowComponent } from './components/tvshow/tvshow.component';
 
 @NgModule({
-  declarations: [ChannelInfoComponent],
+  declarations: [ChannelInfoComponent, TvshowComponent],
   imports: [
     CommonModule,
     MatCardModule,

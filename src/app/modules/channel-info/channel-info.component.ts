@@ -3,10 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { formatDate } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
+import * as moment from 'moment';
 import { ChannelModel } from '../channels/interfaces/channel.model';
 import { ChannelService } from '../../services/channel.service';
-import {CategoriesModel} from "../channels/interfaces/categories.model";
-import {TvshowModel} from "../channels/interfaces/tvshow.model";
+import { CategoriesModel } from '../channels/interfaces/categories.model';
+import { TvshowModel } from '../channels/interfaces/tvshow.model';
 
 @Component({
   selector: 'app-channel-info',
@@ -39,7 +40,7 @@ export class ChannelInfoComponent implements OnInit {
     this.onSubmit();
   }
 
-  public onSubmit() {
+  public onSubmit(): void {
     const dateStart = formatDate(this.date_range.value.start, 'y-MM-dd', 'en-US');
     const dateEnd = formatDate(this.date_range.value.end, 'y-MM-dd', 'en-US');
     this.tvShows$ = this.channel.getTvShows(
@@ -47,5 +48,11 @@ export class ChannelInfoComponent implements OnInit {
       dateStart,
       dateEnd,
     );
+  }
+
+  public test(tvObj: TvshowModel): void {
+    console.log(tvObj);
+    moment.unix(tvObj.start!).locale('ru').format('HH:mm');
+    moment.unix(tvObj.stop!).locale('ru').format('HH:mm');
   }
 }

@@ -38,7 +38,7 @@
 
   <div *ngIf="tvShows$ | async">
     <div *ngFor="let show of tvShows$ | async">
-      <p>{{show | json}}</p>
+      <app-tvshow [tvshow]="show"></app-tvshow>
     </div>
   </div>
 

@@ -1,0 +1,10 @@
+.tvshow_card {
+  max-width: 400px;
+  margin-bottom: 10px;
+
+  .ether_time {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
