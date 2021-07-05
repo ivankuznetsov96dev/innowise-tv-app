@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ChannelModel } from '../modules/channels/interfaces/channel.model';
 import { CategoriesModel } from '../modules/channels/interfaces/categories.model';
+import {TvshowModel} from "../modules/channels/interfaces/tvshow.model";
 
 @Injectable({
   providedIn: 'root',
@@ -29,48 +30,16 @@ export class ChannelService {
       );
   }
 
-  // public getChannel(id: string): Observable<{}[]> {
-  //   return this.http
-  //     .get<{ channels: ChannelModel[] }>('https://api.persik.by/v2/content/channels')
-  //     .pipe(
-  //       map((data) => {
-  //         return data.channels.filter((obj: ChannelModel) => obj.current_tvshow_id === id);
-  //       }),
-  //     );
-  // }
-
   public getChannelsCategories(): Observable<CategoriesModel[]> {
-    // return this.http
-    //   .get('https://api.persik.by/v2/categories/channel')
-    //   .pipe(switchMap((data) => [this.modifyCategoryArray(data)]));
     const allGenresCategory = { id: 0, is_main: true, name: 'Все каналы', name_en: 'All channels' };
     return this.http
       .get('https://api.persik.by/v2/categories/channel')
       .pipe(map((data: any) => [allGenresCategory, ...data]));
   }
 
-  // private modifyCategoryArray(data: any) {
-  //   data.unshift({ id: 0, is_main: true, name: 'Все каналы', name_en: 'All channels' });
-  //   return data;
-  // }
-
-  // getNvigationEndObs(endStream: Subject<void>): Observable<{}> {
-  //   return this.router.events.pipe(
-  //     filter((ev) => ev instanceof NavigationEnd),
-  //     takeUntil(endStream),
-  //   );
-  // }
-
-  // public getTvShows(channelId: number, date_start: string, date_end: string): void {
-  //   this.http
-  //     .get(`https://api.persik.by/v2/epg/tvshows?${channelId}&from=${date_start}&to=${date_end}`)
-  //     .pipe(map((data) => console.log(data)))
-  //     .subscribe();
-  // }
-
-  public getTvShows(channelId: number, date_start: string, date_end: string): Observable<any> {
+  public getTvShows(channelId: number, date_start: string, date_end: string): Observable<TvshowModel[]> {
     return this.http
-      .get<{tvshows: {items: []}}>(
+      .get<{tvshows: {items: TvshowModel[]}}>(
         `https://api.persik.by/v2/epg/tvshows?channels[]=${channelId}&from=${date_start}&to=${date_end}`,
       )
       .pipe(

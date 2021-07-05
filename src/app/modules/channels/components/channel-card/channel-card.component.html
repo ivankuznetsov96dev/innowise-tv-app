@@ -4,9 +4,20 @@
 <!--  <p>{{info.age_rating}}</p>-->
 <!--</div>-->
 
-<mat-card class="channel_card" (click)="goToChennel()">
-  <img [src]="info.logo" alt="{{info.name + 'channel logo'}}">
-  <span>{{info.name}}</span>
-  <span>{{info.age_rating}}</span>
-  <span>Rank: {{info.rank}}</span>
+<mat-card class="channel_card" (click)="getTodayTvShows()">
+  <div class="channel_info">
+    <img [src]="info.logo" alt="{{info.name + 'channel logo'}}">
+    <span>{{info.name}}</span>
+    <span>{{info.age_rating}}</span>
+    <span>Rank: {{info.rank}}</span>
+  </div>
+
+  <div class="channel_tvshows" *ngIf="tvShowsFlag">
+    <div *ngFor="let tvShow of tvShows$ | async">
+      <p>{{tvShow | json}}</p>
+    </div>
+    <button mat-button color="primary"
+            (click)="goToChennel()"
+            *ngIf="tvShows$ | async">Get more info</button>
+  </div>
 </mat-card>

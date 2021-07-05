@@ -5,6 +5,8 @@ import { formatDate } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ChannelModel } from '../channels/interfaces/channel.model';
 import { ChannelService } from '../../services/channel.service';
+import {CategoriesModel} from "../channels/interfaces/categories.model";
+import {TvshowModel} from "../channels/interfaces/tvshow.model";
 
 @Component({
   selector: 'app-channel-info',
@@ -14,7 +16,7 @@ import { ChannelService } from '../../services/channel.service';
 export class ChannelInfoComponent implements OnInit {
   public channelInfo$!: Observable<ChannelModel>;
 
-  public tvShows$!: Observable<any>;
+  public tvShows$!: Observable<TvshowModel[]>;
 
   public date = new Date();
 
@@ -30,10 +32,6 @@ export class ChannelInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.channel.getChannel(this.route.snapshot.params.channelId).subscribe((value) => {
-    //   this.channel_info = value[0];
-    // });
-    // this.channel.getChannelsData()
     this.channelInfo$ = this.channel.getChannelInfo(this.route.snapshot.params.channelId);
     console.log(formatDate(this.date, 'MMM d, y, h:mm a', 'en-US'));
     console.log(this.date);

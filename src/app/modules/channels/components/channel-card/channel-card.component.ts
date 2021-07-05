@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ChannelModel } from '../../interfaces/channel.model';
+import { TvshowModel } from '../../interfaces/tvshow.model';
+import {ChannelService} from "../../../../services/channel.service";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-channel-card',
@@ -10,13 +14,29 @@ import { ChannelModel } from '../../interfaces/channel.model';
 export class ChannelCardComponent implements OnInit {
   @Input() info: ChannelModel = {};
 
-  constructor(private router: Router) {}
+  public tvShows$!: Observable<TvshowModel[]>;
+
+  public date = new Date();
+
+  public tvShowsFlag: boolean = false;
+
+  constructor(private router: Router, private channel: ChannelService) {}
 
   ngOnInit(): void {
     // console.log(this.info);
   }
 
-  goToChennel(): void {
+  public goToChennel(): void {
     this.router.navigate(['/channel-info', this.info.channel_id]);
+  }
+
+  public changeTvShowsFlag() {
+    this.tvShowsFlag = !this.tvShowsFlag;
+  }
+
+  public getTodayTvShows() {
+    this.changeTvShowsFlag();
+    const dateFormatted = formatDate(this.date, 'y-MM-dd', 'en-US');
+    this.tvShows$ = this.channel.getTvShows(this.info.channel_id!, dateFormatted, dateFormatted);
   }
 }
