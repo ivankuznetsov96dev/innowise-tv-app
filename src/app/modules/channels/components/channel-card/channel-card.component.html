@@ -13,6 +13,7 @@
   </div>
 
   <div class="channel_tvshows" *ngIf="tvShowsFlag">
+<!--    <mat-spinner *ngIf="!(tvShows$ | async)"></mat-spinner>-->
     <div *ngFor="let tvShow of tvShows$ | async">
       <p>{{tvShow | json}}</p>
     </div>

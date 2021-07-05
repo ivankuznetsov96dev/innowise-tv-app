@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { formatDate } from '@angular/common';
 import { ChannelModel } from '../../interfaces/channel.model';
 import { TvshowModel } from '../../interfaces/tvshow.model';
-import {ChannelService} from "../../../../services/channel.service";
-import {formatDate} from "@angular/common";
+import { ChannelService } from '../../../../services/channel.service';
 
 @Component({
   selector: 'app-channel-card',
@@ -18,7 +18,7 @@ export class ChannelCardComponent implements OnInit {
 
   public date = new Date();
 
-  public tvShowsFlag: boolean = false;
+  public tvShowsFlag = false;
 
   constructor(private router: Router, private channel: ChannelService) {}
 
