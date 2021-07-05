@@ -1,0 +1,46 @@
+<!--<mat-spinner *ngIf="channel_info$"></mat-spinner>-->
+<div class="wrapper">
+  <div *ngIf="channel_info$ | async as channel_info">
+    <div class="channel_header">
+      <img class="channel_logo" [src]="channel_info.logo" [alt]="channel_info.name + ' channel logo'">
+      <h1>{{channel_info.name}}</h1>
+    </div>
+    <div class="channel_content">
+      <span>Rating: {{channel_info.rank}}</span>
+      <span>Age rating: {{channel_info.age_rating}}</span>
+    </div>
+    <p>{{channel_info | json}}</p>
+
+<!--    <mat-form-field class="example-full-width" appearance="fill">-->
+<!--      <mat-label>Choose a date</mat-label>-->
+<!--      <input matInput formControlName="picked_date" [matDatepicker]="picker">-->
+<!--      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+<!--      <mat-datepicker touchUi #picker></mat-datepicker>-->
+<!--    </mat-form-field>-->
+
+    <mat-form-field appearance="fill">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input
+        [formGroup]="date_range"
+        [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date">
+        <input matEndDate formControlName="end" placeholder="End date" (dateChange)="onSubmit()">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+
+      <mat-error *ngIf="date_range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+      <mat-error *ngIf="date_range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+    </mat-form-field>
+
+    <p>Selected range: {{date_range.value | json}}</p>
+  </div>
+
+  <div *ngIf="tvShows$ | async">
+    <div *ngFor="let show of tvShows$ | async">
+      <p>{{show | json}}</p>
+    </div>
+  </div>
+
+</div>
+<!--<button mat-raised-button (click)="picker.open()">Open</button>-->

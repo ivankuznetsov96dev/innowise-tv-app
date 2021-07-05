@@ -17,6 +17,6 @@ export class ChannelCardComponent implements OnInit {
   }
 
   goToChennel(): void {
-    this.router.navigate(['/channel-info', this.info.current_tvshow_id]);
+    this.router.navigate(['/channel-info', this.info.channel_id]);
   }
 }

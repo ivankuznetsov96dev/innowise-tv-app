@@ -19,15 +19,25 @@ export class ChannelService {
     );
   }
 
-  public getChannel(id: string): Observable<{}[]> {
+  public getChannelInfo(id: number): Observable<ChannelModel> {
     return this.http
-      .get<{ channels: ChannelModel[] }>('https://api.persik.by/v2/content/channels')
+      .get<{ channels: Array<{}> }>(`https://api.persik.by/v2/content/channel?id[]=${id}`)
       .pipe(
         map((data) => {
-          return data.channels.filter((obj: ChannelModel) => obj.current_tvshow_id === id);
+          return data.channels[0];
         }),
       );
   }
+
+  // public getChannel(id: string): Observable<{}[]> {
+  //   return this.http
+  //     .get<{ channels: ChannelModel[] }>('https://api.persik.by/v2/content/channels')
+  //     .pipe(
+  //       map((data) => {
+  //         return data.channels.filter((obj: ChannelModel) => obj.current_tvshow_id === id);
+  //       }),
+  //     );
+  // }
 
   public getChannelsCategories(): Observable<CategoriesModel[]> {
     // return this.http
@@ -50,4 +60,21 @@ export class ChannelService {
   //     takeUntil(endStream),
   //   );
   // }
+
+  // public getTvShows(channelId: number, date_start: string, date_end: string): void {
+  //   this.http
+  //     .get(`https://api.persik.by/v2/epg/tvshows?${channelId}&from=${date_start}&to=${date_end}`)
+  //     .pipe(map((data) => console.log(data)))
+  //     .subscribe();
+  // }
+
+  public getTvShows(channelId: number, date_start: string, date_end: string): Observable<any> {
+    return this.http
+      .get<{tvshows: {items: []}}>(
+        `https://api.persik.by/v2/epg/tvshows?channels[]=${channelId}&from=${date_start}&to=${date_end}`,
+      )
+      .pipe(
+        map((data) => data.tvshows.items)
+      );
+  }
 }

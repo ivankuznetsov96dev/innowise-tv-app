@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CategoriesModel } from '../../interfaces/categories.model';
@@ -8,7 +8,7 @@ import { CategoriesModel } from '../../interfaces/categories.model';
   templateUrl: './chips.component.html',
   styleUrls: ['./chips.component.scss'],
 })
-export class ChipsComponent implements OnInit {
+export class ChipsComponent implements OnInit, DoCheck {
   @Input() category!: CategoriesModel;
 
   @Output() selectedCategory: EventEmitter<number> = new EventEmitter<number>();
@@ -17,9 +17,7 @@ export class ChipsComponent implements OnInit {
 
   constructor(private location: Location, private route: ActivatedRoute) {}
 
-  ngOnInit(): void {
-    this.colorFlag = this.selectedTag();
-  }
+  ngOnInit(): void {}
 
   public changeCategory(): void {
     this.selectedCategory.emit(this.category.id);
@@ -27,5 +25,9 @@ export class ChipsComponent implements OnInit {
 
   public selectedTag(): boolean {
     return this.route.snapshot.params.channelsCategoryId == this.category.id;
+  }
+
+  ngDoCheck() {
+    this.colorFlag = this.selectedTag();
   }
 }
