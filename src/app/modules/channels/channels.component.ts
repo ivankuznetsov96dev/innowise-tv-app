@@ -69,7 +69,7 @@ export class ChannelsComponent implements OnInit, OnDestroy {
       this.filtredChannelList = null;
     }
 
-    const count = this.channelList.filter((element) => element.available === true);
+    const count = this.channelList.filter((element) => element.available);
     console.log(count);
     this.cdr.detectChanges();
   }

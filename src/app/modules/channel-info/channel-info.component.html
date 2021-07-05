@@ -1,15 +1,15 @@
 <!--<mat-spinner *ngIf="channel_info$"></mat-spinner>-->
 <div class="wrapper">
-  <div *ngIf="channel_info$ | async as channel_info">
+  <div *ngIf="channelInfo$ | async as channelInfo">
     <div class="channel_header">
-      <img class="channel_logo" [src]="channel_info.logo" [alt]="channel_info.name + ' channel logo'">
-      <h1>{{channel_info.name}}</h1>
+      <img class="channel_logo" [src]="channelInfo.logo" [alt]="channelInfo.name + ' channel logo'">
+      <h1>{{channelInfo.name}}</h1>
     </div>
     <div class="channel_content">
-      <span>Rating: {{channel_info.rank}}</span>
-      <span>Age rating: {{channel_info.age_rating}}</span>
+      <span>Rating: {{channelInfo.rank}}</span>
+      <span>Age rating: {{channelInfo.age_rating}}</span>
     </div>
-    <p>{{channel_info | json}}</p>
+    <p>{{channelInfo | json}}</p>
 
 <!--    <mat-form-field class="example-full-width" appearance="fill">-->
 <!--      <mat-label>Choose a date</mat-label>-->

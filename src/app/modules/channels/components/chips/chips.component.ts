@@ -20,7 +20,7 @@ export class ChipsComponent implements OnInit, DoCheck {
   ngOnInit(): void {}
 
   public changeCategory(): void {
-    this.selectedCategory.emit(this.category.id);
+    this.selectedCategory.next(this.category.id);
   }
 
   public selectedTag(): boolean {
