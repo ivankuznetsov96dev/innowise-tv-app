@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component, DoCheck, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { formatDate } from '@angular/common';
@@ -12,7 +12,7 @@ import { ChannelService } from '../../services/channel.service';
   styleUrls: ['./channel-info.component.scss'],
 })
 export class ChannelInfoComponent implements OnInit {
-  public channel_info$!: Observable<ChannelModel>;
+  public channelInfo$!: Observable<ChannelModel>;
 
   public tvShows$!: Observable<any>;
 
@@ -34,7 +34,7 @@ export class ChannelInfoComponent implements OnInit {
     //   this.channel_info = value[0];
     // });
     // this.channel.getChannelsData()
-    this.channel_info$ = this.channel.getChannelInfo(this.route.snapshot.params.channelId);
+    this.channelInfo$ = this.channel.getChannelInfo(this.route.snapshot.params.channelId);
     console.log(formatDate(this.date, 'MMM d, y, h:mm a', 'en-US'));
     console.log(this.date);
     console.log(this.date_range.value);
@@ -42,19 +42,12 @@ export class ChannelInfoComponent implements OnInit {
   }
 
   public onSubmit() {
-    // console.log(this.date_range.value);
-    // console.log(this.date_range.value.start);
-    // console.log(this.date_range.value.end);
     const dateStart = formatDate(this.date_range.value.start, 'y-MM-dd', 'en-US');
-    // console.log(dateStart);
     const dateEnd = formatDate(this.date_range.value.end, 'y-MM-dd', 'en-US');
-    // console.log(dateEnd);
-    this.tvShows$ = this.channel.getTvShows(this.route.snapshot.params.channelId, dateStart, dateEnd);
+    this.tvShows$ = this.channel.getTvShows(
+      this.route.snapshot.params.channelId,
+      dateStart,
+      dateEnd,
+    );
   }
-
-  // private initForm() {
-  //   this.calendar = this.fb.group({
-  //     picked_date: ['', []],
-  //   });
-  // }
 }
