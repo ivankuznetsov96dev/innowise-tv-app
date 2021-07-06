@@ -7,9 +7,9 @@
   <div class="ether_time">
     <span>{{showStart}}</span>
     <mat-progress-bar
+      *ngIf="liveFlag"
       mode="determinate"
-      value="100"
-      *ngIf="liveFlag"></mat-progress-bar>
+      [value]="progressbarValue$ | async"></mat-progress-bar>
     <span>{{showStop}}</span>
   </div>
 </mat-card>

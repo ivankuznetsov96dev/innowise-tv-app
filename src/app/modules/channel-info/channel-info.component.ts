@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { formatDate } from '@angular/common';
-import { FormControl, FormGroup } from '@angular/forms';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {formatDate} from '@angular/common';
+import {FormControl, FormGroup} from '@angular/forms';
 import * as moment from 'moment';
-import { ChannelModel } from '../channels/interfaces/channel.model';
-import { ChannelService } from '../../services/channel.service';
-import { CategoriesModel } from '../channels/interfaces/categories.model';
-import { TvshowModel } from '../channels/interfaces/tvshow.model';
+import {ChannelModel} from '../channels/interfaces/channel.model';
+import {ChannelService} from '../../services/channel.service';
+import {TvshowModel} from '../channels/interfaces/tvshow.model';
 
 @Component({
   selector: 'app-channel-info',
@@ -33,11 +32,16 @@ export class ChannelInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.channelInfo$ = this.channel.getChannelInfo(this.route.snapshot.params.channelId);
+    const { channelId } = this.route.snapshot.params;
+    this.channelInfo$ = this.channel.getChannelInfo(channelId);
     console.log(formatDate(this.date, 'MMM d, y, h:mm a', 'en-US'));
     console.log(this.date);
     console.log(this.date_range.value);
     this.onSubmit();
+
+    setInterval(()=> {
+      this.channel.getSomevone.next();
+    }, 500);
   }
 
   public onSubmit(): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ChannelModel } from '../modules/channels/interfaces/channel.model';
 import { CategoriesModel } from '../modules/channels/interfaces/categories.model';
@@ -10,6 +10,8 @@ import {TvshowModel} from "../modules/channels/interfaces/tvshow.model";
   providedIn: 'root',
 })
 export class ChannelService {
+  public getSomevone: Subject<any> = new Subject<any>();
+
   constructor(private http: HttpClient) {}
 
   public getChannelsData(): Observable<Array<ChannelModel>> {

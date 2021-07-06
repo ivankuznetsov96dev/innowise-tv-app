@@ -12,9 +12,9 @@
     <span>Rank: {{info.rank}}</span>
   </div>
 
-  <div class="channel_tvshows" *ngIf="tvShowsFlag">
+  <div class="channel_tvshows" *ngIf="tvShowsFlag && (tvShows$ | async) as tvShows">
 <!--    <mat-spinner *ngIf="!(tvShows$ | async)"></mat-spinner>-->
-    <div *ngFor="let tvShow of tvShows$ | async">
+    <div *ngFor="let tvShow of tvShows">
       <p>{{tvShow | json}}</p>
     </div>
     <button mat-button color="primary"
