@@ -20,6 +20,10 @@ export class ChannelCardComponent implements OnInit {
 
   public tvShowsFlag = false;
 
+  public countOnChild!: Date;
+
+  public interval: any;
+
   constructor(private router: Router, private channel: ChannelService) {}
 
   ngOnInit(): void {
@@ -36,7 +40,15 @@ export class ChannelCardComponent implements OnInit {
 
   public getTodayTvShows() {
     this.changeTvShowsFlag();
+    if (!this.tvShowsFlag) {
+      clearInterval(this.interval);
+      return;
+    }
     const dateFormatted = formatDate(this.date, 'y-MM-dd', 'en-US');
     this.tvShows$ = this.channel.getTvShows(this.info.channel_id!, dateFormatted, dateFormatted);
+    this.countOnChild = new Date();
+    this.interval = setInterval(() => {
+      this.countOnChild = new Date();
+    }, 1000);
   }
 }

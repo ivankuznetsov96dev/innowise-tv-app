@@ -21,8 +21,11 @@
   }
 
   .channel_tvshows {
-    @extend %block_style;
+    //@extend %block_style;
+    display: flex;
+    justify-content: space-between;
     flex-direction: column;
     margin-bottom: 10px;
+    min-width: 100%;
   }
 }

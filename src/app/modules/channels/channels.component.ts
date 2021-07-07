@@ -15,7 +15,6 @@ import { ChannelModel } from './interfaces/channel.model';
   selector: 'app-chanells',
   templateUrl: './channels.component.html',
   styleUrls: ['./channels.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChannelsComponent implements OnInit, OnDestroy {
   public channelList$!: Observable<ChannelModel[]>;

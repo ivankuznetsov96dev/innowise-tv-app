@@ -15,7 +15,11 @@
   <div class="channel_tvshows" *ngIf="tvShowsFlag && (tvShows$ | async) as tvShows">
 <!--    <mat-spinner *ngIf="!(tvShows$ | async)"></mat-spinner>-->
     <div *ngFor="let tvShow of tvShows">
-      <p>{{tvShow | json}}</p>
+      <app-card-tvshow
+        [tvshow]="tvShow"
+        [countOnChild]="countOnChild"
+        ></app-card-tvshow>
+<!--      <p>{{tvShow | json}}</p>-->
     </div>
     <button mat-button color="primary"
             (click)="goToChennel()"

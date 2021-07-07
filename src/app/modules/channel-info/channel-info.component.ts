@@ -24,9 +24,9 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
 
   public countOnChild!: Date;
 
-  public hourCount = 14;
-
-  public testCount = 1;
+  // public hourCount = 14;
+  //
+  // public testCount = 1;
 
   public date_range = new FormGroup({
     start: new FormControl(this.date),
@@ -47,18 +47,19 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
     console.log(this.date_range.value);
     this.onSubmit();
 
-    this.countOnChild = new Date(`2021-07-07 ${this.hourCount}:${this.testCount}`);
+    // this.countOnChild = new Date(`2021-07-07 ${this.hourCount}:${this.testCount}`);
+    this.countOnChild = new Date();
     this.interval = setInterval(() => {
       // this.channel.token = this.countOnChild;
-      this.testCount++;
-      if (this.testCount === 60) {
-        this.hourCount++;
-        this.testCount = 0;
-      }
-      this.countOnChild = new Date(`2021-07-07 ${this.hourCount}:${this.testCount}`);
-      console.log('parent: ', this.countOnChild);
-      this.channel.getSomevone.next();
-    }, 500);
+      // this.testCount++;
+      // if (this.testCount === 60) {
+      //   this.hourCount++;
+      //   this.testCount = 0;
+      // }
+      // this.countOnChild = new Date(`2021-07-07 ${this.hourCount}:${this.testCount}`);
+      this.countOnChild = new Date();
+      // this.channel.getSomevone.next();
+    }, 1000);
   }
 
   public onSubmit(): void {
