@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import * as moment from 'moment';
 import { TvshowModel } from '../../../../interfaces/tvshow.model';
-import * as moment from "moment";
+import { ProcessingService } from '../../../../../../services/processing.service';
 
 @Component({
   selector: 'app-card-tvshow',
@@ -23,6 +24,8 @@ export class CardTvshowComponent implements OnInit, OnChanges {
 
   public progressbarValue$: BehaviorSubject<any> = new BehaviorSubject<any>(0);
 
+  constructor(private process: ProcessingService) {}
+
   ngOnChanges(changes: SimpleChanges): void {
     this.setProgressbarAndFlags();
   }
@@ -33,22 +36,21 @@ export class CardTvshowComponent implements OnInit, OnChanges {
   }
 
   public setProgressbarAndFlags(): void {
-    const startDate = moment.unix(this.tvshow.start!).toDate();
-    const stopDate = moment.unix(this.tvshow.stop!).toDate();
-    this.liveFlag = this.countOnChild >= startDate && this.countOnChild < stopDate;
-    this.recordingFlag = this.countOnChild > startDate && this.countOnChild >= stopDate;
-    if (this.liveFlag) this.getProgressbarValue();
-  }
-
-  public getProgressbarValue(): void {
-    const startDate = moment.unix(this.tvshow.start!).toDate();
-    const stopDate = moment.unix(this.tvshow.stop!).toDate();
-    const progressRange = Math.floor((stopDate.getTime() - startDate.getTime()) / 60000);
-    const timePoint = Math.floor((this.countOnChild.getTime() - startDate.getTime()) / 60000);
-    const value = Math.floor((timePoint * 100) / progressRange);
-    console.log('present: ', value);
-    this.progressbarValue$.next(value);
+    const flag = this.process.getLiveAndRecordingFlag(
+      this.tvshow.start!,
+      this.tvshow.stop!,
+      this.countOnChild,
+    );
+    this.liveFlag = flag.liveFlag;
+    this.recordingFlag = flag.recordingFlag;
+    if (this.liveFlag) {
+      const value = this.process.getProgressbarValue(
+        this.tvshow.start!,
+        this.tvshow.stop!,
+        this.countOnChild,
+      );
+      console.log('present: ', value);
+      this.progressbarValue$.next(value);
+    }
   }
 }
-
-
