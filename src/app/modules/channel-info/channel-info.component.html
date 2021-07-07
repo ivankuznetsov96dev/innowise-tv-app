@@ -36,9 +36,13 @@
     <p>Selected range: {{date_range.value | json}}</p>
   </div>
 
+  {{countOnChild}}
+
   <div class="tvshows_content" *ngIf="(tvShows$ | async) as tvShows">
     <div *ngFor="let show of tvShows">
-      <app-tvshow [tvshow]="show"></app-tvshow>
+      <app-tvshow
+        [tvshow]="show"
+        [countOnChild]="countOnChild"></app-tvshow>
     </div>
   </div>
 

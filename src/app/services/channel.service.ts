@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import { map } from 'rxjs/operators';
+import {count, map} from 'rxjs/operators';
 import { ChannelModel } from '../modules/channels/interfaces/channel.model';
 import { CategoriesModel } from '../modules/channels/interfaces/categories.model';
 import {TvshowModel} from "../modules/channels/interfaces/tvshow.model";
@@ -11,6 +11,8 @@ import {TvshowModel} from "../modules/channels/interfaces/tvshow.model";
 })
 export class ChannelService {
   public getSomevone: Subject<any> = new Subject<any>();
+
+  private _token: any;
 
   constructor(private http: HttpClient) {}
 
@@ -47,5 +49,15 @@ export class ChannelService {
       .pipe(
         map((data) => data.tvshows.items)
       );
+  }
+
+  public get token(): any {
+    console.log('SEVICE: ', this._token);
+    return this._token;
+  }
+
+  public set token(_token: any) {
+    console.log('SET SRVICE: ', _token);
+    this._token = _token;
   }
 }

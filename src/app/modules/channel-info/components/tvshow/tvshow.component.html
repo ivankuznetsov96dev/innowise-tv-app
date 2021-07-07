@@ -1,4 +1,4 @@
-<mat-card class="tvshow_card" (click)="test()">
+<mat-card class="tvshow_card">
   <div class="show_title">
     <p>{{tvshow.title}}</p>
     <p class="live" *ngIf="liveFlag">Live</p>
@@ -9,7 +9,8 @@
     <mat-progress-bar
       *ngIf="liveFlag"
       mode="determinate"
-      [value]="progressbarValue$ | async"></mat-progress-bar>
+      [value]="progressbarValue"></mat-progress-bar>
+<!--      [value]="progressbarValue$ | async"></mat-progress-bar>-->
     <span>{{showStop}}</span>
   </div>
 </mat-card>
