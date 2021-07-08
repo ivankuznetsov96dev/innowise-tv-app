@@ -8,6 +8,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 import { ChannelInfoComponent } from './channel-info.component';
 import { TvshowComponent } from './components/tvshow/tvshow.component';
@@ -25,6 +26,7 @@ import { TvshowComponent } from './components/tvshow/tvshow.component';
     MatNativeDateModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
+    MatIconModule,
   ],
 })
 export class ChannelInfoModule {}

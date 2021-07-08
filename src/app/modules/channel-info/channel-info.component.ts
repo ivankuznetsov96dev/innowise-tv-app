@@ -32,6 +32,8 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
 
   public countOnChild!: Moment;
 
+  public isModalWindowFlag = false;
+
   public dateRange = new FormGroup({
     start: new FormControl(this.date.toDate()),
     end: new FormControl(this.date.toDate()),
@@ -63,12 +65,25 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
       dateStart,
       dateEnd,
     );
+
+    this.channel
+      .getTvShows(this.route.snapshot.params.channelId, dateStart, dateEnd)
+      .subscribe((value) => console.log(value));
   }
 
   public test(tvObj: TvshowModel): void {
     console.log(tvObj);
     moment.unix(tvObj.start!).locale('ru').format('HH:mm');
     moment.unix(tvObj.stop!).locale('ru').format('HH:mm');
+  }
+
+  public openTvShowInfo(event: string): void {
+    console.log(event);
+    this.isModalWindowFlag = true;
+  }
+
+  public closeModalWindow(): void {
+    this.isModalWindowFlag = false;
   }
 
   ngOnDestroy() {

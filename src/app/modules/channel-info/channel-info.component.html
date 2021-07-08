@@ -38,12 +38,23 @@
 
   {{countOnChild}}
 
-  <div class="tvshows_content" *ngIf="(tvShows$ | async) as tvShows">
-    <div *ngFor="let show of tvShows">
-      <app-tvshow
-        [tvshow]="show"
-        [countOnChild]="countOnChild"></app-tvshow>
+  <div class="tvshows">
+    <div class="tvshows_content" *ngIf="(tvShows$ | async) as tvShows">
+      <div *ngFor="let show of tvShows">
+        <app-tvshow
+          [tvshow]="show"
+          [countOnChild]="countOnChild"
+          (selectedTvShow)="openTvShowInfo($event)"></app-tvshow>
+      </div>
     </div>
+
+    <mat-card class="tvshow_info" *ngIf="isModalWindowFlag">
+      <mat-icon class="close_btn" (click)="closeModalWindow()">close</mat-icon>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur deleniti, dignissimos eum labore
+        minus quis quisquam sit temporibus velit vitae.
+      </p>
+    </mat-card>
   </div>
 
 </div>

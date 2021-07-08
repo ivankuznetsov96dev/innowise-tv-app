@@ -1,4 +1,4 @@
-<mat-card class="tvshow_card">
+<mat-card class="tvshow_card" (click)="sendTvShowId()">
   <div class="show_title">
     <p>{{tvshow.title}}</p>
     <p class="live" *ngIf="liveFlag">Live</p>

@@ -11,6 +11,29 @@
   flex-direction: column;
 }
 
-.tvshows_content {
-  padding-bottom: 10px;
+.tvshows {
+  display: flex;
+  justify-content: space-between;
+
+  .tvshows_content {
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tvshow_info {
+    position: sticky;
+    top: 10vh;
+    max-width: 450px;
+    max-height: 500px;
+    width: 100%;
+
+
+    .close_btn {
+      position: absolute;
+      right: 16px;
+      cursor: pointer;
+    }
+  }
 }
+
