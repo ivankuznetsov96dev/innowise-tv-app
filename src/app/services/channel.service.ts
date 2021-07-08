@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ChannelModel } from '../modules/channels/interfaces/channel.model';
-import { CategoriesModel } from '../modules/channels/interfaces/categories.model';
-import {TvshowModel} from "../modules/channels/interfaces/tvshow.model";
+import { ChannelModel } from '../interfaces/channel.model';
+import { CategoriesModel } from '../interfaces/categories.model';
+import { TvshowModel } from '../interfaces/tvshow.model';
+// import { TvshowListModel } from '../interfaces/tvshow-list.model';
 
 @Injectable({
   providedIn: 'root',
@@ -41,13 +42,15 @@ export class ChannelService {
       .pipe(map((data: any) => [allGenresCategory, ...data]));
   }
 
-  public getTvShows(channelId: number, date_start: string, date_end: string): Observable<TvshowModel[]> {
+  public getTvShows(
+    channelId: number,
+    date_start: string,
+    date_end: string,
+  ): Observable<TvshowModel[]> {
     return this.http
-      .get<{tvshows: {items: TvshowModel[]}}>(
+      .get<{tvshows: {items : TvshowModel[]}}>(
         `https://api.persik.by/v2/epg/tvshows?channels[]=${channelId}&from=${date_start}&to=${date_end}`,
       )
-      .pipe(
-        map((data) => data.tvshows.items)
-      );
+      .pipe(map((data) => data.tvshows.items));
   }
 }

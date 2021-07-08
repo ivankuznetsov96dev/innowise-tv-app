@@ -11,7 +11,7 @@ import {
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { BehaviorSubject } from 'rxjs';
-import { TvshowModel } from '../../../channels/interfaces/tvshow.model';
+import { TvshowModel } from '../../../../interfaces/tvshow.model';
 import { ProcessingService } from '../../../../services/processing.service';
 
 @Component({

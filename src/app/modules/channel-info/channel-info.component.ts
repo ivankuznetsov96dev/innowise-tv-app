@@ -11,9 +11,10 @@ import { formatDate } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { ChannelModel } from '../channels/interfaces/channel.model';
+import { ChannelModel } from '../../interfaces/channel.model';
 import { ChannelService } from '../../services/channel.service';
-import { TvshowModel } from '../channels/interfaces/tvshow.model';
+import { TvshowModel } from '../../interfaces/tvshow.model';
+import { TvshowsService } from '../../services/tvshows.service';
 
 @Component({
   selector: 'app-channel-info',
@@ -43,6 +44,7 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private channel: ChannelService,
+    private tvshow: TvshowsService,
     private crd: ChangeDetectorRef,
   ) {}
 
@@ -80,6 +82,7 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
   public openTvShowInfo(event: string): void {
     console.log(event);
     this.isModalWindowFlag = true;
+    this.tvshow.getTvshowTitleInfo(event);
   }
 
   public closeModalWindow(): void {
