@@ -5,18 +5,17 @@ import * as moment from 'moment';
   providedIn: 'root',
 })
 export class ProcessingService {
-  public getProgressbarValue(start: number, stop: number, now: Date): number {
-    const startDate = moment.unix(start).toDate();
-    const stopDate = moment.unix(stop).toDate();
-    const progressRange = Math.floor((stopDate.getTime() - startDate.getTime()) / 60000);
-    const timePoint = Math.floor((now.getTime() - startDate.getTime()) / 60000);
-    const value = Math.floor((timePoint * 100) / progressRange);
-    return value;
+  public getProgressbarValue(start: number, stop: number): number {
+    const now = moment();
+    const progressRange = moment.unix(stop).diff(moment.unix(start), 'seconds');
+    const timePoint = moment(now).diff(moment.unix(start), 'seconds');
+    return (timePoint * 100) / progressRange;
   }
 
-  public getLiveAndRecordingFlag(start: number, stop: number, now: Date): any {
-    const startDate = moment.unix(start).toDate();
-    const stopDate = moment.unix(stop).toDate();
+  public getLiveAndRecordingFlag(start: number, stop: number): any {
+    const startDate = moment.unix(start);
+    const stopDate = moment.unix(stop);
+    const now = moment();
     const liveFlag = now >= startDate && now < stopDate;
     const recordingFlag = now > startDate && now >= stopDate;
     return {

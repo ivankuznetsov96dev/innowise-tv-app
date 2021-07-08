@@ -1,9 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { formatDate } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
+import { Moment } from 'moment';
 import { ChannelModel } from '../channels/interfaces/channel.model';
 import { ChannelService } from '../../services/channel.service';
 import { TvshowModel } from '../channels/interfaces/tvshow.model';
@@ -12,59 +19,45 @@ import { TvshowModel } from '../channels/interfaces/tvshow.model';
   selector: 'app-channel-info',
   templateUrl: './channel-info.component.html',
   styleUrls: ['./channel-info.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChannelInfoComponent implements OnInit, OnDestroy {
   public channelInfo$!: Observable<ChannelModel>;
 
   public tvShows$!: Observable<TvshowModel[]>;
 
-  public date = new Date();
+  public date: Moment = moment();
 
   private interval: any;
 
-  public countOnChild!: Date;
+  public countOnChild!: Moment;
 
-  // public hourCount = 14;
-  //
-  // public testCount = 1;
-
-  public date_range = new FormGroup({
-    start: new FormControl(this.date),
-    end: new FormControl(this.date),
+  public dateRange = new FormGroup({
+    start: new FormControl(this.date.toDate()),
+    end: new FormControl(this.date.toDate()),
   });
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private channel: ChannelService,
+    private crd: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     const { channelId } = this.route.snapshot.params;
     this.channelInfo$ = this.channel.getChannelInfo(channelId);
-    console.log(formatDate(this.date, 'MMM d, y, h:mm a', 'en-US'));
-    console.log(this.date);
-    console.log(this.date_range.value);
     this.onSubmit();
-
-    // this.countOnChild = new Date(`2021-07-07 ${this.hourCount}:${this.testCount}`);
-    this.countOnChild = new Date();
+    this.countOnChild = moment();
     this.interval = setInterval(() => {
-      // this.channel.token = this.countOnChild;
-      // this.testCount++;
-      // if (this.testCount === 60) {
-      //   this.hourCount++;
-      //   this.testCount = 0;
-      // }
-      // this.countOnChild = new Date(`2021-07-07 ${this.hourCount}:${this.testCount}`);
-      this.countOnChild = new Date();
-      // this.channel.getSomevone.next();
+      this.countOnChild = moment();
+      this.crd.detectChanges();
     }, 1000);
   }
 
   public onSubmit(): void {
-    const dateStart = formatDate(this.date_range.value.start, 'y-MM-dd', 'en-US');
-    const dateEnd = formatDate(this.date_range.value.end, 'y-MM-dd', 'en-US');
+    const dateStart = formatDate(this.dateRange.value.start, 'y-MM-dd', 'en-US');
+    const dateEnd = formatDate(this.dateRange.value.end, 'y-MM-dd', 'en-US');
     this.tvShows$ = this.channel.getTvShows(
       this.route.snapshot.params.channelId,
       dateStart,

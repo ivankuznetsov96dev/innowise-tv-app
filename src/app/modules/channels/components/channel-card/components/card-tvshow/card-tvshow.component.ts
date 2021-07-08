@@ -1,6 +1,14 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
+import { Moment } from 'moment';
 import { TvshowModel } from '../../../../interfaces/tvshow.model';
 import { ProcessingService } from '../../../../../../services/processing.service';
 
@@ -8,11 +16,12 @@ import { ProcessingService } from '../../../../../../services/processing.service
   selector: 'app-card-tvshow',
   templateUrl: './card-tvshow.component.html',
   styleUrls: ['./card-tvshow.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardTvshowComponent implements OnInit, OnChanges {
   @Input() tvshow!: TvshowModel;
 
-  @Input() countOnChild!: Date;
+  @Input() countOnChild!: Moment;
 
   public showStart!: string;
 
@@ -36,21 +45,15 @@ export class CardTvshowComponent implements OnInit, OnChanges {
   }
 
   public setProgressbarAndFlags(): void {
-    const flag = this.process.getLiveAndRecordingFlag(
-      this.tvshow.start!,
-      this.tvshow.stop!,
-      this.countOnChild,
-    );
+    const flag = this.process.getLiveAndRecordingFlag(this.tvshow.start!, this.tvshow.stop!);
     this.liveFlag = flag.liveFlag;
     this.recordingFlag = flag.recordingFlag;
-    if (this.liveFlag) {
-      const value = this.process.getProgressbarValue(
-        this.tvshow.start!,
-        this.tvshow.stop!,
-        this.countOnChild,
-      );
-      console.log('present: ', value);
-      this.progressbarValue$.next(value);
-    }
+    if (this.liveFlag) this.installProgressbarValue();
+  }
+
+  public installProgressbarValue(): void {
+    const value = this.process.getProgressbarValue(this.tvshow.start!, this.tvshow.stop!);
+    console.log('present: ', value);
+    this.progressbarValue$.next(value);
   }
 }
