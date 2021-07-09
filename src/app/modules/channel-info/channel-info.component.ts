@@ -15,6 +15,7 @@ import { ChannelModel } from '../../interfaces/channel.model';
 import { ChannelService } from '../../services/channel.service';
 import { TvshowModel } from '../../interfaces/tvshow.model';
 import { TvshowsService } from '../../services/tvshows.service';
+import {TvshowTitleModel} from "../../interfaces/tvshow-title.model";
 
 @Component({
   selector: 'app-channel-info',
@@ -29,17 +30,18 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
 
   public date: Moment = moment();
 
-  private interval: any;
-
-  public countOnChild!: Moment;
+  public tvTitleId!: string;
 
   public isModalWindowFlag = false;
+
+  public countOnChild!: Moment;
 
   public dateRange = new FormGroup({
     start: new FormControl(this.date.toDate()),
     end: new FormControl(this.date.toDate()),
   });
 
+  private interval: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -73,20 +75,16 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
       .subscribe((value) => console.log(value));
   }
 
-  public test(tvObj: TvshowModel): void {
-    console.log(tvObj);
-    moment.unix(tvObj.start!).locale('ru').format('HH:mm');
-    moment.unix(tvObj.stop!).locale('ru').format('HH:mm');
-  }
-
   public openTvShowInfo(event: string): void {
     console.log(event);
+    // this.isModalWindowFlag = true;
+    // this.tvshow.getTvshowTitleInfo(event);
+    this.tvTitleId = event;
     this.isModalWindowFlag = true;
-    this.tvshow.getTvshowTitleInfo(event);
   }
 
-  public closeModalWindow(): void {
-    this.isModalWindowFlag = false;
+  public closeModalWindow(event: boolean): void {
+    this.isModalWindowFlag = event;
   }
 
   ngOnDestroy() {

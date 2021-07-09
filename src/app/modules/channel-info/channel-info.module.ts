@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,9 +13,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ChannelInfoComponent } from './channel-info.component';
 import { TvshowComponent } from './components/tvshow/tvshow.component';
+import { TvshowInfoComponent } from './components/tvshow-info/tvshow-info.component';
 
 @NgModule({
-  declarations: [ChannelInfoComponent, TvshowComponent],
+  declarations: [ChannelInfoComponent, TvshowComponent, TvshowInfoComponent],
   imports: [
     CommonModule,
     MatCardModule,

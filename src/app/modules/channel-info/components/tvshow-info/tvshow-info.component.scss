@@ -1,0 +1,14 @@
+.tvshow_info {
+  position: sticky;
+  top: 10vh;
+  max-width: 450px;
+  max-height: 500px;
+  width: 100%;
+
+
+  .close_btn {
+    position: absolute;
+    right: 16px;
+    cursor: pointer;
+  }
+}
