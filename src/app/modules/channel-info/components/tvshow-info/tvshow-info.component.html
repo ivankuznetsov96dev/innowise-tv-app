@@ -1,7 +1,21 @@
 <mat-card class="tvshow_info">
   <mat-icon class="close_btn" (click)="pressedCloseBtn()">close</mat-icon>
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur deleniti, dignissimos eum labore
-    minus quis quisquam sit temporibus velit vitae.
-  </p>
+  <mat-spinner class="spinner" *ngIf="!showTitle$"></mat-spinner>
+  <div *ngIf="(showTitle$ | async) as showTitle">
+    <h2>{{showTitle.title}}</h2>
+    <div *ngIf="(videoInfo$ | async) as videoInfo">
+      <div class="pictures">
+        <img class="video_logo" [src]="videoInfo.cover" alt="{{videoInfo.name}} logo">
+        <img
+          *ngIf="!!videoInfo.art"
+          class="video_art" [src]="videoInfo.art" alt="{{videoInfo.name}} art">
+      </div>
+      <div class="video_description">
+        <p><b>Description:</b> {{videoInfo.description}}</p>
+      </div>
+      <div class="videoplayer">
+        <span>Videoplayer space</span>
+      </div>
+    </div>
+  </div>
 </mat-card>
