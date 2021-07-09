@@ -15,7 +15,7 @@ import { ChannelModel } from '../../interfaces/channel.model';
 import { ChannelService } from '../../services/channel.service';
 import { TvshowModel } from '../../interfaces/tvshow.model';
 import { TvshowsService } from '../../services/tvshows.service';
-import {TvshowTitleModel} from "../../interfaces/tvshow-title.model";
+import { TvshowTitleModel } from '../../interfaces/tvshow-title.model';
 
 @Component({
   selector: 'app-channel-info',
@@ -42,6 +42,7 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
   });
 
   private interval: any;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -85,6 +86,11 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
 
   public closeModalWindow(event: boolean): void {
     this.isModalWindowFlag = event;
+  }
+
+  public goToUp(): void {
+    // console.log(this.route.snapshot.params.channelId);
+    const count = this.route.snapshot.params.channelId;
   }
 
   ngOnDestroy() {

@@ -35,6 +35,7 @@ export class TvshowInfoComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.showTitle$ = this.tvserv.getTvshowTitleInfo(this.tvTitleId);
     this.videoInfo$ = this.tvserv.getTvshowDeepInfo(this.tvTitleId);
+    this.tvserv.getTvshowDeepInfo(this.tvTitleId).subscribe(value => console.log(value))
   }
 
   ngOnInit(): void {}

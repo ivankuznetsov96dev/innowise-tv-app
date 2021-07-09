@@ -6,4 +6,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {}
+export class AppComponent {
+  public goToUp(el: HTMLElement): void {
+    el.scrollIntoView({ behavior: 'smooth' });
+  }
+}
