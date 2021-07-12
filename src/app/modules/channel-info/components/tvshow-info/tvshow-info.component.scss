@@ -2,7 +2,7 @@
   position: sticky;
   top: 6vh;
   max-width: 450px;
-  max-height: 550px;
+  max-height: 560px;
   min-width: 450px;
   min-height: 300px;
   width: 100%;
@@ -58,6 +58,9 @@
   .videoplayer {
     height: 100%;
     width: 100%;
-    border: darkgray 1px solid;
+    //border: darkgray 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

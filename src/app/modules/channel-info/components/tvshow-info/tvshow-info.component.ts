@@ -9,6 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { TvshowsService } from '../../../../services/tvshows.service';
 import { TvshowTitleModel } from '../../../../interfaces/tvshow-title.model';
 import { VideoInfoModel } from '../../../../interfaces/video-info.model';
@@ -30,12 +31,21 @@ export class TvshowInfoComponent implements OnInit, OnChanges {
 
   public isSpinnerFlag = true;
 
-  constructor(private tvserv: TvshowsService) {}
+  public screenshotPicture!: string;
+
+  constructor(private tvserv: TvshowsService, public route: ActivatedRoute) {}
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.tvserv.getTvshowTitleInfo(this.tvTitleId).subscribe((value) => {
+      this.screenshotPicture = this.tvserv.getTvScreenshot(
+        this.route.snapshot.params.channelId,
+        value.start,
+        value.stop,
+      );
+    });
     this.showTitle$ = this.tvserv.getTvshowTitleInfo(this.tvTitleId);
     this.videoInfo$ = this.tvserv.getTvshowDeepInfo(this.tvTitleId);
-    this.tvserv.getTvshowDeepInfo(this.tvTitleId).subscribe(value => console.log(value))
+    this.tvserv.getTvshowDeepInfo(this.tvTitleId).subscribe((value) => console.log(value));
   }
 
   ngOnInit(): void {}
