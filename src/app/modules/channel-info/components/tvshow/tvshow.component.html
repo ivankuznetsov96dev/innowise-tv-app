@@ -1,0 +1,16 @@
+<mat-card class="tvshow_card">
+  <div class="show_title">
+    <p>{{tvshow.title}}</p>
+    <p class="live" *ngIf="liveFlag">Live</p>
+    <p class="recording" *ngIf="recordingFlag">Recording</p>
+  </div>
+  <div class="ether_time">
+    <span>{{showStart}}</span>
+    <mat-progress-bar
+      *ngIf="liveFlag"
+      mode="determinate"
+      [value]="progressbarValue$ | async"></mat-progress-bar>
+<!--      [value]="progressbarValue"></mat-progress-bar>-->
+    <span>{{showStop}}</span>
+  </div>
+</mat-card>

@@ -4,9 +4,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 
+import { AppRoutingModule } from './app-routing.module';
 import { ChannelsModule } from './modules/channels/channels.module';
 import { ChannelInfoModule } from './modules/channel-info/channel-info.module';
-import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [AppComponent],

@@ -5,8 +5,17 @@
   flex-direction: column;
   width: 100%;
 
+  h1 {
+    margin: 10px 0 0;
+  }
+
   .categories_chips {
     margin-bottom: 20px;
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    position: sticky;
+    z-index: 100;
+    top: 0;
+    background-color: #fff;
+    padding: 10px 0;
   }
 }

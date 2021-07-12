@@ -7,11 +7,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { ChannelInfoComponent } from './channel-info.component';
+import { TvshowComponent } from './components/tvshow/tvshow.component';
 
 @NgModule({
-  declarations: [ChannelInfoComponent],
+  declarations: [ChannelInfoComponent, TvshowComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -22,6 +24,7 @@ import { ChannelInfoComponent } from './channel-info.component';
     ReactiveFormsModule,
     MatNativeDateModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
   ],
 })
 export class ChannelInfoModule {}

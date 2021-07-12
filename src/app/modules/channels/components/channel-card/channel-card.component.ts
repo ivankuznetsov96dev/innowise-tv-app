@@ -1,22 +1,69 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { formatDate } from '@angular/common';
+import * as moment from 'moment';
+import { Moment } from 'moment';
 import { ChannelModel } from '../../interfaces/channel.model';
+import { TvshowModel } from '../../interfaces/tvshow.model';
+import { ChannelService } from '../../../../services/channel.service';
 
 @Component({
   selector: 'app-channel-card',
   templateUrl: './channel-card.component.html',
   styleUrls: ['./channel-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChannelCardComponent implements OnInit {
   @Input() info: ChannelModel = {};
 
-  constructor(private router: Router) {}
+  public tvShows$!: Observable<TvshowModel[]>;
+
+  public date = new Date();
+
+  public tvShowsFlag = false;
+
+  public countOnChild!: Moment;
+
+  public interval: any;
+
+  constructor(
+    private router: Router,
+    private channel: ChannelService,
+    private crd: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     // console.log(this.info);
   }
 
-  goToChennel(): void {
+  public goToChennel(): void {
     this.router.navigate(['/channel-info', this.info.channel_id]);
+  }
+
+  public changeTvShowsFlag() {
+    this.tvShowsFlag = !this.tvShowsFlag;
+  }
+
+  public getTodayTvShows() {
+    this.changeTvShowsFlag();
+    if (!this.tvShowsFlag) {
+      clearInterval(this.interval);
+      return;
+    }
+    const dateFormatted = formatDate(this.date, 'y-MM-dd', 'en-US');
+    this.tvShows$ = this.channel.getTvShows(this.info.channel_id!, dateFormatted, dateFormatted);
+    // this.countOnChild = new Date();
+    this.countOnChild = moment();
+    this.interval = setInterval(() => {
+      this.countOnChild = moment();
+      this.crd.detectChanges();
+    }, 1000);
   }
 }

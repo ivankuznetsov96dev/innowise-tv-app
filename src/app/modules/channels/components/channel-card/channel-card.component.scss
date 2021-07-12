@@ -1,10 +1,31 @@
-.channel_card {
+%block_style {
   display: flex;
   align-items: center;
-  text-align: center;
   justify-content: space-between;
+}
+
+.channel_card {
   min-width: 600px;
+  max-width: 600px;
   min-height: 100px;
-  margin: 10px auto;
+  margin-bottom: 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .channel_info {
+    @extend %block_style;
+    min-width: 100%;
+    margin-bottom: 14px;
+  }
+
+  .channel_tvshows {
+    //@extend %block_style;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-bottom: 10px;
+    min-width: 100%;
+  }
 }

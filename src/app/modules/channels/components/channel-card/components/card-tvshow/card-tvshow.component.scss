@@ -1,0 +1,33 @@
+%flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tvshow_card {
+  min-width: 100%;
+  margin: 10px 0;
+  cursor: pointer;
+  border-bottom: darkgray 2px solid;
+
+  .show_title {
+    @extend %flex-between;
+  }
+
+  .live {
+    color: red;
+  }
+
+  .recording {
+    color: green;
+  }
+
+  mat-progress-bar {
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .ether_time {
+    @extend %flex-between;
+  }
+}
