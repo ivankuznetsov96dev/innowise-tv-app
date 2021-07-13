@@ -37,11 +37,7 @@ export class TvshowInfoComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.tvserv.getTvshowTitleInfo(this.tvTitleId).subscribe((value) => {
-      this.screenshotPicture = this.tvserv.getTvScreenshot(
-        this.route.snapshot.params.channelId,
-        value.start,
-        value.stop,
-      );
+      this.screenshotPicture = this.tvserv.getTvScreenshot(this.route.snapshot.params.channelId);
     });
     this.showTitle$ = this.tvserv.getTvshowTitleInfo(this.tvTitleId);
     this.videoInfo$ = this.tvserv.getTvshowDeepInfo(this.tvTitleId);

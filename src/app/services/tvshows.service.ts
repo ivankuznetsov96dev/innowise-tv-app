@@ -31,7 +31,7 @@ export class TvshowsService {
   }
 
   // add "cross-domain CORS" chrome plagin
-  public getTvScreenshot(id: string, unixStartFilm: number, unixStopFilm: number): string {
+  public getTvScreenshot(id: string): string {
     const time = moment().unix();
     // const countTime =
     //   moment.unix(time) < moment.unix(unixStopFilm)
