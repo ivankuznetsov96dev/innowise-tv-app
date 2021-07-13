@@ -1,0 +1,16 @@
+@mixin flexMixin($align: center, $justify: space-between, $direction: row) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: $direction;
+}
+
+@mixin fontMediumBold ($size: medium, $weight: bold) {
+  font-size: $size;
+  font-weight: $weight;
+}
+
+@mixin tvLiveStatus ($color: red) {
+  margin-left: 10px;
+  color: $color;
+}
