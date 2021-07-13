@@ -1,15 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { BehaviorSubject } from 'rxjs';
-import { TvshowModel } from '../../../channels/interfaces/tvshow.model';
+import { TvshowModel } from '../../../../interfaces/tvshow.model';
 import { ProcessingService } from '../../../../services/processing.service';
 
 @Component({
@@ -21,6 +23,10 @@ import { ProcessingService } from '../../../../services/processing.service';
 export class TvshowComponent implements OnInit, OnChanges {
   @Input() tvshow!: TvshowModel;
 
+  @Input() countOnChild!: Moment;
+
+  @Output() selectedTvShow: EventEmitter<string> = new EventEmitter<string>();
+
   public showStart!: string;
 
   public showStop!: string;
@@ -30,8 +36,6 @@ export class TvshowComponent implements OnInit, OnChanges {
   public recordingFlag = false;
 
   public progressbarValue$: BehaviorSubject<any> = new BehaviorSubject<any>(0);
-
-  @Input() countOnChild!: Moment;
 
   constructor(private process: ProcessingService) {}
 
@@ -53,7 +57,11 @@ export class TvshowComponent implements OnInit, OnChanges {
 
   public installProgressbarValue(): void {
     const value = this.process.getProgressbarValue(this.tvshow.start!, this.tvshow.stop!);
-    console.log('present: ', value);
+    // console.log('present: ', value);
     this.progressbarValue$.next(value);
+  }
+
+  public sendTvShowId(): void {
+    this.selectedTvShow.next(this.tvshow.tvshow_id);
   }
 }

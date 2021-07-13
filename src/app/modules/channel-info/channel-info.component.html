@@ -38,13 +38,19 @@
 
   {{countOnChild}}
 
-  <div class="tvshows_content" *ngIf="(tvShows$ | async) as tvShows">
-    <div *ngFor="let show of tvShows">
-      <app-tvshow
-        [tvshow]="show"
-        [countOnChild]="countOnChild"></app-tvshow>
+  <div class="tvshows">
+    <div class="tvshows_content" *ngIf="(tvShows$ | async) as tvShows">
+      <div *ngFor="let show of tvShows">
+        <app-tvshow
+          [tvshow]="show"
+          [countOnChild]="countOnChild"
+          (selectedTvShow)="openTvShowInfo($event)"></app-tvshow>
+      </div>
     </div>
-  </div>
 
+    <app-tvshow-info
+      *ngIf="isModalWindowFlag"
+      [tvTitleId]="tvTitleId"
+      (selectedCloseBtn)="closeModalWindow($event)"></app-tvshow-info>
+  </div>
 </div>
-<!--<button mat-raised-button (click)="picker.open()">Open</button>-->

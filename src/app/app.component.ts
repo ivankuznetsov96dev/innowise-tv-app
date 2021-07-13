@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -6,4 +7,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(private viewportScroller: ViewportScroller) {}
+  // public goToUp(el: HTMLElement): void {
+  //   el.scrollIntoView({ behavior: 'smooth' });
+  // }
+
+  public goToUp(): void {
+    this.viewportScroller.scrollToPosition([0, 0]);
+    // window.scroll(0, 0);
+  }
+}

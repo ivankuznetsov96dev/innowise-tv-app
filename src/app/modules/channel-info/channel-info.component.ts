@@ -11,9 +11,11 @@ import { formatDate } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { ChannelModel } from '../channels/interfaces/channel.model';
+import { ChannelModel } from '../../interfaces/channel.model';
 import { ChannelService } from '../../services/channel.service';
-import { TvshowModel } from '../channels/interfaces/tvshow.model';
+import { TvshowModel } from '../../interfaces/tvshow.model';
+import { TvshowsService } from '../../services/tvshows.service';
+import { TvshowTitleModel } from '../../interfaces/tvshow-title.model';
 
 @Component({
   selector: 'app-channel-info',
@@ -28,7 +30,9 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
 
   public date: Moment = moment();
 
-  private interval: any;
+  public tvTitleId!: string;
+
+  public isModalWindowFlag = false;
 
   public countOnChild!: Moment;
 
@@ -37,10 +41,13 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
     end: new FormControl(this.date.toDate()),
   });
 
+  private interval: any;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private channel: ChannelService,
+    private tvshow: TvshowsService,
     private crd: ChangeDetectorRef,
   ) {}
 
@@ -63,12 +70,27 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
       dateStart,
       dateEnd,
     );
+
+    this.channel
+      .getTvShows(this.route.snapshot.params.channelId, dateStart, dateEnd)
+      .subscribe((value) => console.log(value));
   }
 
-  public test(tvObj: TvshowModel): void {
-    console.log(tvObj);
-    moment.unix(tvObj.start!).locale('ru').format('HH:mm');
-    moment.unix(tvObj.stop!).locale('ru').format('HH:mm');
+  public openTvShowInfo(event: string): void {
+    console.log(event);
+    // this.isModalWindowFlag = true;
+    // this.tvshow.getTvshowTitleInfo(event);
+    this.tvTitleId = event;
+    this.isModalWindowFlag = true;
+  }
+
+  public closeModalWindow(event: boolean): void {
+    this.isModalWindowFlag = event;
+  }
+
+  public goToUp(): void {
+    // console.log(this.route.snapshot.params.channelId);
+    const count = this.route.snapshot.params.channelId;
   }
 
   ngOnDestroy() {

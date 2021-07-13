@@ -11,6 +11,14 @@
   flex-direction: column;
 }
 
-.tvshows_content {
-  padding-bottom: 10px;
+.tvshows {
+  display: flex;
+  justify-content: space-between;
+
+  .tvshows_content {
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+  }
 }
+
