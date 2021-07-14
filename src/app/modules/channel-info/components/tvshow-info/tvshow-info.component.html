@@ -25,7 +25,7 @@
           <span *ngFor="let director of videoDirector" class="genres_span">{{director.role}} {{director.name}}</span>
         </p>
       </div>
-      <div class="video_description">
+      <div class="video_description" *ngIf="videoInfo.description.length">
         <p><b>Description:</b> {{videoInfo.description}}</p>
       </div>
       <div class="videoplayer">
