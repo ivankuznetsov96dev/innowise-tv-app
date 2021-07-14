@@ -10,6 +10,21 @@
           *ngIf="!!videoInfo.art"
           class="video_art" [src]="videoInfo.art" alt="{{videoInfo.name}} art">
       </div>
+      <div class="video_info">
+        <p *ngIf="videoInfo.countries.length">
+          <b>Countries:</b> {{videoInfo.countries}}</p>
+        <p>
+        <p *ngIf="videoInfo.year.length">
+          <b>Year:</b> {{videoInfo.year}}</p>
+        <p>
+          <b>Genres:</b>
+          <span *ngFor="let genres of videoGenres$ | async" class="genres_span">{{genres.name}}</span>
+        </p>
+        <p *ngIf="(videoDirector$ | async) as videoDirector">
+          <b>Directors:</b>
+          <span *ngFor="let director of videoDirector" class="genres_span">{{director.role}} {{director.name}}</span>
+        </p>
+      </div>
       <div class="video_description">
         <p><b>Description:</b> {{videoInfo.description}}</p>
       </div>

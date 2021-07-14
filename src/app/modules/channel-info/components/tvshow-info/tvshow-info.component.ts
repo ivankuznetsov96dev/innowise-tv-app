@@ -10,9 +10,10 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { TvshowsService } from '../../../../services/tvshows.service';
-import { TvshowTitleModel } from '../../../../interfaces/tvshow-title.model';
-import { VideoInfoModel } from '../../../../interfaces/video-info.model';
+import { TvshowsService } from 'src/app/services/tvshows.service';
+import { TvshowTitleModel } from 'src/app/interfaces/tvshow-title.model';
+import { VideoInfoModel } from 'src/app/interfaces/video-info.model';
+import { MovieCategory } from 'src/app/interfaces/movies-category.model';
 
 @Component({
   selector: 'app-tvshow-info',
@@ -29,6 +30,10 @@ export class TvshowInfoComponent implements OnInit, OnChanges {
 
   public videoInfo$!: Observable<VideoInfoModel>;
 
+  public videoGenres$!: Observable<MovieCategory[]>;
+
+  public videoDirector$!: Observable<{ name: string; role: string }[]> | null;
+
   public isSpinnerFlag = true;
 
   public screenshotPicture!: string;
@@ -36,15 +41,25 @@ export class TvshowInfoComponent implements OnInit, OnChanges {
   constructor(private tvserv: TvshowsService, public route: ActivatedRoute) {}
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.videoDirector$ = null;
     this.tvserv.getTvshowTitleInfo(this.tvTitleId).subscribe((value) => {
       this.screenshotPicture = this.tvserv.getTvScreenshot(this.route.snapshot.params.channelId);
     });
     this.showTitle$ = this.tvserv.getTvshowTitleInfo(this.tvTitleId);
     this.videoInfo$ = this.tvserv.getTvshowDeepInfo(this.tvTitleId);
-    this.tvserv.getTvshowDeepInfo(this.tvTitleId).subscribe((value) => console.log(value));
+    this.tvserv.getTvshowDeepInfo(this.tvTitleId).subscribe((value) => {
+      console.log(value);
+      this.videoGenres$ = this.tvserv.getMoviesCategories(value.category_id, value.genres);
+      if (value.director.length)
+        this.videoDirector$ = this.tvserv.getDirectorInfo(value.director, value.video_id);
+    });
   }
 
   ngOnInit(): void {}
+
+  // public isString(val: MovieCategory[] | string): boolean {
+  //   return typeof val === 'string';
+  // }
 
   public pressedCloseBtn(): void {
     this.selectedCloseBtn.next(false);
