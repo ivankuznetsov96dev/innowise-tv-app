@@ -1,0 +1,22 @@
+<form [formGroup]="loginAndRegisterForm" class="mat-form" (submit)="onSubmit()">
+  <mat-form-field class="form-field">
+    <mat-label for="loginID">Login: </mat-label>
+<!--    maxLength=""-->
+    <input matInput type="text" id="loginID" formControlName="loginID">
+  </mat-form-field>
+  <div class="error" *ngIf="isControlInvalid('loginID')">
+    Invalid login
+  </div>
+  <br/><br/>
+
+  <mat-form-field class="form-field">
+    <mat-label for="passwordID">Password: </mat-label>
+    <!--    maxLength=""-->
+    <input matInput type="text" id="passwordID" formControlName="passwordID">
+  </mat-form-field>
+  <div class="error" *ngIf="isControlInvalid('passwordID')">
+    Invalid password
+  </div>
+  <br/><br/>
+  <button mat-raised-button color="primary" type="submit">Sign In</button>
+</form>

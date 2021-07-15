@@ -1,0 +1,14 @@
+@import "src/mixins";
+.mat-form {
+  @include flexMixin($direction: column);
+  min-width: 250px;
+  width: 100%;
+
+  .form-field {
+    width: 100%;
+  }
+
+  .error {
+    color: red;
+  }
+}

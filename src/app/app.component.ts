@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import {LoginFormComponent} from "./components/login-form/login-form.component";
 
 @Component({
   selector: 'app-root',
@@ -8,13 +10,13 @@ import { ViewportScroller } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  constructor(private viewportScroller: ViewportScroller) {}
-  // public goToUp(el: HTMLElement): void {
-  //   el.scrollIntoView({ behavior: 'smooth' });
-  // }
+  constructor(private viewportScroller: ViewportScroller, private dialog: MatDialog) {}
 
   public goToUp(): void {
     this.viewportScroller.scrollToPosition([0, 0]);
-    // window.scroll(0, 0);
+  }
+
+  public openRegistrModalWindow() {
+    this.dialog.open(LoginFormComponent);
   }
 }
