@@ -19,3 +19,8 @@ export interface PersonMovieInfo {
 export interface PersonInfoWrapper {
   persons: PersonInfoModel[];
 }
+
+export interface DirectorNameAndRole {
+  name: string;
+  role: string;
+}

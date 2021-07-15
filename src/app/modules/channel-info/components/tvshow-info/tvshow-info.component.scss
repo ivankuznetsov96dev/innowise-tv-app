@@ -19,7 +19,7 @@
   }
 
   h2 {
-    @include fontMediumBold();
+    @include fontMediumBold;
     max-width: 420px;
   }
 

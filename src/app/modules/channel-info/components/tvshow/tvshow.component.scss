@@ -1,7 +1,7 @@
 @import "src/mixins";
 
 %flex-between {
-  @include flexMixin();
+  @include flexMixin;
 }
 
 .tvshow_card {

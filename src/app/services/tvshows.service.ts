@@ -9,7 +9,7 @@ import { TvshowWripperModel } from '../interfaces/tvshow-wripper.model';
 import { VideoWripperModel } from '../interfaces/video-wripper.model';
 import { VideoInfoModel } from '../interfaces/video-info.model';
 import { MovieCategory, MoviesCategoryModel } from '../interfaces/movies-category.model';
-import { PersonInfoWrapper } from '../interfaces/person-info.model';
+import { DirectorNameAndRole, PersonInfoWrapper } from '../interfaces/person-info.model';
 
 @Injectable({
   providedIn: 'root',
@@ -59,10 +59,7 @@ export class TvshowsService {
     );
   }
 
-  public getDirectorInfo(
-    _id: number[],
-    film_id: number,
-  ): Observable<{ name: string; role: string }[]> {
+  public getDirectorInfo(_id: number[], film_id: number): Observable<DirectorNameAndRole[]> {
     const id = _id;
     console.log(id, film_id);
     const queryMap = id.slice(1).map((next) => `&id[]=${next}`);

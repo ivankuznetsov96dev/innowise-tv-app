@@ -3,7 +3,7 @@
   <mat-spinner class="spinner" *ngIf="!showTitle$"></mat-spinner>
   <div *ngIf="(showTitle$ | async) as showTitle">
     <h2>{{showTitle.title}}</h2>
-    <div *ngIf="(videoInfo$ | async) as videoInfo">
+    <div *ngIf="!!videoInfo">
       <div class="pictures">
         <img class="video_logo" [src]="videoInfo.cover" alt="{{videoInfo.name}} logo">
         <img

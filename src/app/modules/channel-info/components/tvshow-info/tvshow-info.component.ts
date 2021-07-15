@@ -14,6 +14,7 @@ import { TvshowsService } from 'src/app/services/tvshows.service';
 import { TvshowTitleModel } from 'src/app/interfaces/tvshow-title.model';
 import { VideoInfoModel } from 'src/app/interfaces/video-info.model';
 import { MovieCategory } from 'src/app/interfaces/movies-category.model';
+import {DirectorNameAndRole} from "../../../../interfaces/person-info.model";
 
 @Component({
   selector: 'app-tvshow-info',
@@ -28,11 +29,13 @@ export class TvshowInfoComponent implements OnInit, OnChanges {
 
   public showTitle$!: Observable<TvshowTitleModel>;
 
-  public videoInfo$!: Observable<VideoInfoModel>;
+  // public videoInfo$!: Observable<VideoInfoModel>;
+
+  public videoInfo!: VideoInfoModel;
 
   public videoGenres$!: Observable<MovieCategory[]>;
 
-  public videoDirector$!: Observable<{ name: string; role: string }[]> | null;
+  public videoDirector$!: Observable<DirectorNameAndRole[]> | null;
 
   public isSpinnerFlag = true;
 
@@ -46,9 +49,9 @@ export class TvshowInfoComponent implements OnInit, OnChanges {
       this.screenshotPicture = this.tvserv.getTvScreenshot(this.route.snapshot.params.channelId);
     });
     this.showTitle$ = this.tvserv.getTvshowTitleInfo(this.tvTitleId);
-    this.videoInfo$ = this.tvserv.getTvshowDeepInfo(this.tvTitleId);
     this.tvserv.getTvshowDeepInfo(this.tvTitleId).subscribe((value) => {
-      console.log(value);
+      // console.log(value);
+      this.videoInfo = value;
       this.videoGenres$ = this.tvserv.getMoviesCategories(value.category_id, value.genres);
       if (value.director.length)
         this.videoDirector$ = this.tvserv.getDirectorInfo(value.director, value.video_id);

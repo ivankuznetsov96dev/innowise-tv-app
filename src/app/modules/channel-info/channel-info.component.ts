@@ -70,14 +70,10 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
       dateStart,
       dateEnd,
     );
-
-    this.channel
-      .getTvShows(this.route.snapshot.params.channelId, dateStart, dateEnd)
-      .subscribe((value) => console.log(value));
   }
 
   public openTvShowInfo(event: string): void {
-    console.log(event);
+    // console.log(event);
     // this.isModalWindowFlag = true;
     // this.tvshow.getTvshowTitleInfo(event);
     this.tvTitleId = event;
