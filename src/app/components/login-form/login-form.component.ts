@@ -19,8 +19,11 @@ export class LoginFormComponent implements OnInit {
 
   private initForm() {
     this.loginAndRegisterForm = this.fb.group({
-      loginID: ['', [Validators.required]],
-      passwordID: ['', [Validators.required]],
+      loginID: [
+        '',
+        [Validators.required, Validators.email, Validators.min(10), Validators.max(25)],
+      ],
+      passwordID: ['', [Validators.required, Validators.min(6), Validators.max(15)]],
     });
   }
 
