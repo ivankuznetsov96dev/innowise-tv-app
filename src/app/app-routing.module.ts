@@ -5,8 +5,8 @@ import { ChannelInfoComponent } from './modules/channel-info/channel-info.compon
 import { AuthGuardService } from './services/auth.guard.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/channels', pathMatch: 'full' },
-  // { path: 'channels', redirectTo: '/channels/0', pathMatch: 'full' },
+  { path: '', redirectTo: 'channels', pathMatch: 'full' },
+  { path: 'channels', component: ChannelsComponent },
   { path: 'channels/:channelsCategoryId', component: ChannelsComponent },
   {
     path: 'channel-info/:channelId',

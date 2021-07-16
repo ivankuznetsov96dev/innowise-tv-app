@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {AuthTokenModel} from "../interfaces/auth-token.model";
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +12,15 @@ export class LoginService {
 
   constructor(private http: HttpClient) {}
 
-  public getUserLoginToken(email: string, password: string): Observable<any> {
+  public getUserLoginToken(email: string, password: string): Observable<AuthTokenModel | boolean> {
     const params = new HttpParams()
       .set('email', email)
       .set('password', password)
       .set('nocookie', '1');
-    return this.http
-      .get('https://api.persik.by/v1/account/login', { params })
-      .pipe(tap((value) => this.user$.next(value)));
+    return this.http.get<AuthTokenModel>('https://api.persik.by/v1/account/login', { params }).pipe(
+      tap((value) => this.user$.next(value)),
+      catchError(() => of(false)),
+    );
   }
 
   public setNewUserOnBack(email: string, password: string): void {

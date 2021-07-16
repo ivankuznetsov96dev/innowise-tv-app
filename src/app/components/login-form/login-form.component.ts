@@ -38,6 +38,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   public userExistFlag = false;
 
+  public invalidUserToken = true;
+
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -83,7 +85,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.loginAndRegisterForm = this.fb.group({
       loginID: [
         null,
-        [Validators.required, Validators.email, Validators.minLength(10), Validators.maxLength(25)],
+        [
+          Validators.required,
+          Validators.pattern(
+            '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
+          ),
+          Validators.minLength(10),
+          Validators.maxLength(25),
+        ],
       ],
       passwordID: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
     });
@@ -108,13 +117,24 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         this.loginAndRegisterForm.value.passwordID,
       )
       .subscribe((value) => {
-        localStorage.setItem('auth', JSON.stringify(value));
-        this.dialog.closeAll();
+        if (!value) {
+          this.invalidUserToken = value;
+          this.cd.detectChanges();
+        } else {
+          this.invalidUserToken = true;
+          this.cd.detectChanges();
+          localStorage.setItem('auth', JSON.stringify(value));
+          this.dialog.closeAll();
+        }
       });
   }
 
-  public pushInputText(event: string) {
+  public pushInputText(event: string): void {
     this.inputSubject$.next(event);
+  }
+
+  public pushPasswordInput(): void {
+    this.invalidUserToken = true;
   }
 
   ngOnDestroy() {

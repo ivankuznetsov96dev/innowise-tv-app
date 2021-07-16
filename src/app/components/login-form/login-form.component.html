@@ -5,8 +5,8 @@
     <input matInput type="text" id="loginID" formControlName="loginID"
             (ngModelChange)="pushInputText($event)">
   </mat-form-field>
-  <div class="error" *ngIf="loginAndRegisterForm.getError('email', 'loginID')
-      && loginAndRegisterForm.controls['loginID'].touched">Invalid login!</div>
+  <div class="error" *ngIf="loginAndRegisterForm.getError('pattern', 'loginID')
+      && loginAndRegisterForm.controls['loginID'].touched">Invalid email pattern!</div>
   <div class="error" *ngIf="loginAndRegisterForm.getError('required', 'loginID')
       && loginAndRegisterForm.controls['loginID'].touched">Login field is not required!</div>
   <div class="error" *ngIf="loginAndRegisterForm.getError('minLength', 'loginID')
@@ -23,7 +23,8 @@
   <mat-form-field class="form-field">
     <mat-label for="passwordID">Password: </mat-label>
     <!--    maxLength=""-->
-    <input matInput type="text" id="passwordID" formControlName="passwordID">
+    <input matInput type="text" id="passwordID" formControlName="passwordID"
+           (ngModelChange)="pushPasswordInput()">
   </mat-form-field>
   <div class="error" *ngIf="loginAndRegisterForm.getError('required', 'passwordID')
       && loginAndRegisterForm.controls['passwordID'].touched">Password field is not required!</div>
@@ -34,6 +35,7 @@
 <!--  <div class="error" *ngIf="isControlInvalid('passwordID')">-->
 <!--    Invalid password-->
 <!--  </div>-->
+  <div class="error" *ngIf="!invalidUserToken">Invalid login or password</div>
   <br/><br/>
   <button mat-raised-button color="primary" type="submit">Sign In</button>
 </form>
