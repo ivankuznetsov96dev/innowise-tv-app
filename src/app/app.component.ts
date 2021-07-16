@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoginFormComponent } from './components/login-form/login-form.component';
+import { LoginService } from './services/login.service';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent {
     private dialog: MatDialog,
     private alertBar: MatSnackBar,
     private router: Router,
+    private auth: LoginService,
   ) {}
 
   public goToUp(): void {
@@ -27,7 +29,7 @@ export class AppComponent {
 
   public openRegistrModalWindow() {
     if (localStorage.getItem('auth')) {
-      localStorage.removeItem('auth');
+      this.auth.userLogout();
       this.router.navigate(['channels', 0]);
       this.alertBar.open('Log out', 'Close', { duration: 3000 });
       return;

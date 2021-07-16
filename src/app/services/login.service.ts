@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +26,10 @@ export class LoginService {
     this.http
       .get('https://api.persik.by/v1/account/login', { params })
       .subscribe((value) => console.log(value));
+  }
+
+  public userLogout(): void {
+    localStorage.removeItem('auth');
+    this.user$.next(null);
   }
 }
