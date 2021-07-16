@@ -1,18 +1,25 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { of, Subject } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
   distinctUntilChanged,
   filter,
-  map,
   switchMap,
+  takeUntil,
   tap,
 } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 import { AccountResponceModel } from '../../interfaces/account-responce.model';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-register-form',
@@ -20,22 +27,30 @@ import { AccountResponceModel } from '../../interfaces/account-responce.model';
   styleUrls: ['./login-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginFormComponent implements OnInit {
+export class LoginFormComponent implements OnInit, OnDestroy {
   public loginAndRegisterForm!: FormGroup;
 
   public inputSubject$: Subject<string> = new Subject();
+
+  public subjDestroyer$: Subject<any> = new Subject<any>();
 
   public errorFlag = false;
 
   public userExistFlag = false;
 
-  constructor(private fb: FormBuilder, private dialog: MatDialog, private cd: ChangeDetectorRef) {}
+  constructor(
+    private fb: FormBuilder,
+    private dialog: MatDialog,
+    private cd: ChangeDetectorRef,
+    private login: LoginService,
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
     const url = 'https://api.persik.by/v2/auth/check?email=';
     this.inputSubject$
       .pipe(
+        takeUntil(this.subjDestroyer$),
         debounceTime(600),
         filter((value: string) => value.length > 3),
         distinctUntilChanged(),
@@ -81,15 +96,28 @@ export class LoginFormComponent implements OnInit {
   }
 
   public onSubmit() {
+    if (this.userExistFlag) return;
     const { controls } = this.loginAndRegisterForm;
     if (this.loginAndRegisterForm.invalid) {
       Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
       return;
     }
-    this.dialog.closeAll();
+    this.login
+      .getUserLoginToken(
+        this.loginAndRegisterForm.value.loginID,
+        this.loginAndRegisterForm.value.passwordID,
+      )
+      .subscribe((value) => {
+        localStorage.setItem('auth', JSON.stringify(value));
+        this.dialog.closeAll();
+      });
   }
 
   public pushInputText(event: string) {
     this.inputSubject$.next(event);
+  }
+
+  ngOnDestroy() {
+    this.subjDestroyer$.next();
   }
 }
