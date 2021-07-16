@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoginFormComponent } from './components/login-form/login-form.component';
-import { LoginService } from './services/login.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +20,7 @@ export class AppComponent {
     private dialog: MatDialog,
     private alertBar: MatSnackBar,
     private router: Router,
-    private auth: LoginService,
+    private auth: AuthService,
   ) {}
 
   public goToUp(): void {

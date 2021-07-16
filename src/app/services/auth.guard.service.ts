@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { LoginService } from './login.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuardService {
-  constructor(private auth: LoginService, private router: Router, private alertBar: MatSnackBar) {
+  constructor(private auth: AuthService, private router: Router, private alertBar: MatSnackBar) {
     if (localStorage.getItem('auth')) this.auth.user$.next(localStorage.getItem('auth'));
   }
 

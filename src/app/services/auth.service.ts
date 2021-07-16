@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {AuthTokenModel} from "../interfaces/auth-token.model";
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { AuthTokenModel } from '../interfaces/auth-token.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LoginService {
+export class AuthService {
   public user$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) {}

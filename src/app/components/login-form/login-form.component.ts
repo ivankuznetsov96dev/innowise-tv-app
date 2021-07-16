@@ -6,8 +6,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { Observable, of, Subject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -19,7 +19,7 @@ import {
 } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 import { AccountResponceModel } from '../../interfaces/account-responce.model';
-import { LoginService } from '../../services/login.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register-form',
@@ -34,7 +34,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   public subjDestroyer$: Subject<any> = new Subject<any>();
 
-  public errorFlag = false;
+  // public errorFlag = false;
 
   public userExistFlag = false;
 
@@ -44,7 +44,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private cd: ChangeDetectorRef,
-    private login: LoginService,
+    private login: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -59,16 +59,16 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         switchMap((value: string) =>
           ajax.getJSON<AccountResponceModel>(url + value).pipe(
             catchError(() => {
-              this.errorFlag = true;
+              // this.errorFlag = true;
               this.cd.detectChanges();
-              return of('some error');
+              return of('Error: getJSON');
             }),
             tap(() => console.log(value)),
           ),
         ),
         tap((data: AccountResponceModel | any) => {
           console.log(data);
-          this.errorFlag = false;
+          // this.errorFlag = false;
           if (!data.exists) {
             console.log('this user does not exist');
             this.userExistFlag = true;
@@ -131,6 +131,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   public pushInputText(event: string): void {
     this.inputSubject$.next(event);
+    this.invalidUserToken = true;
   }
 
   public pushPasswordInput(): void {
