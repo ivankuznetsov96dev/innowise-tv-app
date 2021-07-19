@@ -1,4 +1,9 @@
 @import "src/mixins";
+
+.toggle-group {
+  @include flexMixin($justify: center);
+}
+
 .mat-form {
   @include flexMixin($direction: column);
   min-width: 250px;

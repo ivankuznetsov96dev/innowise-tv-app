@@ -18,6 +18,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { AccountResponceModel } from '../../interfaces/account-responce.model';
 import { AuthService } from '../../services/auth.service';
 
@@ -28,7 +29,9 @@ import { AuthService } from '../../services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
-  public loginAndRegisterForm!: FormGroup;
+  public loginForm!: FormGroup;
+
+  public registerForm!: FormGroup;
 
   public inputSubject$: Subject<string> = new Subject();
 
@@ -39,6 +42,12 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   public userExistFlag = false;
 
   public invalidUserToken = true;
+
+  public isAuthFormType = false;
+
+  public formType = 'Sign In';
+
+  public isUserAlreadyExists = false;
 
   constructor(
     private fb: FormBuilder,
@@ -82,7 +91,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
-    this.loginAndRegisterForm = this.fb.group({
+    this.loginForm = this.fb.group({
       loginID: [
         null,
         [
@@ -96,26 +105,50 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       ],
       passwordID: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
     });
+
+    this.registerForm = this.fb.group({
+      newLoginID: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(
+            '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
+          ),
+          Validators.minLength(10),
+          Validators.maxLength(25),
+        ],
+      ],
+      newPasswordID: [
+        null,
+        [Validators.required, Validators.minLength(6), Validators.maxLength(15)],
+      ],
+      repeatPasswordID: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(15),
+          RxwebValidators.compare({ fieldName: 'newPasswordID' }),
+        ],
+      ],
+    });
   }
 
   public isControlInvalid(controlName: string): boolean {
-    const control = this.loginAndRegisterForm.controls[controlName];
+    const control = this.loginForm.controls[controlName];
     const result = control.invalid && control.touched;
     return result;
   }
 
-  public onSubmit() {
+  public onLoginSubmit() {
     if (this.userExistFlag) return;
-    const { controls } = this.loginAndRegisterForm;
-    if (this.loginAndRegisterForm.invalid) {
+    const { controls } = this.loginForm;
+    if (this.loginForm.invalid) {
       Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
       return;
     }
     this.login
-      .getUserLoginToken(
-        this.loginAndRegisterForm.value.loginID,
-        this.loginAndRegisterForm.value.passwordID,
-      )
+      .getUserLoginToken(this.loginForm.value.loginID, this.loginForm.value.passwordID)
       .subscribe((value) => {
         if (!value) {
           this.invalidUserToken = value;
@@ -129,13 +162,47 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       });
   }
 
+  public onRegistrationSubmit(): void {
+    const { controls } = this.registerForm;
+    if (this.registerForm.invalid) {
+      Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
+      return;
+    }
+    this.login
+      .setNewUserOnBack(this.registerForm.value.newLoginID, this.registerForm.value.newPasswordID)
+      .subscribe((value) => {
+        if (value === null) {
+          this.login
+            .getUserLoginToken(
+              this.registerForm.value.newLoginID,
+              this.registerForm.value.newPasswordID,
+            )
+            .subscribe((data) => {
+              console.log(data);
+              localStorage.setItem('auth', JSON.stringify(data));
+              this.dialog.closeAll();
+            });
+        } else {
+          this.isUserAlreadyExists = true;
+          this.cd.detectChanges();
+        }
+      });
+  }
+
   public pushInputText(event: string): void {
     this.inputSubject$.next(event);
     this.invalidUserToken = true;
+    this.isUserAlreadyExists = false;
   }
 
   public pushPasswordInput(): void {
     this.invalidUserToken = true;
+  }
+
+  public changeForm(event: any): void {
+    this.isAuthFormType = event.checked;
+    this.formType = this.isAuthFormType ? 'Sign Up' : 'Sign In';
+    this.cd.detectChanges();
   }
 
   ngOnDestroy() {

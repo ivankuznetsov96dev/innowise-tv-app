@@ -23,11 +23,11 @@ export class AuthService {
     );
   }
 
-  public setNewUserOnBack(email: string, password: string): void {
+  public setNewUserOnBack(email: string, password: string): Observable<any> {
     const params = new HttpParams().set('email', email).set('password', password);
-    this.http
-      .get('https://api.persik.by/v1/account/login', { params })
-      .subscribe((value) => console.log(value));
+    return this.http
+      .get('https://api.persik.by/v1/account/registration', { params })
+      .pipe(catchError(() => of(false)));
   }
 
   public userLogout(): void {

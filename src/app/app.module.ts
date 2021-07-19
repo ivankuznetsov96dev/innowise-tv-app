@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -31,6 +33,8 @@ import { LoginFormComponent } from './components/login-form/login-form.component
     MatButtonModule,
     FormsModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
+    RxReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
