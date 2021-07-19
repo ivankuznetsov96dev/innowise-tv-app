@@ -14,10 +14,6 @@
       && loginForm.controls['loginID'].touched">Login must be higher 10 symbols!</div>
   <div class="error" *ngIf="loginForm.getError('maxLength', 'loginID')
       && loginForm.controls['loginID'].touched">Login must be less 25 symbols!</div>
-<!--  <div class="error" *ngIf="isControlInvalid('loginID')">-->
-<!--    Some error. Invalod login-->
-<!--  </div>-->
-<!--  <div class="error" *ngIf="errorFlag">400 error</div>-->
   <div class="error" *ngIf="userExistFlag">This user does not exist!</div>
 
   <mat-form-field class="form-field">
@@ -31,9 +27,6 @@
       && loginForm.controls['passwordID'].touched">Password must be higher 6 symbols!</div>
   <div class="error" *ngIf="loginForm.getError('maxLength', 'passwordID')
       && loginForm.controls['passwordID'].touched">Password must be less 15 symbols!</div>
-<!--  <div class="error" *ngIf="isControlInvalid('passwordID')">-->
-<!--    Invalid password-->
-<!--  </div>-->
   <div class="error" *ngIf="!invalidUserToken">Invalid login or password</div>
   <button mat-raised-button color="primary" type="submit">Sign In</button>
 </form>

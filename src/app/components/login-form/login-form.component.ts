@@ -37,8 +37,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   public subjDestroyer$: Subject<any> = new Subject<any>();
 
-  // public errorFlag = false;
-
   public userExistFlag = false;
 
   public invalidUserToken = true;
@@ -68,7 +66,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         switchMap((value: string) =>
           ajax.getJSON<AccountResponceModel>(url + value).pipe(
             catchError(() => {
-              // this.errorFlag = true;
               this.cd.detectChanges();
               return of('Error: getJSON');
             }),
@@ -77,7 +74,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         ),
         tap((data: AccountResponceModel | any) => {
           console.log(data);
-          // this.errorFlag = false;
           if (!data.exists) {
             console.log('this user does not exist');
             this.userExistFlag = true;
@@ -99,11 +95,18 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           Validators.pattern(
             '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
           ),
-          Validators.minLength(10),
-          Validators.maxLength(25),
+          RxwebValidators.minLength({ value: 10 }),
+          RxwebValidators.maxLength({ value: 25 }),
         ],
       ],
-      passwordID: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
+      passwordID: [
+        null,
+        [
+          Validators.required,
+          RxwebValidators.minLength({ value: 6 }),
+          RxwebValidators.maxLength({ value: 15 }),
+        ],
+      ],
     });
 
     this.registerForm = this.fb.group({
@@ -114,30 +117,28 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           Validators.pattern(
             '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
           ),
-          Validators.minLength(10),
-          Validators.maxLength(25),
+          RxwebValidators.minLength({ value: 10 }),
+          RxwebValidators.maxLength({ value: 25 }),
         ],
       ],
       newPasswordID: [
         null,
-        [Validators.required, Validators.minLength(6), Validators.maxLength(15)],
+        [
+          Validators.required,
+          RxwebValidators.minLength({ value: 6 }),
+          RxwebValidators.maxLength({ value: 15 }),
+        ],
       ],
       repeatPasswordID: [
         null,
         [
           Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(15),
+          RxwebValidators.minLength({ value: 6 }),
+          RxwebValidators.maxLength({ value: 15 }),
           RxwebValidators.compare({ fieldName: 'newPasswordID' }),
         ],
       ],
     });
-  }
-
-  public isControlInvalid(controlName: string): boolean {
-    const control = this.loginForm.controls[controlName];
-    const result = control.invalid && control.touched;
-    return result;
   }
 
   public onLoginSubmit() {
