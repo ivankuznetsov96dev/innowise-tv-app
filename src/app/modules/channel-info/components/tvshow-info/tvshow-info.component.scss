@@ -6,11 +6,12 @@
   position: sticky;
   top: 6vh;
   max-width: 450px;
-  max-height: 580px;
+  max-height: 600px;
   min-width: 450px;
   min-height: 300px;
   width: 100%;
   overflow: hidden;
+  margin-bottom: 5vh;
 
   .spinner {
     align-items: center;
@@ -18,7 +19,7 @@
   }
 
   h2 {
-    @include fontMediumBold();
+    @include fontMediumBold;
     max-width: 420px;
   }
 
@@ -33,13 +34,14 @@
     @include flexMixin($justify: center);
 
     .video_logo {
-      width: 150px;
-      height: 150px;
+      width: 120px;
+      height: 120px;
       border-radius: 10%;
     }
 
     .video_art {
-      height: 150px;
+      object-fit: cover;
+      height: 120px;
       width: 100%;
       margin-left: 10px;
       border-radius: 10px;
@@ -58,4 +60,8 @@
     width: 100%;
     @include flexMixin($justify: center, $direction: column);
   }
+}
+
+.genres_span {
+  margin-left:5px;
 }

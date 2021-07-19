@@ -14,7 +14,7 @@
 
   .tvshows_content {
     padding-bottom: 10px;
-    @include flexMixin($align: normal, $direction: column);
+    @include flexMixin(normal, normal, column);
   }
 }
 

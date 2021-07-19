@@ -59,10 +59,6 @@ export class ChannelCardComponent implements OnInit {
     }
     const dateFormatted = formatDate(this.date, 'y-MM-dd', 'en-US');
     this.tvShows$ = this.channel.getTvShows(this.info.channel_id!, dateFormatted, dateFormatted);
-    this.channel
-      .getTvShows(this.info.channel_id!, dateFormatted, dateFormatted)
-      .subscribe((value) => console.log(value));
-    // this.countOnChild = new Date();
     this.countOnChild = moment();
     this.interval = setInterval(() => {
       this.countOnChild = moment();

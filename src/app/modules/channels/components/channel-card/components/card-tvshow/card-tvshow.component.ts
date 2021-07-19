@@ -53,7 +53,7 @@ export class CardTvshowComponent implements OnInit, OnChanges {
 
   public installProgressbarValue(): void {
     const value = this.process.getProgressbarValue(this.tvshow.start!, this.tvshow.stop!);
-    console.log('present: ', value);
+    // console.log('present: ', value);
     this.progressbarValue$.next(value);
   }
 }
