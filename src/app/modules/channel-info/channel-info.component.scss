@@ -1,24 +1,20 @@
-.channel_header {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+@import "src/mixins";
 
+.channel_header {
+  @include flexMixin($justify: space-evenly);
   margin: 20px auto;
 }
 
 .channel_content {
-  display: flex;
-  flex-direction: column;
+  @include flexMixin($align: normal, $direction: column);
 }
 
 .tvshows {
-  display: flex;
-  justify-content: space-between;
+  @include flexMixin($align: normal);
 
   .tvshows_content {
     padding-bottom: 10px;
-    display: flex;
-    flex-direction: column;
+    @include flexMixin($align: normal, $direction: column);
   }
 }
 

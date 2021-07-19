@@ -1,8 +1,7 @@
+@import "src/mixins";
+
 .channels {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
+  @include flexMixin($direction: column);
   width: 100%;
 
   h1 {

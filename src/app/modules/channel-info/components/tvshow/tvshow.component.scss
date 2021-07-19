@@ -1,7 +1,7 @@
+@import "src/mixins";
+
 %flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flexMixin();
 }
 
 .tvshow_card {
@@ -14,11 +14,11 @@
   }
 
   .live {
-    color: red;
+    @include tvLiveStatus();
   }
 
   .recording {
-    color: green;
+    @include tvLiveStatus(green);
   }
 
   mat-progress-bar {
