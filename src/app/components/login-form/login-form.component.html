@@ -6,7 +6,7 @@
     <input matInput type="text" id="loginID" formControlName="loginID"
             (ngModelChange)="pushInputText($event)">
   </mat-form-field>
-  <div class="error" *ngIf="loginForm.getError('pattern', 'loginID')
+  <div class="error" *ngIf="loginForm.get('loginID').hasError('EmailValidator')
       && loginForm.controls['loginID'].touched">Invalid email pattern!</div>
   <div class="error" *ngIf="loginForm.getError('required', 'loginID')
       && loginForm.controls['loginID'].touched">Login field is not required!</div>

@@ -11,6 +11,8 @@ import { Subject } from 'rxjs';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { AccountResponceModel } from '../../interfaces/account-responce.model';
 import { AuthService } from '../../services/auth.service';
+// import { ComparePasswordsValidator } from './validators/compare-passwords.validator';
+import { EmailValidator } from './validators/email.validator';
 
 @Component({
   selector: 'app-register-form',
@@ -72,9 +74,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         null,
         [
           Validators.required,
-          Validators.pattern(
-            '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
-          ),
+          // Validators.pattern(
+          //   '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
+          // ),
+          EmailValidator(),
           Validators.minLength(10),
           Validators.maxLength(25),
         ],
@@ -84,32 +87,42 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   private initRegistrationForm(): void {
-    this.registerForm = this.fb.group({
-      newLoginID: [
-        null,
-        [
-          Validators.required,
-          Validators.pattern(
-            '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
-          ),
-          Validators.minLength(10),
-          Validators.maxLength(25),
+    this.registerForm = this.fb.group(
+      {
+        newLoginID: [
+          null,
+          [
+            Validators.required,
+            // Validators.pattern(
+            //   '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
+            // ),
+            EmailValidator(),
+            Validators.minLength(10),
+            Validators.maxLength(25),
+          ],
         ],
-      ],
-      newPasswordID: [
-        null,
-        [Validators.required, Validators.minLength(6), Validators.maxLength(15)],
-      ],
-      repeatPasswordID: [
-        null,
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(15),
-          RxwebValidators.compare({ fieldName: 'newPasswordID' }),
+        newPasswordID: [
+          null,
+          [Validators.required, Validators.minLength(6), Validators.maxLength(15)],
         ],
-      ],
-    });
+        repeatPasswordID: [
+          null,
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(15),
+            // RxwebValidators.compare({ fieldName: 'newPasswordID' }),
+          ],
+        ],
+      },
+      // {
+      //   validator: ComparePasswordsValidator(
+      //     this.registerForm,
+      //     'newPasswordID',
+      //     'repeatPasswordID',
+      //   ),
+      // },
+    );
   }
 
   public onLoginSubmit() {
