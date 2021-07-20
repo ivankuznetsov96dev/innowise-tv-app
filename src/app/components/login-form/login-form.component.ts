@@ -7,17 +7,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { of, Subject } from 'rxjs';
-import {
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
-import { ajax } from 'rxjs/ajax';
+import { Subject } from 'rxjs';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { AccountResponceModel } from '../../interfaces/account-responce.model';
 import { AuthService } from '../../services/auth.service';
@@ -37,9 +27,11 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   public subjDestroyer$: Subject<any> = new Subject<any>();
 
-  public userExistFlag = false;
+  public isUserUnique = false;
 
-  public invalidUserToken = true;
+  public isUserSignUp = false;
+
+  public isInvalidUserToken = true;
 
   public isAuthFormType = false;
 
@@ -55,38 +47,26 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.initForm();
-    const url = 'https://api.persik.by/v2/auth/check?email=';
-    this.inputSubject$
-      .pipe(
-        takeUntil(this.subjDestroyer$),
-        debounceTime(600),
-        filter((value: string) => value.length > 3),
-        distinctUntilChanged(),
-        switchMap((value: string) =>
-          ajax.getJSON<AccountResponceModel>(url + value).pipe(
-            catchError(() => {
-              this.cd.detectChanges();
-              return of('Error: getJSON');
-            }),
-            tap(() => console.log(value)),
-          ),
-        ),
-        tap((data: AccountResponceModel | any) => {
-          console.log(data);
-          if (!data.exists) {
-            console.log('this user does not exist');
-            this.userExistFlag = true;
-            return;
-          }
-          this.userExistFlag = false;
+    this.initLoginForm();
+    this.initRegistrationForm();
+    this.login
+      .checkUserUnique(this.inputSubject$, this.subjDestroyer$)
+      .subscribe((data: AccountResponceModel | any) => {
+        console.log(data);
+        if (!data.exists) {
+          console.log('this user does not exist');
+          this.isUserUnique = true;
+          this.isUserSignUp = false;
           this.cd.detectChanges();
-        }),
-      )
-      .subscribe();
+          return;
+        }
+        this.isUserUnique = false;
+        this.isUserSignUp = true;
+        this.cd.detectChanges();
+      });
   }
 
-  private initForm() {
+  private initLoginForm(): void {
     this.loginForm = this.fb.group({
       loginID: [
         null,
@@ -95,20 +75,15 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           Validators.pattern(
             '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
           ),
-          RxwebValidators.minLength({ value: 10 }),
-          RxwebValidators.maxLength({ value: 25 }),
+          Validators.minLength(10),
+          Validators.maxLength(25),
         ],
       ],
-      passwordID: [
-        null,
-        [
-          Validators.required,
-          RxwebValidators.minLength({ value: 6 }),
-          RxwebValidators.maxLength({ value: 15 }),
-        ],
-      ],
+      passwordID: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
     });
+  }
 
+  private initRegistrationForm(): void {
     this.registerForm = this.fb.group({
       newLoginID: [
         null,
@@ -117,24 +92,20 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           Validators.pattern(
             '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
           ),
-          RxwebValidators.minLength({ value: 10 }),
-          RxwebValidators.maxLength({ value: 25 }),
+          Validators.minLength(10),
+          Validators.maxLength(25),
         ],
       ],
       newPasswordID: [
         null,
-        [
-          Validators.required,
-          RxwebValidators.minLength({ value: 6 }),
-          RxwebValidators.maxLength({ value: 15 }),
-        ],
+        [Validators.required, Validators.minLength(6), Validators.maxLength(15)],
       ],
       repeatPasswordID: [
         null,
         [
           Validators.required,
-          RxwebValidators.minLength({ value: 6 }),
-          RxwebValidators.maxLength({ value: 15 }),
+          Validators.minLength(6),
+          Validators.maxLength(15),
           RxwebValidators.compare({ fieldName: 'newPasswordID' }),
         ],
       ],
@@ -142,7 +113,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   public onLoginSubmit() {
-    if (this.userExistFlag) return;
+    if (this.isUserUnique) return;
     const { controls } = this.loginForm;
     if (this.loginForm.invalid) {
       Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
@@ -152,10 +123,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       .getUserLoginToken(this.loginForm.value.loginID, this.loginForm.value.passwordID)
       .subscribe((value) => {
         if (!value) {
-          this.invalidUserToken = value;
+          this.isInvalidUserToken = value;
           this.cd.detectChanges();
         } else {
-          this.invalidUserToken = true;
+          this.isInvalidUserToken = true;
           this.cd.detectChanges();
           localStorage.setItem('auth', JSON.stringify(value));
           this.dialog.closeAll();
@@ -164,6 +135,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   public onRegistrationSubmit(): void {
+    if (this.isUserSignUp) return;
     const { controls } = this.registerForm;
     if (this.registerForm.invalid) {
       Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
@@ -172,32 +144,19 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.login
       .setNewUserOnBack(this.registerForm.value.newLoginID, this.registerForm.value.newPasswordID)
       .subscribe((value) => {
-        if (value === null) {
-          this.login
-            .getUserLoginToken(
-              this.registerForm.value.newLoginID,
-              this.registerForm.value.newPasswordID,
-            )
-            .subscribe((data) => {
-              console.log(data);
-              localStorage.setItem('auth', JSON.stringify(data));
-              this.dialog.closeAll();
-            });
-        } else {
-          this.isUserAlreadyExists = true;
-          this.cd.detectChanges();
-        }
+        localStorage.setItem('auth', JSON.stringify(value));
+        this.dialog.closeAll();
       });
   }
 
   public pushInputText(event: string): void {
     this.inputSubject$.next(event);
-    this.invalidUserToken = true;
+    this.isInvalidUserToken = true;
     this.isUserAlreadyExists = false;
   }
 
   public pushPasswordInput(): void {
-    this.invalidUserToken = true;
+    this.isInvalidUserToken = true;
   }
 
   public changeForm(event: any): void {

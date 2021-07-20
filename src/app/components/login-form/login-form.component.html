@@ -10,11 +10,11 @@
       && loginForm.controls['loginID'].touched">Invalid email pattern!</div>
   <div class="error" *ngIf="loginForm.getError('required', 'loginID')
       && loginForm.controls['loginID'].touched">Login field is not required!</div>
-  <div class="error" *ngIf="loginForm.getError('minLength', 'loginID')
+  <div class="error" *ngIf="loginForm.getError('minlength', 'loginID')
       && loginForm.controls['loginID'].touched">Login must be higher 10 symbols!</div>
-  <div class="error" *ngIf="loginForm.getError('maxLength', 'loginID')
+  <div class="error" *ngIf="loginForm.getError('maxlength', 'loginID')
       && loginForm.controls['loginID'].touched">Login must be less 25 symbols!</div>
-  <div class="error" *ngIf="userExistFlag">This user does not exist!</div>
+  <div class="error" *ngIf="isUserUnique">This user does not exist!</div>
 
   <mat-form-field class="form-field">
     <mat-label for="passwordID">Password: </mat-label>
@@ -23,11 +23,11 @@
   </mat-form-field>
   <div class="error" *ngIf="loginForm.getError('required', 'passwordID')
       && loginForm.controls['passwordID'].touched">Password field is not required!</div>
-  <div class="error" *ngIf="loginForm.getError('minLength', 'passwordID')
+  <div class="error" *ngIf="loginForm.getError('minlength', 'passwordID')
       && loginForm.controls['passwordID'].touched">Password must be higher 6 symbols!</div>
-  <div class="error" *ngIf="loginForm.getError('maxLength', 'passwordID')
+  <div class="error" *ngIf="loginForm.getError('maxlength', 'passwordID')
       && loginForm.controls['passwordID'].touched">Password must be less 15 symbols!</div>
-  <div class="error" *ngIf="!invalidUserToken">Invalid login or password</div>
+  <div class="error" *ngIf="!isInvalidUserToken">Invalid login or password</div>
   <button mat-raised-button color="primary" type="submit">Sign In</button>
 </form>
 
@@ -42,10 +42,11 @@
       && registerForm.controls['newLoginID'].touched">Invalid email pattern!</div>
   <div class="error" *ngIf="registerForm.getError('required', 'newLoginID')
       && registerForm.controls['newLoginID'].touched">Login field is not required!</div>
-  <div class="error" *ngIf="registerForm.getError('minLength', 'newLoginID')
+  <div class="error" *ngIf="registerForm.getError('minlength', 'newLoginID')
       && registerForm.controls['newLoginID'].touched">Login must be higher 10 symbols!</div>
-  <div class="error" *ngIf="registerForm.getError('maxLength', 'newLoginID')
+  <div class="error" *ngIf="registerForm.getError('maxlength', 'newLoginID')
       && registerForm.controls['newLoginID'].touched">Login must be less 25 symbols!</div>
+  <div class="error" *ngIf="isUserSignUp">This email is registered. Please, change email!</div>
 
   <mat-form-field class="form-field">
     <mat-label for="passwordID">Password: </mat-label>
@@ -53,9 +54,9 @@
   </mat-form-field>
   <div class="error" *ngIf="registerForm.getError('required', 'newPasswordID')
       && registerForm.controls['newPasswordID'].touched">Password field is not required!</div>
-  <div class="error" *ngIf="registerForm.getError('minLength', 'newPasswordID')
+  <div class="error" *ngIf="registerForm.getError('minlength', 'newPasswordID')
       && registerForm.controls['newPasswordID'].touched">Password must be higher 6 symbols!</div>
-  <div class="error" *ngIf="registerForm.getError('maxLength', 'newPasswordID')
+  <div class="error" *ngIf="registerForm.getError('maxlength', 'newPasswordID')
       && registerForm.controls['newPasswordID'].touched">Password must be less 15 symbols!</div>
 
   <mat-form-field class="form-field">
@@ -66,9 +67,9 @@
       && registerForm.controls['repeatPasswordID'].touched">RP field is not required!</div>
   <div class="error" *ngIf="registerForm.getError('compare', 'repeatPasswordID')
       && registerForm.controls['repeatPasswordID'].touched">RP field is not compare with password field!</div>
-  <div class="error" *ngIf="registerForm.getError('minLength', 'repeatPasswordID')
+  <div class="error" *ngIf="registerForm.getError('minlength', 'repeatPasswordID')
       && registerForm.controls['repeatPasswordID'].touched">RP field must be higher 6 symbols!</div>
-  <div class="error" *ngIf="registerForm.getError('maxLength', 'repeatPasswordID')
+  <div class="error" *ngIf="registerForm.getError('maxlength', 'repeatPasswordID')
       && registerForm.controls['repeatPasswordID'].touched">RP field must be less 15 symbols!</div>
 
   <div class="error" *ngIf="isUserAlreadyExists">This login already exist. Please, use another email to register</div>

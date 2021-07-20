@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { AuthService } from './services/auth.service';
 
@@ -12,8 +14,10 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   public dialogRef: any;
+
+  public destroyerSubj: Subject<any> = new Subject<any>();
 
   constructor(
     private viewportScroller: ViewportScroller,
@@ -36,9 +40,16 @@ export class AppComponent {
     }
     this.dialogRef = this.dialog.open(LoginFormComponent);
 
-    this.dialogRef.afterClosed().subscribe(() => {
-      if (localStorage.getItem('auth'))
-        this.alertBar.open('You are logged in', 'Close', { duration: 3000 });
-    });
+    this.dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroyerSubj))
+      .subscribe(() => {
+        if (localStorage.getItem('auth'))
+          this.alertBar.open('You are logged in', 'Close', { duration: 3000 });
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroyerSubj.next();
   }
 }
