@@ -13,6 +13,7 @@ import { AccountResponceModel } from '../../interfaces/account-responce.model';
 import { AuthService } from '../../services/auth.service';
 import { ComparePasswordsValidator } from './validators/compare-passwords.validator';
 import { EmailValidator } from './validators/email.validator';
+import {CheckUserAtLoginValidator, CheckUserAtRegistrationValidator} from './validators/chack-user.validator';
 
 @Component({
   selector: 'app-register-form',
@@ -51,21 +52,21 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initLoginForm();
     this.initRegistrationForm();
-    this.login
-      .checkUserUnique(this.inputSubject$, this.subjDestroyer$)
-      .subscribe((data: AccountResponceModel | any) => {
-        console.log(data);
-        if (!data.exists) {
-          console.log('this user does not exist');
-          this.isUserUnique = true;
-          this.isUserSignUp = false;
-          this.cd.detectChanges();
-          return;
-        }
-        this.isUserUnique = false;
-        this.isUserSignUp = true;
-        this.cd.detectChanges();
-      });
+    // this.login
+    //   .checkUserUnique(this.inputSubject$, this.subjDestroyer$)
+    //   .subscribe((data: AccountResponceModel | any) => {
+    //     console.log(data);
+    //     if (!data.exists) {
+    //       console.log('this user does not exist');
+    //       this.isUserUnique = true;
+    //       this.isUserSignUp = false;
+    //       this.cd.detectChanges();
+    //       return;
+    //     }
+    //     this.isUserUnique = false;
+    //     this.isUserSignUp = true;
+    //     this.cd.detectChanges();
+    //   });
   }
 
   private initLoginForm(): void {
@@ -81,6 +82,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           Validators.minLength(10),
           Validators.maxLength(25),
         ],
+        [CheckUserAtLoginValidator.bind(this.login)],
       ],
       passwordID: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
     });
@@ -100,6 +102,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
             Validators.minLength(10),
             Validators.maxLength(25),
           ],
+          [CheckUserAtRegistrationValidator.bind(this.login)],
         ],
         newPasswordID: [
           null,

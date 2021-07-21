@@ -14,7 +14,7 @@
       && loginForm.controls['loginID'].touched">Login must be higher 10 symbols!</div>
   <div class="error" *ngIf="loginForm.getError('maxlength', 'loginID')
       && loginForm.controls['loginID'].touched">Login must be less 25 symbols!</div>
-  <div class="error" *ngIf="isUserUnique">This user does not exist!</div>
+  <div class="error" *ngIf="loginForm.controls['loginID'].errors?.error">This user does not exist!</div>
 
   <mat-form-field class="form-field">
     <mat-label for="passwordID">Password: </mat-label>
@@ -71,7 +71,9 @@
       && registerForm.controls['repeatPasswordID'].touched">RP field must be higher 6 symbols!</div>
   <div class="error" *ngIf="registerForm.getError('maxlength', 'repeatPasswordID')
       && registerForm.controls['repeatPasswordID'].touched">RP field must be less 15 symbols!</div>
+  <div class="error" *ngIf="registerForm.controls['newLoginID'].errors?.error">This login already exist.
+    Please, use another email to register</div>
 
-  <div class="error" *ngIf="isUserAlreadyExists">This login already exist. Please, use another email to register</div>
+<!--  <div class="error" *ngIf="isUserAlreadyExists">This login already exist. Please, use another email to register</div>-->
   <button mat-raised-button color="primary" type="submit">Sign Up</button>
 </form>

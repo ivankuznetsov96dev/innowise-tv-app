@@ -56,24 +56,29 @@ export class AuthService {
     this.user$.next(null);
   }
 
-  public checkUserUnique(
-    subj: Subject<string>,
-    destroy: Subject<any>,
-  ): Observable<AccountResponceModel | any> {
-    const url = 'https://api.persik.by/v2/auth/check?email=';
-    return subj.pipe(
-      takeUntil(destroy),
-      debounceTime(600),
-      filter((value: string) => value.length > 3),
-      distinctUntilChanged(),
-      switchMap((value: string) =>
-        ajax.getJSON<AccountResponceModel>(url + value).pipe(
-          catchError(() => {
-            return of('Error: getJSON');
-          }),
-          tap(() => console.log(value)),
-        ),
-      ),
-    );
+  public checkUserUnique(email: string): Observable<AccountResponceModel> {
+    const params = new HttpParams().set('email', email);
+    return this.http.get<AccountResponceModel>('https://api.persik.by/v2/auth/check', { params });
   }
+
+  // public checkUserUnique(
+  //   subj: Subject<string>,
+  //   destroy: Subject<any>,
+  // ): Observable<AccountResponceModel | any> {
+  //   const url = 'https://api.persik.by/v2/auth/check?email=';
+  //   return subj.pipe(
+  //     takeUntil(destroy),
+  //     debounceTime(600),
+  //     filter((value: string) => value.length > 3),
+  //     distinctUntilChanged(),
+  //     switchMap((value: string) =>
+  //       ajax.getJSON<AccountResponceModel>(url + value).pipe(
+  //         catchError(() => {
+  //           return of('Error: getJSON');
+  //         }),
+  //         tap(() => console.log(value)),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
