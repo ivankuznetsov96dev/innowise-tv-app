@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { AccountResponceModel } from '../../interfaces/account-responce.model';
 import { AuthService } from '../../services/auth.service';
-// import { ComparePasswordsValidator } from './validators/compare-passwords.validator';
+import { ComparePasswordsValidator } from './validators/compare-passwords.validator';
 import { EmailValidator } from './validators/email.validator';
 
 @Component({
@@ -115,13 +115,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           ],
         ],
       },
-      // {
-      //   validator: ComparePasswordsValidator(
-      //     this.registerForm,
-      //     'newPasswordID',
-      //     'repeatPasswordID',
-      //   ),
-      // },
+      {
+        validator: ComparePasswordsValidator(),
+      },
     );
   }
 

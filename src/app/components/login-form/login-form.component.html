@@ -6,7 +6,7 @@
     <input matInput type="text" id="loginID" formControlName="loginID"
             (ngModelChange)="pushInputText($event)">
   </mat-form-field>
-  <div class="error" *ngIf="loginForm.get('loginID').hasError('EmailValidator')
+  <div class="error" *ngIf="loginForm.controls['loginID'].errors?.invalidEmail
       && loginForm.controls['loginID'].touched">Invalid email pattern!</div>
   <div class="error" *ngIf="loginForm.getError('required', 'loginID')
       && loginForm.controls['loginID'].touched">Login field is not required!</div>
@@ -38,7 +38,7 @@
     <input matInput type="text" id="newLoginID" formControlName="newLoginID"
            (ngModelChange)="pushInputText($event)">
   </mat-form-field>
-  <div class="error" *ngIf="registerForm.getError('pattern', 'newLoginID')
+  <div class="error" *ngIf="registerForm.controls['newLoginID'].errors?.invalidEmail
       && registerForm.controls['newLoginID'].touched">Invalid email pattern!</div>
   <div class="error" *ngIf="registerForm.getError('required', 'newLoginID')
       && registerForm.controls['newLoginID'].touched">Login field is not required!</div>
@@ -65,7 +65,7 @@
   </mat-form-field>
   <div class="error" *ngIf="registerForm.getError('required', 'repeatPasswordID')
       && registerForm.controls['repeatPasswordID'].touched">RP field is not required!</div>
-  <div class="error" *ngIf="registerForm.getError('compare', 'repeatPasswordID')
+  <div class="error" *ngIf="registerForm.errors?.compareError
       && registerForm.controls['repeatPasswordID'].touched">RP field is not compare with password field!</div>
   <div class="error" *ngIf="registerForm.getError('minlength', 'repeatPasswordID')
       && registerForm.controls['repeatPasswordID'].touched">RP field must be higher 6 symbols!</div>
