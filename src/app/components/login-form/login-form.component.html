@@ -3,8 +3,7 @@
 <form [formGroup]="loginForm" class="mat-form" (submit)="onLoginSubmit()" *ngIf="!isAuthFormType">
   <mat-form-field class="form-field">
     <mat-label for="loginID">Login: </mat-label>
-    <input matInput type="text" id="loginID" formControlName="loginID"
-            (ngModelChange)="pushInputText($event)">
+    <input matInput type="text" id="loginID" formControlName="loginID">
   </mat-form-field>
   <div class="error" *ngIf="loginForm.controls['loginID'].errors?.invalidEmail
       && loginForm.controls['loginID'].touched">Invalid email pattern!</div>
@@ -18,8 +17,7 @@
 
   <mat-form-field class="form-field">
     <mat-label for="passwordID">Password: </mat-label>
-    <input matInput type="text" id="passwordID" formControlName="passwordID"
-           (ngModelChange)="pushPasswordInput()">
+    <input matInput type="text" id="passwordID" formControlName="passwordID">
   </mat-form-field>
   <div class="error" *ngIf="loginForm.getError('required', 'passwordID')
       && loginForm.controls['passwordID'].touched">Password field is not required!</div>
@@ -35,9 +33,10 @@
 <form [formGroup]="registerForm" class="mat-form" (submit)="onRegistrationSubmit()" *ngIf="isAuthFormType">
   <mat-form-field class="form-field">
     <mat-label for="newLoginID">New login: </mat-label>
-    <input matInput type="text" id="newLoginID" formControlName="newLoginID"
-           (ngModelChange)="pushInputText($event)">
+    <input matInput type="text" id="newLoginID" formControlName="newLoginID">
   </mat-form-field>
+  <div class="error" *ngIf="registerForm.controls['newLoginID'].errors?.error">This login already exist.
+    Please, use another email to register</div>
   <div class="error" *ngIf="registerForm.controls['newLoginID'].errors?.invalidEmail
       && registerForm.controls['newLoginID'].touched">Invalid email pattern!</div>
   <div class="error" *ngIf="registerForm.getError('required', 'newLoginID')
@@ -46,7 +45,6 @@
       && registerForm.controls['newLoginID'].touched">Login must be higher 10 symbols!</div>
   <div class="error" *ngIf="registerForm.getError('maxlength', 'newLoginID')
       && registerForm.controls['newLoginID'].touched">Login must be less 25 symbols!</div>
-  <div class="error" *ngIf="isUserSignUp">This email is registered. Please, change email!</div>
 
   <mat-form-field class="form-field">
     <mat-label for="passwordID">Password: </mat-label>
@@ -66,14 +64,11 @@
   <div class="error" *ngIf="registerForm.getError('required', 'repeatPasswordID')
       && registerForm.controls['repeatPasswordID'].touched">RP field is not required!</div>
   <div class="error" *ngIf="registerForm.errors?.compareError
-      && registerForm.controls['repeatPasswordID'].touched">RP field is not compare with password field!</div>
+      && registerForm.controls.repeatPasswordID.touched">RP field is not compare with password field!</div>
   <div class="error" *ngIf="registerForm.getError('minlength', 'repeatPasswordID')
       && registerForm.controls['repeatPasswordID'].touched">RP field must be higher 6 symbols!</div>
   <div class="error" *ngIf="registerForm.getError('maxlength', 'repeatPasswordID')
       && registerForm.controls['repeatPasswordID'].touched">RP field must be less 15 symbols!</div>
-  <div class="error" *ngIf="registerForm.controls['newLoginID'].errors?.error">This login already exist.
-    Please, use another email to register</div>
 
-<!--  <div class="error" *ngIf="isUserAlreadyExists">This login already exist. Please, use another email to register</div>-->
   <button mat-raised-button color="primary" type="submit">Sign Up</button>
 </form>

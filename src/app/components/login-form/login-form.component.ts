@@ -1,19 +1,13 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { RxwebValidators } from '@rxweb/reactive-form-validators';
-import { AccountResponceModel } from '../../interfaces/account-responce.model';
 import { AuthService } from '../../services/auth.service';
 import { ComparePasswordsValidator } from './validators/compare-passwords.validator';
 import { EmailValidator } from './validators/email.validator';
-import {CheckUserAtLoginValidator, CheckUserAtRegistrationValidator} from './validators/chack-user.validator';
+import {
+  CheckUserAtLoginValidator,
+  CheckUserAtRegistrationValidator,
+} from './validators/chack-user.validator';
 
 @Component({
   selector: 'app-register-form',
@@ -21,26 +15,16 @@ import {CheckUserAtLoginValidator, CheckUserAtRegistrationValidator} from './val
   styleUrls: ['./login-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginFormComponent implements OnInit, OnDestroy {
+export class LoginFormComponent implements OnInit {
   public loginForm!: FormGroup;
 
   public registerForm!: FormGroup;
-
-  public inputSubject$: Subject<string> = new Subject();
-
-  public subjDestroyer$: Subject<any> = new Subject<any>();
-
-  public isUserUnique = false;
-
-  public isUserSignUp = false;
 
   public isInvalidUserToken = true;
 
   public isAuthFormType = false;
 
   public formType = 'Sign In';
-
-  public isUserAlreadyExists = false;
 
   constructor(
     private fb: FormBuilder,
@@ -52,36 +36,13 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initLoginForm();
     this.initRegistrationForm();
-    // this.login
-    //   .checkUserUnique(this.inputSubject$, this.subjDestroyer$)
-    //   .subscribe((data: AccountResponceModel | any) => {
-    //     console.log(data);
-    //     if (!data.exists) {
-    //       console.log('this user does not exist');
-    //       this.isUserUnique = true;
-    //       this.isUserSignUp = false;
-    //       this.cd.detectChanges();
-    //       return;
-    //     }
-    //     this.isUserUnique = false;
-    //     this.isUserSignUp = true;
-    //     this.cd.detectChanges();
-    //   });
   }
 
   private initLoginForm(): void {
     this.loginForm = this.fb.group({
       loginID: [
         null,
-        [
-          Validators.required,
-          // Validators.pattern(
-          //   '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
-          // ),
-          EmailValidator(),
-          Validators.minLength(10),
-          Validators.maxLength(25),
-        ],
+        [Validators.required, EmailValidator(), Validators.minLength(10), Validators.maxLength(25)],
         [CheckUserAtLoginValidator.bind(this.login)],
       ],
       passwordID: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
@@ -95,9 +56,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           null,
           [
             Validators.required,
-            // Validators.pattern(
-            //   '^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$',
-            // ),
             EmailValidator(),
             Validators.minLength(10),
             Validators.maxLength(25),
@@ -125,7 +83,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   public onLoginSubmit() {
-    if (this.isUserUnique) return;
     const { controls } = this.loginForm;
     if (this.loginForm.invalid) {
       Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
@@ -147,7 +104,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   public onRegistrationSubmit(): void {
-    if (this.isUserSignUp) return;
     const { controls } = this.registerForm;
     if (this.registerForm.invalid) {
       Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
@@ -161,23 +117,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  public pushInputText(event: string): void {
-    this.inputSubject$.next(event);
-    this.isInvalidUserToken = true;
-    this.isUserAlreadyExists = false;
-  }
-
-  public pushPasswordInput(): void {
-    this.isInvalidUserToken = true;
-  }
-
   public changeForm(event: any): void {
     this.isAuthFormType = event.checked;
     this.formType = this.isAuthFormType ? 'Sign Up' : 'Sign In';
     this.cd.detectChanges();
-  }
-
-  ngOnDestroy() {
-    this.subjDestroyer$.next();
   }
 }

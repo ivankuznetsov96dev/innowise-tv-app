@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 export function ComparePasswordsValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: boolean } | null => {
