@@ -82,44 +82,50 @@ export class LoginFormComponent implements OnInit {
     );
   }
 
-  public onLoginSubmit() {
-    const { controls } = this.loginForm;
-    if (this.loginForm.invalid) {
-      Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
-      return;
+  public onLoginSubmit(): void {
+    const isFlag = this.checkFormOnInvalid(this.loginForm);
+    if (isFlag) {
+      this.login
+        .getUserLoginToken(this.loginForm.value.loginID, this.loginForm.value.passwordID)
+        .subscribe((value) => {
+          this.isInvalidUserToken = !!value;
+          if (this.isInvalidUserToken) {
+            localStorage.setItem('auth', JSON.stringify(value));
+            this.dialog.closeAll();
+          }
+          this.cd.detectChanges();
+        });
     }
-    this.login
-      .getUserLoginToken(this.loginForm.value.loginID, this.loginForm.value.passwordID)
-      .subscribe((value) => {
-        if (!value) {
-          this.isInvalidUserToken = value;
-          this.cd.detectChanges();
-        } else {
-          this.isInvalidUserToken = true;
-          this.cd.detectChanges();
-          localStorage.setItem('auth', JSON.stringify(value));
-          this.dialog.closeAll();
-        }
-      });
   }
 
   public onRegistrationSubmit(): void {
-    const { controls } = this.registerForm;
-    if (this.registerForm.invalid) {
-      Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
-      return;
+    const isFlag = this.checkFormOnInvalid(this.registerForm);
+    if (isFlag) {
+      this.login
+        .setNewUserOnBack(this.registerForm.value.newLoginID, this.registerForm.value.newPasswordID)
+        .subscribe((value) => {
+          localStorage.setItem('auth', JSON.stringify(value));
+          this.dialog.closeAll();
+        });
     }
-    this.login
-      .setNewUserOnBack(this.registerForm.value.newLoginID, this.registerForm.value.newPasswordID)
-      .subscribe((value) => {
-        localStorage.setItem('auth', JSON.stringify(value));
-        this.dialog.closeAll();
-      });
+  }
+
+  public checkFormOnInvalid(fg: FormGroup): boolean {
+    const { controls } = fg;
+    if (fg.invalid) {
+      Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
+      return false;
+    }
+    return true;
   }
 
   public changeForm(event: any): void {
     this.isAuthFormType = event.checked;
     this.formType = this.isAuthFormType ? 'Sign Up' : 'Sign In';
     this.cd.detectChanges();
+  }
+
+  public changeIsInvalidUserTokenFlag(): void {
+    this.isInvalidUserToken = true;
   }
 }

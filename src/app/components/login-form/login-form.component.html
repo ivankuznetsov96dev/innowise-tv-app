@@ -17,7 +17,8 @@
 
   <mat-form-field class="form-field">
     <mat-label for="passwordID">Password: </mat-label>
-    <input matInput type="text" id="passwordID" formControlName="passwordID">
+    <input matInput type="text" id="passwordID" formControlName="passwordID"
+           (ngModelChange)="changeIsInvalidUserTokenFlag()">
   </mat-form-field>
   <div class="error" *ngIf="loginForm.getError('required', 'passwordID')
       && loginForm.controls['passwordID'].touched">Password field is not required!</div>

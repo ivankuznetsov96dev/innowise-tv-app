@@ -31,25 +31,24 @@ export class AppComponent implements OnDestroy {
     this.viewportScroller.scrollToPosition([0, 0]);
   }
 
-  public openRegistrModalWindow() {
+  public openRegistrModalWindow(): void {
     if (localStorage.getItem('auth')) {
       this.auth.userLogout();
       this.router.navigate(['channels', 0]);
       this.alertBar.open('Log out', 'Close', { duration: 3000 });
-      return;
+    } else {
+      this.dialogRef = this.dialog.open(LoginFormComponent);
+      this.dialogRef
+        .afterClosed()
+        .pipe(takeUntil(this.destroyerSubj))
+        .subscribe(() => {
+          if (localStorage.getItem('auth'))
+            this.alertBar.open('You are logged in', 'Close', { duration: 3000 });
+        });
     }
-    this.dialogRef = this.dialog.open(LoginFormComponent);
-
-    this.dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.destroyerSubj))
-      .subscribe(() => {
-        if (localStorage.getItem('auth'))
-          this.alertBar.open('You are logged in', 'Close', { duration: 3000 });
-      });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyerSubj.next();
   }
 }

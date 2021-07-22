@@ -47,22 +47,22 @@ export class ChannelCardComponent implements OnInit {
     this.router.navigate(['/channel-info', this.info.channel_id]);
   }
 
-  public changeTvShowsFlag() {
+  public changeTvShowsFlag(): void {
     this.tvShowsFlag = !this.tvShowsFlag;
   }
 
-  public getTodayTvShows() {
+  public getTodayTvShows(): void {
     this.changeTvShowsFlag();
     if (!this.tvShowsFlag) {
       clearInterval(this.interval);
-      return;
-    }
-    const dateFormatted = formatDate(this.date, 'y-MM-dd', 'en-US');
-    this.tvShows$ = this.channel.getTvShows(this.info.channel_id!, dateFormatted, dateFormatted);
-    this.countOnChild = moment();
-    this.interval = setInterval(() => {
+    } else {
+      const dateFormatted = formatDate(this.date, 'y-MM-dd', 'en-US');
+      this.tvShows$ = this.channel.getTvShows(this.info.channel_id!, dateFormatted, dateFormatted);
       this.countOnChild = moment();
-      this.crd.detectChanges();
-    }, 1000);
+      this.interval = setInterval(() => {
+        this.countOnChild = moment();
+        this.crd.detectChanges();
+      }, 1000);
+    }
   }
 }
