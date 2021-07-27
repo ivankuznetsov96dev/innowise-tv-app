@@ -27,7 +27,7 @@ export class ChipsComponent implements OnInit, DoCheck {
     return this.route.snapshot.params.channelsCategoryId == this.category.id;
   }
 
-  ngDoCheck() {
+  ngDoCheck(): void {
     this.colorFlag = this.selectedTag();
   }
 }

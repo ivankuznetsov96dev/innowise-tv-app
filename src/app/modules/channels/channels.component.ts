@@ -35,15 +35,19 @@ export class ChannelsComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+    if (this.router.url === '/channels') {
+      this.router.navigate(['channels', 0]);
+    }
+  }
 
   ngOnInit(): void {
     this.categoriesList$ = this.getDataServ.getChannelsCategories();
-
+    console.log(this.route.snapshot.params);
     this.channelList$ = this.getDataServ.getChannelsData();
     this.getDataServ.getChannelsData().subscribe((value) => {
       this.channelList = value;
-      this.channelSort();
+      this.checkedCategoryAndStartSort();
       this.urlListener();
     });
   }
@@ -51,16 +55,20 @@ export class ChannelsComponent implements OnInit, OnDestroy {
   public urlListener(): void {
     this.route.params.pipe(takeUntil(this.endStream$)).subscribe((value) => {
       this.channelsCategoryId = parseInt(value.channelsCategoryId);
-      this.channelSort();
+      this.checkedCategoryAndStartSort();
     });
   }
 
-  public channelSort(): void {
+  public checkedCategoryAndStartSort(): void {
     if (this.channelsCategoryId === 0) {
       this.filtredChannelList = this.channelList;
       this.cdr.detectChanges();
-      return;
+    } else {
+      this.channelSort();
     }
+  }
+
+  public channelSort(): void {
     this.filtredChannelList = this.channelList.filter((element) =>
       element.genres?.some((id) => this.channelsCategoryId === id),
     );
@@ -72,7 +80,7 @@ export class ChannelsComponent implements OnInit, OnDestroy {
   }
 
   public changeCategory(event: number): void {
-    console.log('Category ID: ', event);
+    // console.log('Category ID: ', event);
     this.router.navigate(['/channels', event]);
   }
 

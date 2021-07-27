@@ -89,7 +89,7 @@ export class ChannelInfoComponent implements OnInit, OnDestroy {
     const count = this.route.snapshot.params.channelId;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     clearInterval(this.interval);
   }
 }
