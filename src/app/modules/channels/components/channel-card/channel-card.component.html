@@ -10,6 +10,9 @@
     <span>{{info.name}}</span>
     <span>{{info.age_rating}}</span>
     <span>Rank: {{info.rank}}</span>
+    <mat-icon
+      *ngIf="isUserLogged"
+      (click)="$event.stopPropagation();">star_border</mat-icon>
   </div>
 
   <div class="channel_tvshows" *ngIf="tvShowsFlag && (tvShows$ | async) as tvShows">

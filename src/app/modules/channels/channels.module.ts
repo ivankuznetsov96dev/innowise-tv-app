@@ -10,6 +10,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 import { ChannelsComponent } from './channels.component';
 import { ChannelCardComponent } from './components/channel-card/channel-card.component';
@@ -31,6 +32,7 @@ import { CardTvshowComponent } from './components/channel-card/components/card-t
     MatProgressSpinnerModule,
     MatButtonModule,
     MatProgressBarModule,
+    MatIconModule,
   ],
   exports: [],
 })

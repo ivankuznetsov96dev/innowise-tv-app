@@ -13,7 +13,8 @@ import { Moment } from 'moment';
 import { ChannelModel } from '../../../../interfaces/channel.model';
 import { TvshowModel } from '../../../../interfaces/tvshow.model';
 import { ChannelService } from '../../../../services/channel.service';
-import {FavoriteChannelService} from "../../../../services/favorite-channel.service";
+import { FavoriteChannelService } from '../../../../services/favorite-channel.service';
+import { PersistenceService } from '../../../../services/persistence.service';
 
 @Component({
   selector: 'app-channel-card',
@@ -34,15 +35,18 @@ export class ChannelCardComponent implements OnInit {
 
   public interval: any;
 
+  public isUserLogged = false;
+
   constructor(
     private router: Router,
     private channel: ChannelService,
     private crd: ChangeDetectorRef,
     private favorite: FavoriteChannelService,
+    private persistence: PersistenceService,
   ) {}
 
   ngOnInit(): void {
-    // console.log(this.info);
+    this.isUserLogged = !!this.persistence.get('auth');
   }
 
   public goToChennel(): void {
