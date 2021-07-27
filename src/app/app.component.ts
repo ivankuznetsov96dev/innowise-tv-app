@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,7 +7,9 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { AuthService } from './services/auth.service';
-import {PersistenceService} from "./services/persistence.service";
+import { PersistenceService } from './services/persistence.service';
+import {Store} from "@ngrx/store";
+import {addFavoriteChannelAction} from "./store/actions/add-favorite-channel.action";
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,7 @@ import {PersistenceService} from "./services/persistence.service";
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   public dialogRef: any;
 
   public destroyerSubj: Subject<any> = new Subject<any>();
@@ -27,7 +29,12 @@ export class AppComponent implements OnDestroy {
     private router: Router,
     private auth: AuthService,
     private persistence: PersistenceService,
+    private store: Store,
   ) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(addFavoriteChannelAction());
+  }
 
   public goToUp(): void {
     this.viewportScroller.scrollToPosition([0, 0]);

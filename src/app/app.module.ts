@@ -19,8 +19,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { ChannelsModule } from './modules/channels/channels.module';
 import { ChannelInfoModule } from './modules/channel-info/channel-info.module';
 import { LoginFormComponent } from './components/login-form/login-form.component';
-import { AuthInterceptor } from './services/auth-interceptoe.service';
+import { AuthInterceptor } from './services/auth-interceptor.service';
 import { environment } from '../environments/environment';
+import {reducers} from "./store/reducers";
 
 @NgModule({
   declarations: [AppComponent, LoginFormComponent],
@@ -41,6 +42,7 @@ import { environment } from '../environments/environment';
     MatSlideToggleModule,
     RxReactiveFormsModule,
     StoreModule.forRoot({}),
+    StoreModule.forFeature('store', reducers),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
