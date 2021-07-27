@@ -13,6 +13,7 @@ import { Moment } from 'moment';
 import { ChannelModel } from '../../../../interfaces/channel.model';
 import { TvshowModel } from '../../../../interfaces/tvshow.model';
 import { ChannelService } from '../../../../services/channel.service';
+import {FavoriteChannelService} from "../../../../services/favorite-channel.service";
 
 @Component({
   selector: 'app-channel-card',
@@ -37,6 +38,7 @@ export class ChannelCardComponent implements OnInit {
     private router: Router,
     private channel: ChannelService,
     private crd: ChangeDetectorRef,
+    private favorite: FavoriteChannelService,
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +54,7 @@ export class ChannelCardComponent implements OnInit {
   }
 
   public getTodayTvShows(): void {
+    this.favorite.deleteFavoriteChannel(this.info.channel_id!);
     this.changeTvShowsFlag();
     if (!this.tvShowsFlag) {
       clearInterval(this.interval);

@@ -1,15 +1,15 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { AuthService } from './services/auth.service';
 import { PersistenceService } from './services/persistence.service';
-import {Store} from "@ngrx/store";
-import {addFavoriteChannelAction} from "./store/actions/add-favorite-channel.action";
+import { addFavoriteChannelAction } from './store/actions/add-favorite-channel.action';
 
 @Component({
   selector: 'app-root',
