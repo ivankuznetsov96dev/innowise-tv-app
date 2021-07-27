@@ -4,13 +4,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { PersistenceService } from './persistence.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuardService {
-  constructor(private auth: AuthService, private router: Router, private alertBar: MatSnackBar) {
-    if (localStorage.getItem('auth')) this.auth.user$.next(localStorage.getItem('auth'));
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private alertBar: MatSnackBar,
+    private persistence: PersistenceService,
+  ) {
+    // if (localStorage.getItem('auth')) this.auth.user$.next(localStorage.getItem('auth'));
+    if (this.persistence.get('auth')) this.auth.user$.next(this.persistence.get('auth'));
   }
 
   public canActivate(): Observable<boolean> {

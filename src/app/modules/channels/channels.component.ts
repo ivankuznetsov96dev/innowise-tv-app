@@ -35,11 +35,15 @@ export class ChannelsComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+    if (this.router.url === '/channels') {
+      this.router.navigate(['channels', 0]);
+    }
+  }
 
   ngOnInit(): void {
     this.categoriesList$ = this.getDataServ.getChannelsCategories();
-
+    console.log(this.route.snapshot.params);
     this.channelList$ = this.getDataServ.getChannelsData();
     this.getDataServ.getChannelsData().subscribe((value) => {
       this.channelList = value;

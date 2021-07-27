@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ChannelsModule } from './modules/channels/channels.module';
 import { ChannelInfoModule } from './modules/channel-info/channel-info.module';
 import { LoginFormComponent } from './components/login-form/login-form.component';
+import { AuthInterceptor } from './services/auth-interceptoe.service';
 
 @NgModule({
   declarations: [AppComponent, LoginFormComponent],
@@ -36,7 +37,13 @@ import { LoginFormComponent } from './components/login-form/login-form.component
     MatSlideToggleModule,
     RxReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

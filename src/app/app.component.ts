@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { AuthService } from './services/auth.service';
+import {PersistenceService} from "./services/persistence.service";
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ export class AppComponent implements OnDestroy {
     private alertBar: MatSnackBar,
     private router: Router,
     private auth: AuthService,
+    private persistence: PersistenceService,
   ) {}
 
   public goToUp(): void {
@@ -32,7 +34,8 @@ export class AppComponent implements OnDestroy {
   }
 
   public openRegistrModalWindow(): void {
-    if (localStorage.getItem('auth')) {
+    // if (localStorage.getItem('auth')) {
+    if (this.persistence.get('auth')) {
       this.auth.userLogout();
       this.router.navigate(['channels', 0]);
       this.alertBar.open('Log out', 'Close', { duration: 3000 });
@@ -42,7 +45,8 @@ export class AppComponent implements OnDestroy {
         .afterClosed()
         .pipe(takeUntil(this.destroyerSubj))
         .subscribe(() => {
-          if (localStorage.getItem('auth'))
+          // if (localStorage.getItem('auth'))
+          if (this.persistence.get('auth'))
             this.alertBar.open('You are logged in', 'Close', { duration: 3000 });
         });
     }

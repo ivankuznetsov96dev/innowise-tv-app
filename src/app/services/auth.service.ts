@@ -4,6 +4,7 @@ import { catchError, switchMap, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AuthTokenModel } from '../interfaces/auth-token.model';
 import { AccountResponceModel } from '../interfaces/account-responce.model';
+import {PersistenceService} from "./persistence.service";
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { AccountResponceModel } from '../interfaces/account-responce.model';
 export class AuthService {
   public user$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private persistence: PersistenceService) {}
 
   public getUserLoginToken(email: string, password: string): Observable<AuthTokenModel | boolean> {
     const params = new HttpParams()
@@ -33,7 +34,8 @@ export class AuthService {
           this.http.get<AuthTokenModel>('https://api.persik.by/v1/account/login', { params }).pipe(
             tap((value) => {
               this.user$.next(value);
-              localStorage.setItem('auth', JSON.stringify(value));
+              // localStorage.setItem('auth', JSON.stringify(value));
+              this.persistence.set('auth', value);
             }),
           ),
         ),
