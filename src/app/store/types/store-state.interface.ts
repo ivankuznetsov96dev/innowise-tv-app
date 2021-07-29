@@ -1,4 +1,7 @@
+import { FavoriteChannelInterface } from '../../interfaces/favorite-channels-list.interface';
+
 export interface StoreStateInterface {
-  favoriteChannels: [];
-  test: boolean;
+  favoriteChannels: FavoriteChannelInterface[];
+  isLoading: boolean;
+  isLoggedIn: boolean;
 }

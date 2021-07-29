@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { AuthService } from './services/auth.service';
 import { PersistenceService } from './services/persistence.service';
-import { addFavoriteChannelAction } from './store/actions/add-favorite-channel.action';
+import { favoriteChannelsListAction } from './store/actions/favorite-channels-list.action';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(addFavoriteChannelAction());
+    this.store.dispatch(favoriteChannelsListAction());
   }
 
   public goToUp(): void {
@@ -46,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.auth.userLogout();
       this.router.navigate(['channels', 0]);
       this.alertBar.open('Log out', 'Close', { duration: 3000 });
+      this.store.dispatch(favoriteChannelsListAction());
     } else {
       this.dialogRef = this.dialog.open(LoginFormComponent);
       this.dialogRef

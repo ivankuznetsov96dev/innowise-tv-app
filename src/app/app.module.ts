@@ -21,7 +21,10 @@ import { ChannelInfoModule } from './modules/channel-info/channel-info.module';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { AuthInterceptor } from './services/auth-interceptor.service';
 import { environment } from '../environments/environment';
-import {reducers} from "./store/reducers";
+import { reducers } from './store/reducers';
+import { FavoriteChannelsListEffect } from './store/effects/favorite-channels-list.effect';
+import { AddFavoriteChannelEffect } from './store/effects/add-favorite-channel.effect';
+import { DeleteFavoriteChannelEffect } from './store/effects/delete-favorite-channel.effect';
 
 @NgModule({
   declarations: [AppComponent, LoginFormComponent],
@@ -43,7 +46,11 @@ import {reducers} from "./store/reducers";
     RxReactiveFormsModule,
     StoreModule.forRoot({}),
     StoreModule.forFeature('store', reducers),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([
+      FavoriteChannelsListEffect,
+      AddFavoriteChannelEffect,
+      DeleteFavoriteChannelEffect,
+    ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode

@@ -10,11 +10,19 @@ import { Observable } from 'rxjs';
 import { formatDate } from '@angular/common';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { select, Store } from '@ngrx/store';
 import { ChannelModel } from '../../../../interfaces/channel.model';
 import { TvshowModel } from '../../../../interfaces/tvshow.model';
 import { ChannelService } from '../../../../services/channel.service';
 import { FavoriteChannelService } from '../../../../services/favorite-channel.service';
 import { PersistenceService } from '../../../../services/persistence.service';
+import {
+  favoriteChannelsListSelector,
+  isLoadingSelector,
+  isLoggedInSelector,
+} from '../../../../store/selectors';
+import {addFavoriteChannelAction} from "../../../../store/actions/add-favorite-channel.action";
+import {deleteFavoriteChannelAction} from "../../../../store/actions/delete-favorite-channel.action";
 
 @Component({
   selector: 'app-channel-card',
@@ -37,16 +45,39 @@ export class ChannelCardComponent implements OnInit {
 
   public isUserLogged = false;
 
+  public isFavoriteChannel!: boolean;
+
+  public isLoggedIn$!: Observable<boolean>;
+
+  public isLoading$!: Observable<boolean>;
+
+  public favoriteChannels$!: Observable<FavoriteChannelService>;
+
   constructor(
     private router: Router,
     private channel: ChannelService,
     private crd: ChangeDetectorRef,
     private favorite: FavoriteChannelService,
     private persistence: PersistenceService,
+    private store: Store,
   ) {}
 
   ngOnInit(): void {
     this.isUserLogged = !!this.persistence.get('auth');
+    this.initializeData();
+  }
+
+  public initializeData(): void {
+    // @ts-ignore
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
+    // @ts-ignore
+    this.isLoading$ = this.store.pipe(select(isLoadingSelector));
+    // // @ts-ignore
+    // this.favoriteChannels$ = this.store.pipe(select(favoriteChannelsListSelector));
+    // @ts-ignore
+    this.store.pipe(select(favoriteChannelsListSelector)).subscribe((value) => {
+      this.isFavoriteChannel = value.some((next) => next.channel_id === this.info.channel_id);
+    });
   }
 
   public goToChennel(): void {
@@ -57,8 +88,15 @@ export class ChannelCardComponent implements OnInit {
     this.tvShowsFlag = !this.tvShowsFlag;
   }
 
+  public pressFavoriteBtn(): void {
+    if (this.isFavoriteChannel) {
+      this.store.dispatch(deleteFavoriteChannelAction({ channel_id: this.info.channel_id! }));
+    } else {
+      this.store.dispatch(addFavoriteChannelAction({ channel_id: this.info.channel_id! }));
+    }
+  }
+
   public getTodayTvShows(): void {
-    this.favorite.deleteFavoriteChannel(this.info.channel_id!);
     this.changeTvShowsFlag();
     if (!this.tvShowsFlag) {
       clearInterval(this.interval);

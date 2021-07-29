@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { AuthService } from '../../services/auth.service';
 import { ComparePasswordsValidator } from './validators/compare-passwords.validator';
 import { EmailValidator } from './validators/email.validator';
@@ -8,6 +9,7 @@ import {
   CheckUserAtLoginValidator,
   CheckUserAtRegistrationValidator,
 } from './validators/chack-user.validator';
+import { favoriteChannelsListAction } from '../../store/actions/favorite-channels-list.action';
 
 @Component({
   selector: 'app-register-form',
@@ -31,6 +33,7 @@ export class LoginFormComponent implements OnInit {
     private dialog: MatDialog,
     private cd: ChangeDetectorRef,
     private login: AuthService,
+    private store: Store,
   ) {}
 
   ngOnInit(): void {
@@ -91,6 +94,7 @@ export class LoginFormComponent implements OnInit {
           this.isInvalidUserToken = !!value;
           if (this.isInvalidUserToken) {
             localStorage.setItem('auth', JSON.stringify(value));
+            this.getFavoriteChannelsInfo();
             this.dialog.closeAll();
           }
           this.cd.detectChanges();
@@ -105,9 +109,14 @@ export class LoginFormComponent implements OnInit {
         .setNewUserOnBack(this.registerForm.value.newLoginID, this.registerForm.value.newPasswordID)
         .subscribe((value) => {
           localStorage.setItem('auth', JSON.stringify(value));
+          this.getFavoriteChannelsInfo();
           this.dialog.closeAll();
         });
     }
+  }
+
+  public getFavoriteChannelsInfo(): void {
+    this.store.dispatch(favoriteChannelsListAction());
   }
 
   public checkFormOnInvalid(fg: FormGroup): boolean {
