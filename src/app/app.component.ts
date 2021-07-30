@@ -4,12 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { LoginFormComponent } from './components/login-form/login-form.component';
-import { AuthService } from './services/auth.service';
-import { PersistenceService } from './services/persistence.service';
+import {Observable, Subject} from 'rxjs';
+import {select, Store} from '@ngrx/store';
+import { LoginFormComponent } from './shared/components/login-form/login-form.component';
+import { AuthService } from './shared/services/auth.service';
+import { PersistenceService } from './shared/services/persistence.service';
 import { favoriteChannelsListAction } from './store/actions/favorite-channels-list.action';
+import {isLoggedInSelector} from "./store/selectors";
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public dialogRef: any;
 
   public destroyerSubj: Subject<any> = new Subject<any>();
+
+  public isLoggedIn$!: Observable<boolean>;
 
   constructor(
     private viewportScroller: ViewportScroller,
@@ -34,6 +37,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(favoriteChannelsListAction());
+    // @ts-ignore
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
   }
 
   public goToUp(): void {

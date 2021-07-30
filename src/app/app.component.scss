@@ -15,6 +15,21 @@ header {
   .logo {
     font-size: xxx-large;
   }
+
+  nav {
+    width: 150px;
+    @include flexMixin;
+    @include fontMediumBold;
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    a:hover {
+      border-bottom: #3847A0 solid 1px ;
+    }
+  }
 }
 
 .anchor {

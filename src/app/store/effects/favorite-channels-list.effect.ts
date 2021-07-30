@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { FavoriteChannelService } from '../../services/favorite-channel.service';
+import { FavoriteChannelService } from '../../shared/services/favorite-channel.service';
 import {
   favoriteChannelsListAction,
   favoriteChannelsListFailureAction,
   favoriteChannelsListSuccessAction,
 } from '../actions/favorite-channels-list.action';
-import { FavoriteChannelsListInterface } from '../../interfaces/favorite-channels-list.interface';
-import { PersistenceService } from '../../services/persistence.service';
+import { FavoriteChannelsListInterface } from '../../shared/interfaces/favorite-channels-list.interface';
+import { PersistenceService } from '../../shared/services/persistence.service';
 
 @Injectable()
 export class FavoriteChannelsListEffect {

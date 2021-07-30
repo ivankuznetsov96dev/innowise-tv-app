@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { FavoriteChannelService } from '../../services/favorite-channel.service';
+import { FavoriteChannelService } from '../../shared/services/favorite-channel.service';
 import {
   addFavoriteChannelAction,
   addFavoriteChannelFailureAction,

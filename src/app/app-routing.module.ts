@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ChannelsComponent } from './modules/channels/channels.component';
 import { ChannelInfoComponent } from './modules/channel-info/channel-info.component';
-import { AuthGuardService } from './services/auth.guard.service';
+import { AuthGuardService } from './shared/services/auth.guard.service';
+import {FavoriteComponent} from "./modules/favorite/favorite.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'channels', pathMatch: 'full' },
@@ -11,6 +12,11 @@ const routes: Routes = [
   {
     path: 'channel-info/:channelId',
     component: ChannelInfoComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'favorite',
+    component: FavoriteComponent,
     canActivate: [AuthGuardService],
   },
   // {

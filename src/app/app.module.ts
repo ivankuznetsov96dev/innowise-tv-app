@@ -18,13 +18,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ChannelsModule } from './modules/channels/channels.module';
 import { ChannelInfoModule } from './modules/channel-info/channel-info.module';
-import { LoginFormComponent } from './components/login-form/login-form.component';
-import { AuthInterceptor } from './services/auth-interceptor.service';
+import { LoginFormComponent } from './shared/components/login-form/login-form.component';
+import { AuthInterceptor } from './shared/services/auth-interceptor.service';
 import { environment } from '../environments/environment';
 import { reducers } from './store/reducers';
 import { FavoriteChannelsListEffect } from './store/effects/favorite-channels-list.effect';
 import { AddFavoriteChannelEffect } from './store/effects/add-favorite-channel.effect';
 import { DeleteFavoriteChannelEffect } from './store/effects/delete-favorite-channel.effect';
+import {FavoriteModule} from "./modules/favorite/favorite.module";
 
 @NgModule({
   declarations: [AppComponent, LoginFormComponent],
@@ -32,6 +33,7 @@ import { DeleteFavoriteChannelEffect } from './store/effects/delete-favorite-cha
     BrowserModule,
     AppRoutingModule,
     ChannelsModule,
+    FavoriteModule,
     ChannelInfoModule,
     HttpClientModule,
     BrowserAnimationsModule,

@@ -8,8 +8,8 @@ import {
 import { Observable, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { ChannelService } from '../../services/channel.service';
-import { ChannelModel } from '../../interfaces/channel.model';
+import { ChannelService } from '../../shared/services/channel.service';
+import { ChannelModel } from '../../shared/interfaces/channel.model';
 
 @Component({
   selector: 'app-chanells',

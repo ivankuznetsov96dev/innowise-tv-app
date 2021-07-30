@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ActionTypes } from '../action-types';
-import { FavoriteChannelsListInterface } from '../../interfaces/favorite-channels-list.interface';
+import { FavoriteChannelsListInterface } from '../../shared/interfaces/favorite-channels-list.interface';
 
 export const favoriteChannelsListAction = createAction(ActionTypes.FAVORITE_LIST);
 export const favoriteChannelsListSuccessAction = createAction(

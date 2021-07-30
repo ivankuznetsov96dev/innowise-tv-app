@@ -9,7 +9,7 @@ import {
   CheckUserAtLoginValidator,
   CheckUserAtRegistrationValidator,
 } from './validators/chack-user.validator';
-import { favoriteChannelsListAction } from '../../store/actions/favorite-channels-list.action';
+import { favoriteChannelsListAction } from '../../../store/actions/favorite-channels-list.action';
 
 @Component({
   selector: 'app-register-form',
