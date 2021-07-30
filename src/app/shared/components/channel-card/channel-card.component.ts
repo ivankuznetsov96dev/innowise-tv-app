@@ -11,18 +11,18 @@ import { formatDate } from '@angular/common';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { select, Store } from '@ngrx/store';
-import { ChannelModel } from '../../../../shared/interfaces/channel.model';
-import { TvshowModel } from '../../../../shared/interfaces/tvshow.model';
-import { ChannelService } from '../../../../shared/services/channel.service';
-import { FavoriteChannelService } from '../../../../shared/services/favorite-channel.service';
-import { PersistenceService } from '../../../../shared/services/persistence.service';
+import { ChannelModel } from '../../interfaces/channel.model';
+import { TvshowModel } from '../../interfaces/tvshow.model';
+import { ChannelService } from '../../services/channel.service';
+import { FavoriteChannelService } from '../../services/favorite-channel.service';
+import { PersistenceService } from '../../services/persistence.service';
 import {
   favoriteChannelsListSelector,
   isLoadingSelector,
   isLoggedInSelector,
-} from '../../../../store/selectors';
-import { addFavoriteChannelAction } from '../../../../store/actions/add-favorite-channel.action';
-import { deleteFavoriteChannelAction } from '../../../../store/actions/delete-favorite-channel.action';
+} from '../../../store/selectors';
+import { addFavoriteChannelAction } from '../../../store/actions/add-favorite-channel.action';
+import { deleteFavoriteChannelAction } from '../../../store/actions/delete-favorite-channel.action';
 
 @Component({
   selector: 'app-channel-card',

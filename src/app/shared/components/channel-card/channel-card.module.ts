@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,13 +11,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
-
-import { ChannelsComponent } from './channels.component';
-import { ChipsComponent } from './components/chips/chips.component';
-import { ChannelCardModule } from '../../shared/components/channel-card/channel-card.module';
+import { CardTvshowComponent } from './components/card-tvshow/card-tvshow.component';
+import { ChannelCardComponent } from './channel-card.component';
 
 @NgModule({
-  declarations: [ChannelsComponent, ChipsComponent],
+  declarations: [ChannelCardComponent, CardTvshowComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -32,8 +30,7 @@ import { ChannelCardModule } from '../../shared/components/channel-card/channel-
     MatButtonModule,
     MatProgressBarModule,
     MatIconModule,
-    ChannelCardModule,
   ],
-  exports: [],
+  exports: [ChannelCardComponent, CardTvshowComponent],
 })
-export class ChannelsModule {}
+export class ChannelCardModule {}
