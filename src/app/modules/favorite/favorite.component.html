@@ -1,11 +1,11 @@
 <div class="wrapper">
   <div class="channels">
     <h1>Favorite</h1>
-<!--    <mat-spinner *ngIf="!filtredChannelList && filtredChannelList !== null"></mat-spinner>-->
-<!--    <div *ngIf="filtredChannelList === null">Channels not found. Please, change channel category</div>-->
+    <mat-spinner *ngIf="(channelList$ | async) === null"></mat-spinner>
+    <div *ngIf="!(channelList$ | async)?.length && (channelList$ | async) !== null">Favorite channels list is empty</div>
 
-<!--    <div *ngFor="let channel of filtredChannelList" >-->
-<!--      <app-channel-card [info]="channel"></app-channel-card>-->
-<!--    </div>-->
+    <div *ngFor="let channel of (channelList$ | async)" >
+      <app-channel-card [info]="channel"></app-channel-card>
+    </div>
   </div>
 </div>

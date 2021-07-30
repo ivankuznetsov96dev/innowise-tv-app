@@ -18,7 +18,6 @@ export class FavoriteChannelsListEffect {
       ofType(favoriteChannelsListAction),
       switchMap(() => {
         const token = this.persistence.get('auth');
-        console.log(token);
         if (!token) {
           return of(favoriteChannelsListFailureAction());
         }
