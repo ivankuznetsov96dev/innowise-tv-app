@@ -2,9 +2,7 @@ import { createFeatureSelector, createSelector, Store } from '@ngrx/store';
 import { AppStateInterface } from './types/app-state.inteface';
 import { StoreStateInterface } from './types/store-state.interface';
 
-export const storeFeatureSelector = createFeatureSelector<AppStateInterface, StoreStateInterface>(
-  'store',
-);
+export const storeFeatureSelector = createFeatureSelector<StoreStateInterface>('store');
 
 export const isLoggedInSelector = createSelector(
   storeFeatureSelector,

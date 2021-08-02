@@ -37,7 +37,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(favoriteChannelsListAction());
-    // @ts-ignore
     this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
   }
 

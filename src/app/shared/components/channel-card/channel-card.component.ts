@@ -68,13 +68,8 @@ export class ChannelCardComponent implements OnInit {
   }
 
   public initializeData(): void {
-    // @ts-ignore
     this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
-    // @ts-ignore
     this.isLoading$ = this.store.pipe(select(isLoadingSelector));
-    // // @ts-ignore
-    // this.favoriteChannels$ = this.store.pipe(select(favoriteChannelsListSelector));
-    // @ts-ignore
     this.store.pipe(select(favoriteChannelsListSelector)).subscribe((value) => {
       this.isFavoriteChannel = value.some((next) => next.channel_id === this.info.channel_id);
     });
