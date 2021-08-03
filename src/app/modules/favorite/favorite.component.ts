@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { FavoriteChannelService } from '../../shared/services/favorite-channel.service';
 import { ChannelModel } from '../../shared/interfaces/channel.model';
-import { ChannelService } from '../../shared/services/channel.service';
 
 @Component({
   selector: 'app-favorite',
@@ -12,7 +10,6 @@ import { ChannelService } from '../../shared/services/channel.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FavoriteComponent implements OnInit {
-
   public channelList!: ChannelModel[];
 
   public isDataLoading = true;
