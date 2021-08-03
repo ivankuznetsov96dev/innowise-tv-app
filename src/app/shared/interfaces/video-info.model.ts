@@ -37,6 +37,20 @@ export interface VideoInfoModel {
   cast: number[];
   duration: number;
   is_series: boolean;
-  in_products: any[];
+  in_products: {
+    product_id: number;
+    product_options: {
+      option_id: string;
+      cost: string;
+      currency: string;
+      term: string;
+    }[];
+  }[];
   is_pladform: boolean;
+  episodes?: {
+    type: string;
+    video_id: number;
+    season: string;
+    episode: string;
+  }[];
 }
