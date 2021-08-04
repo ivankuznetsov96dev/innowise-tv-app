@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { ChannelService } from '../../shared/services/channel.service';
 import { ChannelModel } from '../../shared/interfaces/channel.model';
+import {CategoriesModel} from "../../shared/interfaces/categories.model";
 
 @Component({
   selector: 'app-chanells',
@@ -26,7 +27,8 @@ export class ChannelsComponent implements OnInit, OnDestroy {
 
   public filtredChannelList!: ChannelModel[] | null;
 
-  public categoriesList$!: Observable<ChannelModel[]>;
+  // public categoriesList$!: Observable<ChannelModel[]>;
+  public categoriesList$!: Observable<CategoriesModel[]>;
 
   private endStream$: Subject<void> = new Subject<void>();
 
