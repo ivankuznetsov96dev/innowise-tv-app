@@ -14,4 +14,6 @@ export enum ActionTypes {
   CHANNEL_LIST = '[Channels] Get channels list',
   CHANNEL_LIST_SUCCESS = '[Channels] Get channels list success',
   CHANNEL_LIST_FAILURE = '[Channels] Get channels list failure',
+
+  CHANGE_CHANNEL_CATEGORY = '[Channels/chips] Change channel category',
 }

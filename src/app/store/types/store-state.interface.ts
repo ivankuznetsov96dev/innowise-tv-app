@@ -5,5 +5,8 @@ export interface StoreStateInterface {
   favoriteChannels: FavoriteChannelInterface[];
   channels: ChannelModel[];
   isLoading: boolean;
+  isChannelsLoading: boolean;
   isLoggedIn: boolean;
+  category_id: number;
+  isFavoriteLoading: boolean;
 }

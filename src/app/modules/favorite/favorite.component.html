@@ -1,9 +1,12 @@
 <div class="wrapper">
   <div class="channels">
     <h1>Favorite</h1>
-    <mat-spinner *ngIf="isDataLoading"></mat-spinner>
-    <div *ngIf="isDataEmpty">Favorite channels list is empty</div>
-    <div *ngFor="let channel of channelList" >
+    <mat-spinner *ngIf="(isChannelsLoading$ | async)"></mat-spinner>
+    <div *ngIf="!(channelList$ | async)?.length
+    && (isFavoriteLoading$ | async) === false
+    && (isChannelsLoading$ | async) === false">
+      Favorite channels list is empty</div>
+    <div *ngFor="let channel of (channelList$ | async)" >
       <app-channel-card [info]="channel"></app-channel-card>
     </div>
   </div>

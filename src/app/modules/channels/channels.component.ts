@@ -1,17 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { ChannelService } from '../../shared/services/channel.service';
 import { ChannelModel } from '../../shared/interfaces/channel.model';
 import { CategoriesModel } from '../../shared/interfaces/categories.model';
+import { changeChannelCategoryAction } from '../../store/actions/change-channel-category.action';
+import { filteredChannelsList, isChannelsLoadingSelector } from '../../store/selectors';
 
 @Component({
   selector: 'app-chanells',
@@ -19,19 +14,12 @@ import { CategoriesModel } from '../../shared/interfaces/categories.model';
   styleUrls: ['./channels.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChannelsComponent implements OnInit, OnDestroy {
-  public channelList$!: Observable<ChannelModel[]>;
-
-  public channelList!: ChannelModel[];
-
-  public channelsCategoryId!: number;
-
-  public filtredChannelList!: ChannelModel[] | null;
-
-  // public categoriesList$!: Observable<ChannelModel[]>;
+export class ChannelsComponent implements OnInit {
   public categoriesList$!: Observable<CategoriesModel[]>;
 
-  private endStream$: Subject<void> = new Subject<void>();
+  public isChannelsLoading$!: Observable<boolean>;
+
+  public filteredChannelList$!: Observable<ChannelModel[]>;
 
   constructor(
     private getDataServ: ChannelService,
@@ -46,48 +34,16 @@ export class ChannelsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.categoriesList$ = this.getDataServ.getChannelsCategories();
-    // console.log(this.route.snapshot.params);
-    this.getDataServ.getChannelsData().subscribe((value) => {
-      this.channelList = value;
-      this.checkedCategoryAndStartSort();
-      this.urlListener();
-    });
-  }
-
-  public urlListener(): void {
-    this.route.params.pipe(takeUntil(this.endStream$)).subscribe((value) => {
-      this.channelsCategoryId = parseInt(value.channelsCategoryId);
-      this.checkedCategoryAndStartSort();
-    });
-  }
-
-  public checkedCategoryAndStartSort(): void {
-    if (this.channelsCategoryId === 0) {
-      this.filtredChannelList = this.channelList;
-      this.cdr.detectChanges();
-    } else {
-      this.channelSort();
-    }
-  }
-
-  public channelSort(): void {
-    this.filtredChannelList = this.channelList.filter((element) =>
-      element.genres?.some((id) => this.channelsCategoryId === id),
+    this.store.dispatch(
+      changeChannelCategoryAction({ id: parseInt(this.route.snapshot.params.channelsCategoryId) }),
     );
-
-    if (this.filtredChannelList.length === 0) {
-      this.filtredChannelList = null;
-    }
-    this.cdr.detectChanges();
+    this.filteredChannelList$ = this.store.pipe(select(filteredChannelsList));
+    this.isChannelsLoading$ = this.store.pipe(select(isChannelsLoadingSelector));
+    this.categoriesList$ = this.getDataServ.getChannelsCategories();
   }
 
   public changeCategory(event: number): void {
-    // console.log('Category ID: ', event);
+    this.store.dispatch(changeChannelCategoryAction({ id: event }));
     this.router.navigate(['/channels', event]);
-  }
-
-  ngOnDestroy(): void {
-    this.endStream$.next();
   }
 }

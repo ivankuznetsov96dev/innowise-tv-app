@@ -20,12 +20,16 @@ import {
   channelsListActionFailure,
   channelsListActionSuccess,
 } from './actions/channels-list.action';
+import { changeChannelCategoryAction } from './actions/change-channel-category.action';
 
 const initialState: StoreStateInterface = {
   favoriteChannels: [],
   channels: [],
   isLoading: false,
+  isChannelsLoading: false,
   isLoggedIn: false,
+  category_id: 0,
+  isFavoriteLoading: false,
 };
 
 const favoriteReducer = createReducer(
@@ -83,6 +87,7 @@ const favoriteReducer = createReducer(
     (state): StoreStateInterface => ({
       ...state,
       isLoading: true,
+      isFavoriteLoading: true,
     }),
   ),
   on(
@@ -92,6 +97,7 @@ const favoriteReducer = createReducer(
       isLoading: false,
       isLoggedIn: true,
       favoriteChannels: action.channels,
+      isFavoriteLoading: false,
     }),
   ),
   on(
@@ -101,6 +107,7 @@ const favoriteReducer = createReducer(
       isLoading: false,
       isLoggedIn: false,
       favoriteChannels: [],
+      isFavoriteLoading: false,
     }),
   ),
   on(
@@ -108,6 +115,7 @@ const favoriteReducer = createReducer(
     (state): StoreStateInterface => ({
       ...state,
       isLoading: true,
+      isChannelsLoading: true,
     }),
   ),
   on(
@@ -116,6 +124,7 @@ const favoriteReducer = createReducer(
       ...state,
       isLoading: false,
       channels: action.channels,
+      isChannelsLoading: false,
     }),
   ),
   on(
@@ -124,6 +133,14 @@ const favoriteReducer = createReducer(
       ...state,
       isLoading: false,
       channels: [],
+      isChannelsLoading: false,
+    }),
+  ),
+  on(
+    changeChannelCategoryAction,
+    (state, action): StoreStateInterface => ({
+      ...state,
+      category_id: action.id,
     }),
   ),
 );

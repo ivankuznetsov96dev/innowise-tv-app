@@ -3,7 +3,12 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { FavoriteChannelService } from '../../shared/services/favorite-channel.service';
 import { ChannelModel } from '../../shared/interfaces/channel.model';
-import { filteredFavoriteChannelsList, isLoadingSelector } from '../../store/selectors';
+import {
+  filteredFavoriteChannelsList,
+  isChannelsLoadingSelector,
+  isFavoriteLoadingSelector,
+  isLoadingSelector,
+} from '../../store/selectors';
 
 @Component({
   selector: 'app-favorite',
@@ -14,22 +19,17 @@ import { filteredFavoriteChannelsList, isLoadingSelector } from '../../store/sel
 export class FavoriteComponent implements OnInit {
   public channelList!: ChannelModel[];
 
-  public isDataLoading = true;
+  public isFavoriteLoading$!: Observable<boolean>;
 
-  public isDataEmpty = false;
+  public isChannelsLoading$!: Observable<boolean>;
 
-  constructor(
-    private store: Store,
-    private favorite: FavoriteChannelService,
-    private cd: ChangeDetectorRef,
-  ) {}
+  public channelList$!: Observable<ChannelModel[]>;
+
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.pipe(select(filteredFavoriteChannelsList)).subscribe((value) => {
-      this.isDataEmpty = !value.length;
-      this.isDataLoading = !value.length;
-      this.channelList = value;
-      this.cd.detectChanges();
-    });
+    this.isFavoriteLoading$ = this.store.pipe(select(isFavoriteLoadingSelector));
+    this.isChannelsLoading$ = this.store.pipe(select(isChannelsLoadingSelector));
+    this.channelList$ = this.store.pipe(select(filteredFavoriteChannelsList));
   }
 }
