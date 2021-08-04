@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { FavoriteChannelService } from '../../shared/services/favorite-channel.service';
 import { ChannelModel } from '../../shared/interfaces/channel.model';
+import { filteredFavoriteChannelsList, isLoadingSelector } from '../../store/selectors';
 
 @Component({
   selector: 'app-favorite',
@@ -23,10 +25,10 @@ export class FavoriteComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.favorite.getFilteredFavoriteChannelsCard().subscribe((value) => {
-      this.channelList = value;
-      this.isDataLoading = false;
+    this.store.pipe(select(filteredFavoriteChannelsList)).subscribe((value) => {
       this.isDataEmpty = !value.length;
+      this.isDataLoading = !value.length;
+      this.channelList = value;
       this.cd.detectChanges();
     });
   }

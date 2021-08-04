@@ -28,18 +28,4 @@ export class FavoriteChannelService {
     const url = `https://api.persik.by/v2/favorite/channels`;
     return this.http.get<FavoriteChannelsListInterface>(url);
   }
-
-  public getFilteredFavoriteChannelsCard(): Observable<ChannelModel[]> {
-    return this.getFavoriteChannels().pipe(
-      switchMap((data) =>
-        this.channel
-          .getChannelsData()
-          .pipe(
-            map((val) =>
-              val.filter((el) => data.channels.some((id) => id.channel_id === el.channel_id)),
-            ),
-          ),
-      ),
-    );
-  }
 }

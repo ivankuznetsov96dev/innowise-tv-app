@@ -26,6 +26,7 @@ import { FavoriteChannelsListEffect } from './store/effects/favorite-channels-li
 import { AddFavoriteChannelEffect } from './store/effects/add-favorite-channel.effect';
 import { DeleteFavoriteChannelEffect } from './store/effects/delete-favorite-channel.effect';
 import {FavoriteModule} from "./modules/favorite/favorite.module";
+import {ChannelListEffect} from "./store/effects/channel-list.effect";
 
 @NgModule({
   declarations: [AppComponent, LoginFormComponent],
@@ -52,6 +53,7 @@ import {FavoriteModule} from "./modules/favorite/favorite.module";
       FavoriteChannelsListEffect,
       AddFavoriteChannelEffect,
       DeleteFavoriteChannelEffect,
+      ChannelListEffect,
     ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states

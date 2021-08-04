@@ -11,6 +11,7 @@ import { AuthService } from './shared/services/auth.service';
 import { PersistenceService } from './shared/services/persistence.service';
 import { favoriteChannelsListAction } from './store/actions/favorite-channels-list.action';
 import {isLoggedInSelector} from "./store/selectors";
+import {channelsListAction} from "./store/actions/channels-list.action";
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(channelsListAction());
     this.store.dispatch(favoriteChannelsListAction());
     this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
   }

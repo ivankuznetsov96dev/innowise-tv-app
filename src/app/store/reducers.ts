@@ -15,9 +15,15 @@ import {
   deleteFavoriteChannelFailureAction,
   deleteFavoriteChannelSuccessAction,
 } from './actions/delete-favorite-channel.action';
+import {
+  channelsListAction,
+  channelsListActionFailure,
+  channelsListActionSuccess,
+} from './actions/channels-list.action';
 
 const initialState: StoreStateInterface = {
   favoriteChannels: [],
+  channels: [],
   isLoading: false,
   isLoggedIn: false,
 };
@@ -95,6 +101,29 @@ const favoriteReducer = createReducer(
       isLoading: false,
       isLoggedIn: false,
       favoriteChannels: [],
+    }),
+  ),
+  on(
+    channelsListAction,
+    (state): StoreStateInterface => ({
+      ...state,
+      isLoading: true,
+    }),
+  ),
+  on(
+    channelsListActionSuccess,
+    (state, action): StoreStateInterface => ({
+      ...state,
+      isLoading: false,
+      channels: action.channels,
+    }),
+  ),
+  on(
+    channelsListActionFailure,
+    (state): StoreStateInterface => ({
+      ...state,
+      isLoading: false,
+      channels: [],
     }),
   ),
 );

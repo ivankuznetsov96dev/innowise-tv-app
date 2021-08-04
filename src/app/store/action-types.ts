@@ -10,4 +10,8 @@ export enum ActionTypes {
   FAVORITE_LIST = '[Channels] Add favorite channels list',
   FAVORITE_LIST_SUCCESS = '[Channels] Add favorite channels list success',
   FAVORITE_LIST_FAILURE = '[Channels] Add favorite channels list failure',
+
+  CHANNEL_LIST = '[Channels] Get channels list',
+  CHANNEL_LIST_SUCCESS = '[Channels] Get channels list success',
+  CHANNEL_LIST_FAILURE = '[Channels] Get channels list failure',
 }
