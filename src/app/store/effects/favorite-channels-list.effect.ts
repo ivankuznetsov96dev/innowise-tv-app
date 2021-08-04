@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { FavoriteChannelService } from '../../shared/services/favorite-channel.service';
 import {
   favoriteChannelsListAction,
@@ -25,7 +27,16 @@ export class FavoriteChannelsListEffect {
           map((data: FavoriteChannelsListInterface) => {
             return favoriteChannelsListSuccessAction(data);
           }),
-          catchError(() => of(favoriteChannelsListFailureAction())),
+          catchError((err) => {
+            if (err.status === 401) {
+              localStorage.removeItem('auth');
+              this.router.navigate(['channels', 0]);
+              this.alertBar.open('Authorization error. Please, auth your account', 'Close', {
+                duration: 3000,
+              });
+            }
+            return of(favoriteChannelsListFailureAction());
+          }),
         );
       }),
     ),
@@ -35,5 +46,7 @@ export class FavoriteChannelsListEffect {
     private favoriteService: FavoriteChannelService,
     private action$: Actions,
     private persistence: PersistenceService,
+    private router: Router,
+    private alertBar: MatSnackBar,
   ) {}
 }
