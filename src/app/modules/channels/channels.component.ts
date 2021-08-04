@@ -8,9 +8,10 @@ import {
 import { Observable, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 import { ChannelService } from '../../shared/services/channel.service';
 import { ChannelModel } from '../../shared/interfaces/channel.model';
-import {CategoriesModel} from "../../shared/interfaces/categories.model";
+import { CategoriesModel } from '../../shared/interfaces/categories.model';
 
 @Component({
   selector: 'app-chanells',
@@ -37,6 +38,7 @@ export class ChannelsComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
+    private store: Store,
   ) {
     if (this.router.url === '/channels') {
       this.router.navigate(['channels', 0]);
@@ -45,8 +47,7 @@ export class ChannelsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.categoriesList$ = this.getDataServ.getChannelsCategories();
-    console.log(this.route.snapshot.params);
-    this.channelList$ = this.getDataServ.getChannelsData();
+    // console.log(this.route.snapshot.params);
     this.getDataServ.getChannelsData().subscribe((value) => {
       this.channelList = value;
       this.checkedCategoryAndStartSort();
