@@ -3,8 +3,8 @@
     <h1>Favorite</h1>
     <mat-spinner *ngIf="(isChannelsLoading$ | async)"></mat-spinner>
     <div *ngIf="!(channelList$ | async)?.length
-    && (isFavoriteLoading$ | async) === false
-    && (isChannelsLoading$ | async) === false">
+    && !(isFavoriteLoading$ | async)
+    && !(isChannelsLoading$ | async)">
       Favorite channels list is empty</div>
     <div *ngFor="let channel of (channelList$ | async)" >
       <app-channel-card [info]="channel"></app-channel-card>

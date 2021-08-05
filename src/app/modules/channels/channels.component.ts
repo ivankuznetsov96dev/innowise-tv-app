@@ -25,7 +25,7 @@ export class ChannelsComponent implements OnInit {
     private getDataServ: ChannelService,
     private router: Router,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
+    private changeDetector: ChangeDetectorRef,
     private store: Store,
   ) {
     if (this.router.url === '/channels') {

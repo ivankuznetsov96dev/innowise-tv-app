@@ -16,21 +16,9 @@ export interface VideoInfoModel {
   genres: number[];
   countries: string[];
   ratings: {
-    imdb: {
-      system_uid: number | null;
-      count: number | null;
-      value: number | null;
-    };
-    kinopoisk: {
-      system_uid: number | null;
-      count: number | null;
-      value: number | null;
-    };
-    local: {
-      system_uid: number | null;
-      count: number | null;
-      value: number | null;
-    };
+    imdb: Rating;
+    kinopoisk: Rating;
+    local: Rating;
   };
   age_rating: string | null;
   director: number[];
@@ -53,4 +41,10 @@ export interface VideoInfoModel {
     season: string;
     episode: string;
   }[];
+}
+
+interface Rating {
+  system_uid: number | null;
+  count: number | null;
+  value: number | null;
 }

@@ -11,7 +11,7 @@
     </mat-chip-list>
 
         <mat-spinner *ngIf="isChannelsLoading$ | async"></mat-spinner>
-        <div *ngIf="!(filteredChannelList$ | async)?.length && (isChannelsLoading$ | async) === false">
+        <div *ngIf="!(filteredChannelList$ | async)?.length && !(isChannelsLoading$ | async)">
           Channels not found. Please, change channel category</div>
 
     <div *ngFor="let channel of (filteredChannelList$ | async)" >

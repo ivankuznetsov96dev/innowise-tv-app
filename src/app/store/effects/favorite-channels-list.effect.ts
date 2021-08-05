@@ -28,19 +28,21 @@ export class FavoriteChannelsListEffect {
             return favoriteChannelsListSuccessAction(data);
           }),
           catchError((err) => {
-            if (err.status === 401) {
-              localStorage.removeItem('auth');
-              this.router.navigate(['channels', 0]);
-              this.alertBar.open('Authorization error. Please, auth your account', 'Close', {
-                duration: 3000,
-              });
-            }
+            if (err.status === 401) this.handlingError();
             return of(favoriteChannelsListFailureAction());
           }),
         );
       }),
     ),
   );
+
+  private handlingError(): void {
+    localStorage.removeItem('auth');
+    this.router.navigate(['channels', 0]);
+    this.alertBar.open('Authorization error. Please, auth your account', 'Close', {
+      duration: 3000,
+    });
+  }
 
   constructor(
     private favoriteService: FavoriteChannelService,

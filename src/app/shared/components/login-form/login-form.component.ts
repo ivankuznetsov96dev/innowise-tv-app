@@ -31,7 +31,7 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private cd: ChangeDetectorRef,
+    private changeDetector: ChangeDetectorRef,
     private login: AuthService,
     private store: Store,
   ) {}
@@ -97,7 +97,7 @@ export class LoginFormComponent implements OnInit {
             this.getFavoriteChannelsInfo();
             this.dialog.closeAll();
           }
-          this.cd.detectChanges();
+          this.changeDetector.detectChanges();
         });
     }
   }
@@ -119,9 +119,9 @@ export class LoginFormComponent implements OnInit {
     this.store.dispatch(favoriteChannelsListAction());
   }
 
-  public checkFormOnInvalid(fg: FormGroup): boolean {
-    const { controls } = fg;
-    if (fg.invalid) {
+  public checkFormOnInvalid(formGroup: FormGroup): boolean {
+    const { controls } = formGroup;
+    if (formGroup.invalid) {
       Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
       return false;
     }
@@ -131,7 +131,7 @@ export class LoginFormComponent implements OnInit {
   public changeForm(event: any): void {
     this.isAuthFormType = event.checked;
     this.formType = this.isAuthFormType ? 'Sign Up' : 'Sign In';
-    this.cd.detectChanges();
+    this.changeDetector.detectChanges();
   }
 
   public changeIsInvalidUserTokenFlag(): void {

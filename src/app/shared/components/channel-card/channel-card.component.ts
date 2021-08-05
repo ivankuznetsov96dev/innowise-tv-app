@@ -3,14 +3,16 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { formatDate } from '@angular/common';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { select, Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
 import { ChannelModel } from '../../interfaces/channel.model';
 import { TvshowModel } from '../../interfaces/tvshow.model';
 import { ChannelService } from '../../services/channel.service';
@@ -30,7 +32,7 @@ import { deleteFavoriteChannelAction } from '../../../store/actions/delete-favor
   styleUrls: ['./channel-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChannelCardComponent implements OnInit {
+export class ChannelCardComponent implements OnInit, OnDestroy {
   @Input() info: ChannelModel = {};
 
   public tvShows$!: Observable<TvshowModel[]>;
@@ -53,6 +55,8 @@ export class ChannelCardComponent implements OnInit {
 
   public favoriteChannels$!: Observable<FavoriteChannelService>;
 
+  public subjDestroyer$: Subject<void> = new Subject<void>();
+
   constructor(
     private router: Router,
     private channel: ChannelService,
@@ -70,9 +74,11 @@ export class ChannelCardComponent implements OnInit {
   public initializeData(): void {
     this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
     this.isLoading$ = this.store.pipe(select(isLoadingSelector));
-    this.store.pipe(select(favoriteChannelsListSelector)).subscribe((value) => {
-      this.isFavoriteChannel = value.some((next) => next.channel_id === this.info.channel_id);
-    });
+    this.store
+      .pipe(select(favoriteChannelsListSelector), takeUntil(this.subjDestroyer$))
+      .subscribe((value) => {
+        this.isFavoriteChannel = value.some((next) => next.channel_id === this.info.channel_id);
+      });
   }
 
   public goToChennel(): void {
@@ -104,5 +110,9 @@ export class ChannelCardComponent implements OnInit {
         this.crd.detectChanges();
       }, 1000);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subjDestroyer$.next();
   }
 }
