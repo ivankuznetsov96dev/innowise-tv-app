@@ -6,9 +6,10 @@ import { StoreModule } from '@ngrx/store';
 import { VideosComponent } from './videos.component';
 import { reducers } from './store/reducers';
 import { VideosCategoryEffect } from './store/effects/videos-category.effect';
+import { SliderComponent } from './components/slider/slider.component';
 
 @NgModule({
-  declarations: [VideosComponent],
+  declarations: [VideosComponent, SliderComponent],
   imports: [
     CommonModule,
     IvyCarouselModule,

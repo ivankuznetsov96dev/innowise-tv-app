@@ -1,0 +1,8 @@
+<h3><strong>Category: </strong>{{category.name}}</h3>
+<carousel
+  [cellsToScroll]="3">
+  <div class="carousel-cell" *ngFor="let slide of (videosCategoryContent$ | async)!.videos">
+    <img [src]="!!slide.cover ? slide.cover : slide.art">
+  </div>
+</carousel>
+

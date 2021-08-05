@@ -1,9 +1,10 @@
 <header>
   <div class="wrapper header-block">
     <span class="logo">TvViewer</span>
-    <nav *ngIf="isLoggedIn$ | async">
+    <nav>
       <a [routerLink]="['channels']">Channels</a>
-      <a [routerLink]="['favorite']">Favorite</a>
+      <a *ngIf="isLoggedIn$ | async" [routerLink]="['favorite']">Favorite</a>
+      <a [routerLink]="['videos']">Videos</a>
     </nav>
     <mat-icon (click)="openRegistrModalWindow()">power_settings_new</mat-icon>
   </div>

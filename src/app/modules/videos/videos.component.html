@@ -1,9 +1,7 @@
 <div class="wrapper">
   <div class="videos">
     <h1>Videos</h1>
-    <div>
-<!--      <carusel>-->
-
-<!--      </carusel>-->
+    <div *ngFor="let category of (categoriesCounter$ | async)">
+      <app-slider [category]="category"></app-slider>
     </div>
 </div>

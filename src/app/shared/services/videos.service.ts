@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { MovieCategory, MoviesCategoryModel } from '../interfaces/movies-category.model';
+import { VideoWripperModel } from '../interfaces/video-wripper.model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,5 +28,14 @@ export class VideosService {
         return [...data, zeroCount];
       }),
     );
+  }
+
+  public getVideosContent(category_id: number, offset: number = 0): Observable<VideoWripperModel> {
+    const url = 'https://api.persik.by/v2/content/videos';
+    const params = new HttpParams()
+      .set('category_id', category_id)
+      .set('offset', offset)
+      .set('detail', 1);
+    return this.http.get<VideoWripperModel>(url, { params });
   }
 }
