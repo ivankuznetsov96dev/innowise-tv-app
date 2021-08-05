@@ -26,6 +26,7 @@
     "@ngrx/store": "^12.3.0",
     "@ngrx/store-devtools": "^12.3.0",
     "@rxweb/reactive-form-validators": "^2.1.3",
+    "angular-responsive-carousel": "^2.1.2",
     "moment": "^2.29.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",

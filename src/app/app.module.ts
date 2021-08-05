@@ -25,8 +25,9 @@ import { reducers } from './store/reducers';
 import { FavoriteChannelsListEffect } from './store/effects/favorite-channels-list.effect';
 import { AddFavoriteChannelEffect } from './store/effects/add-favorite-channel.effect';
 import { DeleteFavoriteChannelEffect } from './store/effects/delete-favorite-channel.effect';
-import {FavoriteModule} from "./modules/favorite/favorite.module";
-import {ChannelListEffect} from "./store/effects/channel-list.effect";
+import { FavoriteModule } from './modules/favorite/favorite.module';
+import { ChannelListEffect } from './store/effects/channel-list.effect';
+import { VideosModule } from './modules/videos/videos.module';
 
 @NgModule({
   declarations: [AppComponent, LoginFormComponent],
@@ -35,6 +36,7 @@ import {ChannelListEffect} from "./store/effects/channel-list.effect";
     AppRoutingModule,
     ChannelsModule,
     FavoriteModule,
+    VideosModule,
     ChannelInfoModule,
     HttpClientModule,
     BrowserAnimationsModule,
