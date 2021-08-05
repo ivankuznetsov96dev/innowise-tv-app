@@ -1,8 +1,15 @@
-<h3><strong>Category: </strong>{{category.name}}</h3>
+<div class="category">
+  <h3><strong>Category: </strong>{{category.name}}</h3>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="isLoading$ | async"
+    (click)="moveOnVideosCategoryList()">More</button>
+</div>
 <carousel
   [cellsToScroll]="3">
-  <div class="carousel-cell" *ngFor="let slide of (videosCategoryContent$ | async)!.videos">
-    <img [src]="!!slide.cover ? slide.cover : slide.art">
+  <div class="carousel-cell" *ngFor="let slide of (videosCategoryContent$ | async)?.videos">
+    <app-slider-img [videoInfo]="slide"></app-slider-img>
   </div>
 </carousel>
 

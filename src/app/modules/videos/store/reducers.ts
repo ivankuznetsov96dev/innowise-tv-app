@@ -5,10 +5,12 @@ import {
   videosCategoryActionFailure,
   videosCategoryActionSuccess,
 } from './actions/videos-category.action';
+import { videosListAction } from './actions/videos-list.action';
 
 const initialState: VideosStoreInterface = {
   isLoading: false,
   videos_categories: [],
+  videos_category_id: 0,
 };
 
 const videosReducer = createReducer(
@@ -33,6 +35,13 @@ const videosReducer = createReducer(
       ...state,
       isLoading: false,
       videos_categories: action.videos_categories,
+    }),
+  ),
+  on(
+    videosListAction,
+    (state, action): VideosStoreInterface => ({
+      ...state,
+      videos_category_id: action.videos_category_id,
     }),
   ),
 );

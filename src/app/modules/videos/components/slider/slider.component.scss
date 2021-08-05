@@ -1,6 +1,12 @@
+@import "src/mixins";
 h3 {
   margin: 0;
 }
 carousel {
   margin: 5px 0 20px;
+}
+
+.category {
+  @include flexMixin;
+  width: 100%;
 }
