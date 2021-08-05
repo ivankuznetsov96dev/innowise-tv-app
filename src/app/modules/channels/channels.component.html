@@ -10,11 +10,11 @@
       </div>
     </mat-chip-list>
 
-    <mat-spinner *ngIf="!filtredChannelList && filtredChannelList !== null"></mat-spinner>
-    <div *ngIf="filtredChannelList === null">Channels not found. Please, change channel category</div>
+        <mat-spinner *ngIf="isChannelsLoading$ | async"></mat-spinner>
+        <div *ngIf="!(filteredChannelList$ | async)?.length && !(isChannelsLoading$ | async)">
+          Channels not found. Please, change channel category</div>
 
-<!--    <div *ngFor="let channel of channelList$ | async" cdkScrollable>-->
-    <div *ngFor="let channel of filtredChannelList" >
+    <div *ngFor="let channel of (filteredChannelList$ | async)" >
       <app-channel-card [info]="channel"></app-channel-card>
     </div>
   </div>

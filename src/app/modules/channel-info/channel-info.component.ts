@@ -11,11 +11,11 @@ import { formatDate } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { ChannelModel } from '../../interfaces/channel.model';
-import { ChannelService } from '../../services/channel.service';
-import { TvshowModel } from '../../interfaces/tvshow.model';
-import { TvshowsService } from '../../services/tvshows.service';
-import { TvshowTitleModel } from '../../interfaces/tvshow-title.model';
+import { ChannelModel } from '../../shared/interfaces/channel.model';
+import { ChannelService } from '../../shared/services/channel.service';
+import { TvshowModel } from '../../shared/interfaces/tvshow.model';
+import { TvshowsService } from '../../shared/services/tvshows.service';
+import { TvshowTitleModel } from '../../shared/interfaces/tvshow-title.model';
 
 @Component({
   selector: 'app-channel-info',

@@ -1,7 +1,7 @@
 import { Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { CategoriesModel } from '../../../../interfaces/categories.model';
+import { CategoriesModel } from '../../../../shared/interfaces/categories.model';
 
 @Component({
   selector: 'app-chips',

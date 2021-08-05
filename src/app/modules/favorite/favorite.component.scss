@@ -1,0 +1,10 @@
+@import "src/mixins";
+
+.channels {
+  @include flexMixin($direction: column);
+  width: 100%;
+
+  h1 {
+    margin: 10px 0;
+  }
+}

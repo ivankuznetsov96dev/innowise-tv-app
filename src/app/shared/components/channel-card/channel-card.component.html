@@ -10,6 +10,13 @@
     <span>{{info.name}}</span>
     <span>{{info.age_rating}}</span>
     <span>Rank: {{info.rank}}</span>
+    <button mat-icon-button
+            *ngIf="isLoggedIn$ | async"
+            (click)="$event.stopPropagation();"
+            (click)="pressFavoriteBtn()"
+            [disabled]="isLoading$ | async">
+      <mat-icon [style.color]="isFavoriteChannel ? 'gold' : 'black'">star_border</mat-icon>
+    </button>
   </div>
 
   <div class="channel_tvshows" *ngIf="tvShowsFlag && (tvShows$ | async) as tvShows">

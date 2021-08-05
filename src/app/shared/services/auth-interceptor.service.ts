@@ -11,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const token = this.persistence.get('auth');
     request = request.clone({
       setParams: {
-        auth_token: token.auth_token ? `${token.auth_token}` : '',
+        auth_token: token ? `${token.auth_token}` : '',
       },
     });
     return next.handle(request);

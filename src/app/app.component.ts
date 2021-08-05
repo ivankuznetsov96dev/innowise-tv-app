@@ -1,13 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { LoginFormComponent } from './components/login-form/login-form.component';
-import { AuthService } from './services/auth.service';
-import {PersistenceService} from "./services/persistence.service";
+import {Observable, Subject} from 'rxjs';
+import {select, Store} from '@ngrx/store';
+import { LoginFormComponent } from './shared/components/login-form/login-form.component';
+import { AuthService } from './shared/services/auth.service';
+import { PersistenceService } from './shared/services/persistence.service';
+import { favoriteChannelsListAction } from './store/actions/favorite-channels-list.action';
+import {isLoggedInSelector} from "./store/selectors";
+import {channelsListAction} from "./store/actions/channels-list.action";
 
 @Component({
   selector: 'app-root',
@@ -15,10 +19,12 @@ import {PersistenceService} from "./services/persistence.service";
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   public dialogRef: any;
 
   public destroyerSubj: Subject<any> = new Subject<any>();
+
+  public isLoggedIn$!: Observable<boolean>;
 
   constructor(
     private viewportScroller: ViewportScroller,
@@ -27,7 +33,14 @@ export class AppComponent implements OnDestroy {
     private router: Router,
     private auth: AuthService,
     private persistence: PersistenceService,
+    private store: Store,
   ) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(channelsListAction());
+    this.store.dispatch(favoriteChannelsListAction());
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
+  }
 
   public goToUp(): void {
     this.viewportScroller.scrollToPosition([0, 0]);
@@ -39,6 +52,7 @@ export class AppComponent implements OnDestroy {
       this.auth.userLogout();
       this.router.navigate(['channels', 0]);
       this.alertBar.open('Log out', 'Close', { duration: 3000 });
+      this.store.dispatch(favoriteChannelsListAction());
     } else {
       this.dialogRef = this.dialog.open(LoginFormComponent);
       this.dialogRef

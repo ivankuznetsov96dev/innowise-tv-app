@@ -10,11 +10,11 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { TvshowsService } from 'src/app/services/tvshows.service';
-import { TvshowTitleModel } from 'src/app/interfaces/tvshow-title.model';
-import { VideoInfoModel } from 'src/app/interfaces/video-info.model';
-import { MovieCategory } from 'src/app/interfaces/movies-category.model';
-import {DirectorNameAndRole} from "../../../../interfaces/person-info.model";
+import { TvshowsService } from 'src/app/shared/services/tvshows.service';
+import { TvshowTitleModel } from 'src/app/shared/interfaces/tvshow-title.model';
+import { VideoInfoModel } from 'src/app/shared/interfaces/video-info.model';
+import { MovieCategory } from 'src/app/shared/interfaces/movies-category.model';
+import {DirectorNameAndRole} from "../../../../shared/interfaces/person-info.model";
 
 @Component({
   selector: 'app-tvshow-info',

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { AuthService } from '../../services/auth.service';
 import { ComparePasswordsValidator } from './validators/compare-passwords.validator';
 import { EmailValidator } from './validators/email.validator';
@@ -8,6 +9,7 @@ import {
   CheckUserAtLoginValidator,
   CheckUserAtRegistrationValidator,
 } from './validators/chack-user.validator';
+import { favoriteChannelsListAction } from '../../../store/actions/favorite-channels-list.action';
 
 @Component({
   selector: 'app-register-form',
@@ -29,8 +31,9 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private cd: ChangeDetectorRef,
+    private changeDetector: ChangeDetectorRef,
     private login: AuthService,
+    private store: Store,
   ) {}
 
   ngOnInit(): void {
@@ -91,9 +94,10 @@ export class LoginFormComponent implements OnInit {
           this.isInvalidUserToken = !!value;
           if (this.isInvalidUserToken) {
             localStorage.setItem('auth', JSON.stringify(value));
+            this.getFavoriteChannelsInfo();
             this.dialog.closeAll();
           }
-          this.cd.detectChanges();
+          this.changeDetector.detectChanges();
         });
     }
   }
@@ -105,14 +109,19 @@ export class LoginFormComponent implements OnInit {
         .setNewUserOnBack(this.registerForm.value.newLoginID, this.registerForm.value.newPasswordID)
         .subscribe((value) => {
           localStorage.setItem('auth', JSON.stringify(value));
+          this.getFavoriteChannelsInfo();
           this.dialog.closeAll();
         });
     }
   }
 
-  public checkFormOnInvalid(fg: FormGroup): boolean {
-    const { controls } = fg;
-    if (fg.invalid) {
+  public getFavoriteChannelsInfo(): void {
+    this.store.dispatch(favoriteChannelsListAction());
+  }
+
+  public checkFormOnInvalid(formGroup: FormGroup): boolean {
+    const { controls } = formGroup;
+    if (formGroup.invalid) {
       Object.keys(controls).forEach((controlName) => controls[controlName].markAsTouched());
       return false;
     }
@@ -122,7 +131,7 @@ export class LoginFormComponent implements OnInit {
   public changeForm(event: any): void {
     this.isAuthFormType = event.checked;
     this.formType = this.isAuthFormType ? 'Sign Up' : 'Sign In';
-    this.cd.detectChanges();
+    this.changeDetector.detectChanges();
   }
 
   public changeIsInvalidUserTokenFlag(): void {
