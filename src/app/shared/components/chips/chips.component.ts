@@ -1,7 +1,7 @@
 import { Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { CategoriesModel } from '../../../../shared/interfaces/categories.model';
+import { CategoriesModel } from '../../interfaces/categories.model';
 
 @Component({
   selector: 'app-chips',
@@ -23,11 +23,12 @@ export class ChipsComponent implements OnInit, DoCheck {
     this.selectedCategory.next(this.category.id);
   }
 
-  public selectedTag(): boolean {
-    return this.route.snapshot.params.channelsCategoryId == this.category.id;
+  public selectedTag(id: string): boolean {
+    return parseInt(id, 10) === this.category.id;
   }
 
   ngDoCheck(): void {
-    this.colorFlag = this.selectedTag();
+    const count = this.route.snapshot.params.channelsCategoryId || this.route.snapshot.params.genre;
+    this.colorFlag = this.selectedTag(count);
   }
 }

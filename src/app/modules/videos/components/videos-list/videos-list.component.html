@@ -1,0 +1,14 @@
+<div class="wrapper">
+  <div class="videos-list">
+    <h1>Category: {{(videosCategoryInfo$| async)?.name}}</h1>
+    <mat-chip-list  class="categories_chips" *ngIf="(videosCategoryInfo$ | async)?.genres">
+      <div *ngFor="let genre of (videosCategoryInfo$ | async)?.genres">
+        <app-chips
+          [category]="genre"
+          (selectedCategory)="changeCategory($event)"></app-chips>
+      </div>
+    </mat-chip-list>
+    <div class="videos-category-list">
+    </div>
+  </div>
+</div>

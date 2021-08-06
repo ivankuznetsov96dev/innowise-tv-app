@@ -1,7 +1,0 @@
-<ng-container *ngIf="videoInfo.cover || videoInfo.art">
-  <img [src]="!!videoInfo.cover ? videoInfo.cover : videoInfo.art" (click)="test()">
-</ng-container>
-
-<ng-container *ngIf="!videoInfo.cover && !videoInfo.art">
-  <img [src]="urlInterceptor" (click)="test()">
-</ng-container>

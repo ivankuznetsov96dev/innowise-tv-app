@@ -13,14 +13,15 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ChannelsComponent } from './channels.component';
-import { ChipsComponent } from './components/chips/chips.component';
 import { ChannelCardModule } from '../../shared/components/channel-card/channel-card.module';
+import { ChipsModule } from '../../shared/components/chips/chips.module';
 
 @NgModule({
-  declarations: [ChannelsComponent, ChipsComponent],
+  declarations: [ChannelsComponent],
   imports: [
     CommonModule,
     MatCardModule,
+    ChipsModule,
     MatDatepickerModule,
     MatFormFieldModule,
     FormsModule,

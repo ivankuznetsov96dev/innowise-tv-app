@@ -7,9 +7,15 @@
     (click)="moveOnVideosCategoryList()">More</button>
 </div>
 <carousel
-  [cellsToScroll]="3">
-  <div class="carousel-cell" *ngFor="let slide of (videosCategoryContent$ | async)?.videos">
-    <app-slider-img [videoInfo]="slide"></app-slider-img>
+  [cellsToScroll]="3"
+  [arrowsOutside]="true">
+  <div class="carousel-cell" *ngFor="let slide of (videosCategoryContent$ | async)?.videos" (click)="test(slide)">
+    <ng-container *ngIf="slide.cover || slide.art">
+      <img class="slider-img" [src]="!!slide.cover ? slide.cover : slide.art">
+    </ng-container>
+    <ng-container *ngIf="!slide.cover && !slide.art">
+      <img class="slider-img" [src]="urlInterceptor">
+    </ng-container>
   </div>
 </carousel>
 
