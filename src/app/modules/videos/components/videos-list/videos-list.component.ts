@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import { videosCategoryAction } from '../../store/actions/videos-category.action';
-import { videosListAction } from '../../store/actions/videos-list.action';
-import {videosCategoryInfoSelector} from "../../store/selectors";
+import {videosContentListAction, videosListAction} from '../../store/actions/videos-list.action';
+import {videosCategoryInfoSelector, videosListSelector} from "../../store/selectors";
 import {Observable} from "rxjs";
 import {MoviesCategoryModel} from "../../../../shared/interfaces/movies-category.model";
-import {changeChannelCategoryAction} from "../../../../store/actions/change-channel-category.action";
+import {VideoWripperModel} from "../../../../shared/interfaces/video-wripper.model";
 
 @Component({
   selector: 'app-videos-list',
@@ -17,6 +17,7 @@ import {changeChannelCategoryAction} from "../../../../store/actions/change-chan
 export class VideosListComponent implements OnInit {
   public categoryId: number;
   public videosCategoryInfo$!: Observable<MoviesCategoryModel>;
+  public videosListInfo$!: Observable<VideoWripperModel | null>;
 
   constructor(private store: Store, private route: ActivatedRoute, private router: Router) {
     this.categoryId = parseInt(this.route.snapshot.params.videosCategoryList, 10);
@@ -30,14 +31,15 @@ export class VideosListComponent implements OnInit {
 
   public initializeData(): void {
     this.store.dispatch(videosCategoryAction());
+    this.store.dispatch(videosContentListAction({ category_id: this.categoryId }));
   }
 
   public initializeValues(): void {
     this.videosCategoryInfo$ = this.store.pipe(select(videosCategoryInfoSelector));
+    this.videosListInfo$ = this.store.pipe(select(videosListSelector));
   }
 
   public changeCategory(event: number): void {
-    // this.store.dispatch(changeChannelCategoryAction({ id: event }));
     this.router.navigate(['videos-list', this.categoryId, event]);
   }
 }

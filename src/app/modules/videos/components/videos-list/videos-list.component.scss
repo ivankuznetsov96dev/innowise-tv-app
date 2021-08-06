@@ -1,0 +1,24 @@
+@import "src/mixins";
+.videos-list {
+  padding-bottom: 1px;
+}
+
+.img-wrapper {
+  @include flexMixin($justify: center);
+  width: 160px;
+
+  img {
+    max-width: 150px;
+    max-height: 100px;
+  }
+}
+
+.videos-category-list {
+  @include flexMixin($justify: flex-start);
+  margin: 20px;
+  cursor: pointer;
+
+  .description {
+    margin: 0 50px;
+  }
+}

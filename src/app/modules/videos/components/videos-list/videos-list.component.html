@@ -8,7 +8,15 @@
           (selectedCategory)="changeCategory($event)"></app-chips>
       </div>
     </mat-chip-list>
-    <div class="videos-category-list">
-    </div>
+      <mat-card class="videos-category-list" *ngFor="let videoCard of (videosListInfo$ | async)?.videos">
+        <div class="img-wrapper">
+          <img [src]="!!videoCard.cover ? videoCard.cover : videoCard.art">
+        </div>
+        <div class="description">
+          <p>{{videoCard.name}}</p>
+          <p *ngIf="videoCard.countries.length"><strong>Country: </strong>{{videoCard.countries}}</p>
+          <p *ngIf="videoCard.year"><strong>Year: </strong>{{videoCard.year}}</p>
+        </div>
+      </mat-card>
   </div>
 </div>

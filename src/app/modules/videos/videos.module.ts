@@ -12,6 +12,7 @@ import { VideosCategoryEffect } from './store/effects/videos-category.effect';
 import { SliderComponent } from './components/slider/slider.component';
 import { VideosListComponent } from './components/videos-list/videos-list.component';
 import { ChipsModule } from '../../shared/components/chips/chips.module';
+import { VideosListEffect } from './store/effects/videos-list.effect';
 
 @NgModule({
   declarations: [VideosComponent, SliderComponent, VideosListComponent],
@@ -23,7 +24,7 @@ import { ChipsModule } from '../../shared/components/chips/chips.module';
     MatCardModule,
     MatChipsModule,
     StoreModule.forFeature('videos', reducers),
-    EffectsModule.forFeature([VideosCategoryEffect]),
+    EffectsModule.forFeature([VideosCategoryEffect, VideosListEffect]),
   ],
 })
 export class VideosModule {}

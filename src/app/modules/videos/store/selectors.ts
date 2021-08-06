@@ -16,3 +16,8 @@ export const videosCategoryInfoSelector = createSelector(
       (category: MoviesCategoryModel) => category.id === videosState.videos_category_id,
     )[0],
 );
+
+export const videosListSelector = createSelector(
+  videosFeatureSelector,
+  (videosState: VideosStoreInterface) => videosState.videos_list,
+);
