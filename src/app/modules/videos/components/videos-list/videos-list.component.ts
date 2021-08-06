@@ -4,7 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { videosCategoryAction } from '../../store/actions/videos-category.action';
 import { videosContentListAction, videosListAction } from '../../store/actions/videos-list.action';
-import { videosCategoryInfoSelector, videosListSelector } from '../../store/selectors';
+import {
+  paginatorSizeSelector,
+  videosCategoryInfoSelector,
+  videosListSelector,
+} from '../../store/selectors';
 import { MoviesCategoryModel } from '../../../../shared/interfaces/movies-category.model';
 import { VideoWripperModel } from '../../../../shared/interfaces/video-wripper.model';
 
@@ -20,6 +24,8 @@ export class VideosListComponent implements OnInit {
   public videosCategoryInfo$!: Observable<MoviesCategoryModel>;
 
   public videosListInfo$!: Observable<VideoWripperModel | null>;
+
+  public paginatorSize$!: Observable<number>;
 
   public isChipsNotHidden = false;
 
@@ -41,6 +47,7 @@ export class VideosListComponent implements OnInit {
   public initializeValues(): void {
     this.videosCategoryInfo$ = this.store.pipe(select(videosCategoryInfoSelector));
     this.videosListInfo$ = this.store.pipe(select(videosListSelector));
+    this.paginatorSize$ = this.store.pipe(select(paginatorSizeSelector));
   }
 
   public changeCategory(event: number): void {

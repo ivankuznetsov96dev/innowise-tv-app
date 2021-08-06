@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { VideosStoreInterface } from './types/videos-store.interface';
-import {MoviesCategoryModel} from "../../../shared/interfaces/movies-category.model";
+import { MoviesCategoryModel } from '../../../shared/interfaces/movies-category.model';
 
 export const videosFeatureSelector = createFeatureSelector<VideosStoreInterface>('videos');
 
@@ -20,4 +20,10 @@ export const videosCategoryInfoSelector = createSelector(
 export const videosListSelector = createSelector(
   videosFeatureSelector,
   (videosState: VideosStoreInterface) => videosState.videos_list,
+);
+
+export const paginatorSizeSelector = createSelector(
+  videosFeatureSelector,
+  // @ts-ignore
+  (videosState: VideosStoreInterface) => Math.ceil(videosState.videos_list?.total / 20),
 );
