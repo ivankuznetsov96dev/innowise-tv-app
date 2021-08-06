@@ -10,3 +10,12 @@ carousel {
   @include flexMixin;
   width: 100%;
 }
+
+img {
+  pointer-events: none;
+  cursor: pointer;
+}
+
+.carousel-cell {
+  cursor: pointer !important;
+}

@@ -8,6 +8,10 @@ import {
   videosCategoryActionFailure,
   videosCategoryActionSuccess,
 } from '../actions/videos-category.action';
+import {
+  MovieCategory,
+  MoviesCategoryModel,
+} from '../../../../shared/interfaces/movies-category.model';
 
 @Injectable()
 export class VideosCategoryEffect {
@@ -16,7 +20,18 @@ export class VideosCategoryEffect {
       ofType(videosCategoryAction),
       switchMap(() =>
         this.videos.getVideosCategory().pipe(
-          map((data) => videosCategoryActionSuccess({ videos_categories: data })),
+          map((data: MoviesCategoryModel[]) => {
+            const zeroCount: MovieCategory = {
+              id: 0,
+              name: 'Все жанры',
+              name_en: 'All genres',
+              is_main: true,
+            };
+            data.forEach((category) => {
+              category.genres.unshift(zeroCount);
+            });
+            return videosCategoryActionSuccess({ videos_categories: data });
+          }),
           catchError(() => of(videosCategoryActionFailure)),
         ),
       ),

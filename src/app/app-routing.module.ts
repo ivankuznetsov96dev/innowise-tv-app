@@ -22,7 +22,6 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   { path: 'videos', component: VideosComponent },
-  { path: 'videos-list/:videosCategoryList', component: VideosListComponent },
   { path: 'videos-list/:videosCategoryList/:genre', component: VideosListComponent },
   // {
   //   path: 'channel-info/:channelId',

@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 import { VideosComponent } from './videos.component';
 import { reducers } from './store/reducers';
 import { VideosCategoryEffect } from './store/effects/videos-category.effect';
@@ -19,6 +20,7 @@ import { VideosListEffect } from './store/effects/videos-list.effect';
   imports: [
     CommonModule,
     ChipsModule,
+    MatIconModule,
     IvyCarouselModule,
     MatButtonModule,
     MatCardModule,

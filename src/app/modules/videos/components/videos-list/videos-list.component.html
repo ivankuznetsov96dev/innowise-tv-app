@@ -1,7 +1,10 @@
 <div class="wrapper">
   <div class="videos-list">
     <h1>Category: {{(videosCategoryInfo$| async)?.name}}</h1>
-    <mat-chip-list  class="categories_chips" *ngIf="(videosCategoryInfo$ | async)?.genres">
+    <button mat-icon-button (click)="chipsDropdown()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-chip-list  class="categories_chips" *ngIf="(videosCategoryInfo$ | async)?.genres && isChipsNotHidden">
       <div *ngFor="let genre of (videosCategoryInfo$ | async)?.genres">
         <app-chips
           [category]="genre"

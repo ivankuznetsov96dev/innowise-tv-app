@@ -15,8 +15,8 @@ export class VideosListEffect {
   getVideosList$ = createEffect(() =>
     this.action$.pipe(
       ofType(videosContentListAction),
-      switchMap(({ category_id, offset }) =>
-        this.videos.getVideosContent(category_id, offset).pipe(
+      switchMap(({ category_id, offset, genre_id }) =>
+        this.videos.getVideosContent(category_id, offset, genre_id).pipe(
           map((data: VideoWripperModel) => {
             console.log(data);
             return videosContentListActionSuccess(data);

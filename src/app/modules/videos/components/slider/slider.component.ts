@@ -42,7 +42,7 @@ export class SliderComponent implements OnInit {
 
   public moveOnVideosCategoryList(): void {
     // this.store.dispatch(videosListAction({ videos_category_id: this.category.id }));
-    this.router.navigate(['videos-list', this.category.id]);
+    this.router.navigate(['videos-list', this.category.id, 0]);
   }
 
   public test(slide: any): void {

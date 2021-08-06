@@ -9,7 +9,7 @@ export const videosListAction = createAction(
 
 export const videosContentListAction = createAction(
   ActionTypes.VIDEOS_CONTENT_LIST,
-  props<{ category_id: number; offset?: number }>(),
+  props<{ category_id: number; offset?: number; genre_id?: number }>(),
 );
 export const videosContentListActionSuccess = createAction(
   ActionTypes.VIDEOS_CONTENT_LIST_SUCCESS,
