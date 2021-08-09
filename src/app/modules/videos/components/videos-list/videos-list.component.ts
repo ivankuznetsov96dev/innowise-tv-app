@@ -26,8 +26,6 @@ export class VideosListComponent implements OnInit, OnDestroy {
 
   public videosListInfo$!: Observable<VideoWripperModel | null>;
 
-  public paginatorSize$!: Observable<number>;
-
   public videosGenreId: number;
 
   public page: number;

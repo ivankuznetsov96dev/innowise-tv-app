@@ -19,11 +19,13 @@ export class VideosService {
           (acc: MovieCategory[], category: MoviesCategoryModel) => [...acc, ...category.genres],
           [],
         );
+        const sortGenres = this.deleteDuplicatesMovieGenres(allGenres);
         const zeroCount: MoviesCategoryModel = {
           id: 0,
           name: 'Все видео',
           name_en: 'All videos',
-          genres: allGenres,
+          // genres: allGenres,
+          genres: sortGenres,
         };
         return [...data, zeroCount];
       }),
@@ -42,5 +44,14 @@ export class VideosService {
       .set('offset', (offset - 1) * 20)
       .set('detail', 1);
     return this.http.get<VideoWripperModel>(url, { params });
+  }
+
+  private deleteDuplicatesMovieGenres(array: MovieCategory[]): MovieCategory[] {
+    const filteredGenres: MovieCategory[] = [];
+    array.forEach((genre: MovieCategory) => {
+      const isDuplicate = filteredGenres.some((next) => next.id === genre.id);
+      if (!isDuplicate) filteredGenres.push(genre);
+    });
+    return filteredGenres;
   }
 }

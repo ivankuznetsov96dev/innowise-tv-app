@@ -18,7 +18,6 @@ export class VideosListEffect {
       switchMap(({ category_id, offset, genre_id }) =>
         this.videos.getVideosContent(category_id, offset, genre_id).pipe(
           map((data: VideoWripperModel) => {
-            console.log(data);
             return videosContentListActionSuccess(data);
           }),
           catchError(() => of(videosContentListActionFeature)),
