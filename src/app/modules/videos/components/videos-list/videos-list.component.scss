@@ -1,5 +1,13 @@
 @import "src/mixins";
 
+.description_navigation {
+  @include flexMixin($justify: space-around);
+  margin: 10px 0;
+  h1 {
+    margin: 0;
+  }
+}
+
 .img-wrapper {
   @include flexMixin($justify: center);
   width: 160px;

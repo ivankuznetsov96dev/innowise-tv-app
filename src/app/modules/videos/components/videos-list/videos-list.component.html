@@ -1,6 +1,11 @@
 <div class="wrapper">
   <div class="videos-list">
-    <h1>Category: {{(videosCategoryInfo$| async)?.name}}</h1>
+    <div class="description_navigation">
+      <h1>Category: {{(videosCategoryInfo$| async)?.name}}</h1>
+      <button mat-mini-fab (click)="goBack()" color="primary">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
     <button mat-icon-button (click)="chipsDropdown()">
       <mat-icon>menu</mat-icon>
     </button>

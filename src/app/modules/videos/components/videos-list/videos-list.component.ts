@@ -96,6 +96,10 @@ export class VideosListComponent implements OnInit, OnDestroy {
     );
   }
 
+  public goBack(): void {
+    this.router.navigate(['videos']);
+  }
+
   ngOnDestroy(): void {
     this.subjDestroyer.next();
   }
