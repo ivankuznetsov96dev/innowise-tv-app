@@ -32,14 +32,14 @@ export class VideosService {
 
   public getVideosContent(
     category_id: number,
-    offset: number = 0,
+    offset: number = 1,
     genre_id: number = 0,
   ): Observable<VideoWripperModel> {
     const url = 'https://api.persik.by/v2/content/videos';
     const params = new HttpParams()
       .set('category_id', category_id)
       .set('genre_id', genre_id)
-      .set('offset', offset)
+      .set('offset', (offset - 1) * 20)
       .set('detail', 1);
     return this.http.get<VideoWripperModel>(url, { params });
   }

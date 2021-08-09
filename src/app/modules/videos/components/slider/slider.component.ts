@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { MoviesCategoryModel } from '../../../../shared/interfaces/movies-category.model';
 import { VideosService } from '../../../../shared/services/videos.service';
 import { VideoWripperModel } from '../../../../shared/interfaces/video-wripper.model';
-import { videosListAction } from '../../store/actions/videos-list.action';
 
 @Component({
   selector: 'app-slider',
@@ -41,8 +40,7 @@ export class SliderComponent implements OnInit {
   }
 
   public moveOnVideosCategoryList(): void {
-    // this.store.dispatch(videosListAction({ videos_category_id: this.category.id }));
-    this.router.navigate(['videos-list', this.category.id, 0]);
+    this.router.navigate(['videos-list', this.category.id, 0, 1]);
   }
 
   public test(slide: any): void {

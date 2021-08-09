@@ -23,6 +23,10 @@
       </mat-card>
   </div>
   <div class="paginator">
-    {{paginatorSize$ | async}}
+    <ul>
+      <li *ngIf="paginatorValueArray | paginate: { itemsPerPage: 1, currentPage: page }"></li>
+    </ul>
+
+    <pagination-controls (pageChange)="page = $event" (click)="changeVideosList(page)"></pagination-controls>
   </div>
 </div>

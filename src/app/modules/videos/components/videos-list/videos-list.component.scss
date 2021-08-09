@@ -22,3 +22,13 @@
     margin: 0 50px;
   }
 }
+
+.paginator {
+  max-width: 550px;
+  margin: auto;
+
+  li {
+    margin-bottom: 5px;
+    list-style-type: none;
+  }
+}
