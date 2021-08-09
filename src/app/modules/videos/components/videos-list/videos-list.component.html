@@ -22,11 +22,10 @@
         </div>
       </mat-card>
   </div>
-  <div class="paginator">
-    <ul>
-      <li *ngIf="paginatorValueArray | paginate: { itemsPerPage: 1, currentPage: page }"></li>
-    </ul>
-
-    <pagination-controls (pageChange)="page = $event" (click)="changeVideosList(page)"></pagination-controls>
+  <div class="paginator" *ngIf="paginatorValueArray | paginate: { itemsPerPage: 1, currentPage: page }">
+    <pagination-controls
+      class="paginator-controls"
+      (pageChange)="page = $event"
+      (click)="changeVideosList(page)"></pagination-controls>
   </div>
 </div>
