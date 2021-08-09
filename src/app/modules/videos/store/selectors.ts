@@ -27,3 +27,8 @@ export const paginatorSizeSelector = createSelector(
   // @ts-ignore
   (videosState: VideosStoreInterface) => Math.ceil(videosState.videos_list?.total / 20),
 );
+
+export const videoInfoSelector = createSelector(
+  videosFeatureSelector,
+  (videosState: VideosStoreInterface) => videosState.video_info,
+);

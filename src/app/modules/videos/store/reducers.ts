@@ -11,13 +11,14 @@ import {
   videosContentListActionSuccess,
   videosListAction,
 } from './actions/videos-list.action';
-import { VideoWripperModel } from '../../../shared/interfaces/video-wripper.model';
+import {videoInfoAction, videoInfoActionFailure, videoInfoActionSuccess} from "./actions/video-info.action";
 
 const initialState: VideosStoreInterface = {
   isLoading: false,
   videos_categories: [],
   videos_category_id: 0,
   videos_list: null,
+  video_info: null,
 };
 
 const videosReducer = createReducer(
@@ -72,6 +73,29 @@ const videosReducer = createReducer(
       ...state,
       isLoading: false,
       videos_list: null,
+    }),
+  ),
+  on(
+    videoInfoAction,
+    (state): VideosStoreInterface => ({
+      ...state,
+      isLoading: true,
+    }),
+  ),
+  on(
+    videoInfoActionSuccess,
+    (state, action): VideosStoreInterface => ({
+      ...state,
+      isLoading: false,
+      video_info: action.video_info,
+    }),
+  ),
+  on(
+    videoInfoActionFailure,
+    (state): VideosStoreInterface => ({
+      ...state,
+      isLoading: false,
+      video_info: null,
     }),
   ),
 );

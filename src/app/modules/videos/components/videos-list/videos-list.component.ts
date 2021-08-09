@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 import { videosCategoryAction } from '../../store/actions/videos-category.action';
 import { videosContentListAction, videosListAction } from '../../store/actions/videos-list.action';
 import {
@@ -12,6 +13,9 @@ import {
 } from '../../store/selectors';
 import { MoviesCategoryModel } from '../../../../shared/interfaces/movies-category.model';
 import { VideoWripperModel } from '../../../../shared/interfaces/video-wripper.model';
+import { VideoInfoModel } from '../../../../shared/interfaces/video-info.model';
+import { videoInfoAction } from '../../store/actions/video-info.action';
+import { VideoInfoComponent } from '../video-info/video-info.component';
 
 @Component({
   selector: 'app-videos-list',
@@ -36,7 +40,12 @@ export class VideosListComponent implements OnInit, OnDestroy {
 
   public subjDestroyer: Subject<any> = new Subject<any>();
 
-  constructor(private store: Store, private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog,
+  ) {
     this.categoryId = parseInt(this.route.snapshot.params.videosCategoryList, 10);
     this.videosGenreId = parseInt(this.route.snapshot.params.genre, 10);
     this.page = parseInt(this.route.snapshot.params.page, 10);
@@ -102,5 +111,11 @@ export class VideosListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subjDestroyer.next();
+  }
+
+  public openDialog(videoCard: VideoInfoModel): void {
+    console.log(videoCard);
+    this.store.dispatch(videoInfoAction({ video_id: videoCard.video_id }));
+    const dialogRef = this.dialog.open(VideoInfoComponent);
   }
 }

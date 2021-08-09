@@ -8,9 +8,13 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { MoviesCategoryModel } from '../../../../shared/interfaces/movies-category.model';
 import { VideosService } from '../../../../shared/services/videos.service';
 import { VideoWripperModel } from '../../../../shared/interfaces/video-wripper.model';
+import { VideoInfoModel } from '../../../../shared/interfaces/video-info.model';
+import { VideoInfoComponent } from '../video-info/video-info.component';
+import { videoInfoAction } from '../../store/actions/video-info.action';
 
 @Component({
   selector: 'app-slider',
@@ -32,6 +36,7 @@ export class SliderComponent implements OnInit {
     private store: Store,
     private videos: VideosService,
     private router: Router,
+    private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
   ) {}
 
@@ -43,7 +48,9 @@ export class SliderComponent implements OnInit {
     this.router.navigate(['videos-list', this.category.id, 0, 1]);
   }
 
-  public test(slide: any): void {
+  public openDialog(slide: VideoInfoModel): void {
     console.log(slide);
+    this.store.dispatch(videoInfoAction({ video_id: slide.video_id }));
+    const dialogRef = this.dialog.open(VideoInfoComponent);
   }
 }

@@ -9,7 +9,9 @@
 <carousel
   [cellsToScroll]="3"
   [arrowsOutside]="true">
-  <div class="carousel-cell" *ngFor="let slide of (videosCategoryContent$ | async)?.videos" (click)="test(slide)">
+  <div class="carousel-cell"
+       *ngFor="let slide of (videosCategoryContent$ | async)?.videos"
+       (click)="openDialog(slide)">
     <ng-container *ngIf="slide.cover || slide.art">
       <img class="slider-img" [src]="!!slide.cover ? slide.cover : slide.art">
     </ng-container>

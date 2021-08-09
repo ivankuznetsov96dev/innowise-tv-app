@@ -16,7 +16,9 @@
           (selectedCategory)="changeCategory($event)"></app-chips>
       </div>
     </mat-chip-list>
-      <mat-card class="videos-category-list" *ngFor="let videoCard of (videosListInfo$ | async)?.videos">
+      <mat-card class="videos-category-list"
+                *ngFor="let videoCard of (videosListInfo$ | async)?.videos"
+                (click)="openDialog(videoCard)">
         <div class="img-wrapper">
           <img [src]="!!videoCard.cover ? videoCard.cover : videoCard.art">
         </div>
