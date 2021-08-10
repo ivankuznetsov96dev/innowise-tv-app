@@ -1,3 +1,5 @@
+import { DirectorNameAndRole } from './person-info.model';
+
 export interface VideoInfoModel {
   tvshow_id?: string;
   channel_id?: number;
@@ -41,6 +43,7 @@ export interface VideoInfoModel {
     season: string;
     episode: string;
   }[];
+  personal?: DirectorNameAndRole[];
 }
 
 interface Rating {

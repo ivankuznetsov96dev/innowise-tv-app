@@ -6,6 +6,12 @@
       <img class="video-art" [src]="videoInfo.art">
     </div>
     <div class="description">
+      <ng-container *ngIf="videoInfo.personal?.length">
+        <p><b>Directors & cast: </b></p>
+        <ul>
+          <li *ngFor="let person of videoInfo.personal"><p>{{person.role}} {{person.name}}</p></li>
+        </ul>
+      </ng-container>
       <p *ngIf="videoInfo.year"><b>Year: </b>{{videoInfo.year}}</p>
       <p *ngIf="videoInfo.countries.length"><b>Country: </b>{{videoInfo.countries}}</p>
       <p *ngIf="videoInfo.description" [innerHTML]="videoInfo.description"></p>

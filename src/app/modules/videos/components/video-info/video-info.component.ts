@@ -6,6 +6,7 @@ import { VideoInfoModel } from '../../../../shared/interfaces/video-info.model';
 import {videoInfoSelector, videoStoreIsLoading} from '../../store/selectors';
 import { LoginFormComponent } from '../../../../shared/components/login-form/login-form.component';
 import {isLoggedInSelector} from "../../../../store/selectors";
+import {TvshowsService} from "../../../../shared/services/tvshows.service";
 
 @Component({
   selector: 'app-video-info',
@@ -20,7 +21,7 @@ export class VideoInfoComponent implements OnInit, OnDestroy {
 
   public isLoggedIn$!: Observable<boolean>;
 
-  constructor(private store: Store, private dialog: MatDialog) {}
+  constructor(private store: Store, private dialog: MatDialog, private tvshow: TvshowsService) {}
 
   ngOnInit(): void {
     this.initializeValue();
