@@ -6,7 +6,7 @@
       <a *ngIf="isLoggedIn$ | async" [routerLink]="['favorite']">Favorite</a>
       <a [routerLink]="['videos']">Videos</a>
     </nav>
-    <mat-icon (click)="openRegistrModalWindow()">power_settings_new</mat-icon>
+    <mat-icon (click)="openRegisterModalWindow()">power_settings_new</mat-icon>
   </div>
 </header>
 <router-outlet></router-outlet>

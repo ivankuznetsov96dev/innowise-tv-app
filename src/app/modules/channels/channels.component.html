@@ -3,19 +3,19 @@
     <h1>Channels</h1>
 
     <mat-chip-list  class="categories_chips" *ngIf="categoriesList$ | async">
-      <div *ngFor="let category of categoriesList$ | async">
+      <ng-container *ngFor="let category of categoriesList$ | async">
         <app-chips
           [category]="category"
           (selectedCategory)="changeCategory($event)"></app-chips>
-      </div>
+      </ng-container>
     </mat-chip-list>
 
         <mat-spinner *ngIf="isChannelsLoading$ | async"></mat-spinner>
-        <div *ngIf="!(filteredChannelList$ | async)?.length && !(isChannelsLoading$ | async)">
-          Channels not found. Please, change channel category</div>
+        <ng-container *ngIf="!(filteredChannelList$ | async)?.length && !(isChannelsLoading$ | async)">
+          Channels not found. Please, change channel category</ng-container>
 
-    <div *ngFor="let channel of (filteredChannelList$ | async)" >
+    <ng-container *ngFor="let channel of (filteredChannelList$ | async)" >
       <app-channel-card [info]="channel"></app-channel-card>
-    </div>
+    </ng-container>
   </div>
 </div>

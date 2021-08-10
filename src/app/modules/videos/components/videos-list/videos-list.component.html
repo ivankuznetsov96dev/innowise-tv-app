@@ -10,11 +10,11 @@
       <mat-icon>menu</mat-icon>
     </button>
     <mat-chip-list  class="categories_chips" *ngIf="(videosCategoryInfo$ | async)?.genres && isChipsNotHidden">
-      <div *ngFor="let genre of (videosCategoryInfo$ | async)?.genres">
+      <ng-container *ngFor="let genre of (videosCategoryInfo$ | async)?.genres">
         <app-chips
           [category]="genre"
           (selectedCategory)="changeCategory($event)"></app-chips>
-      </div>
+      </ng-container>
     </mat-chip-list>
       <mat-card class="videos-category-list"
                 *ngFor="let videoCard of (videosListInfo$ | async)?.videos"
@@ -29,10 +29,10 @@
         </div>
       </mat-card>
   </div>
-  <div class="paginator" *ngIf="paginatorValueArray | paginate: { itemsPerPage: 1, currentPage: page }">
+  <ng-container class="paginator" *ngIf="paginatorValueArray | paginate: { itemsPerPage: 1, currentPage: page }">
     <pagination-controls
       class="paginator-controls"
       (pageChange)="page = $event"
       (click)="changeVideosList(page)"></pagination-controls>
-  </div>
+  </ng-container>
 </div>

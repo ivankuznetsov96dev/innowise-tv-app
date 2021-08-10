@@ -2,9 +2,9 @@
   <div class="videos">
     <h1>Videos</h1>
     <div class="sliders">
-      <div *ngFor="let category of (categoriesCounter$ | async)">
+      <ng-container *ngFor="let category of (categoriesCounter$ | async)">
         <app-slider [category]="category"></app-slider>
-      </div>
+      </ng-container>
     </div>
   </div>
 </div>

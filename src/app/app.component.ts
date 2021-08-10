@@ -46,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.viewportScroller.scrollToPosition([0, 0]);
   }
 
-  public openRegistrModalWindow(): void {
+  public openRegisterModalWindow(): void {
     // if (localStorage.getItem('auth')) {
     if (this.persistence.get('auth')) {
       this.auth.userLogout();
