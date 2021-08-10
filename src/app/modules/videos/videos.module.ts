@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,7 +20,7 @@ import { VideosListComponent } from './components/videos-list/videos-list.compon
 import { ChipsModule } from '../../shared/components/chips/chips.module';
 import { VideosListEffect } from './store/effects/videos-list.effect';
 import { VideoInfoComponent } from './components/video-info/video-info.component';
-import {VideoInfoEffect} from "./store/effects/video-info.effect";
+import { VideoInfoEffect } from './store/effects/video-info.effect';
 
 @NgModule({
   declarations: [VideosComponent, SliderComponent, VideosListComponent, VideoInfoComponent],
@@ -31,6 +32,7 @@ import {VideoInfoEffect} from "./store/effects/video-info.effect";
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
+    MatProgressSpinnerModule,
     NgxPaginationModule,
     MatDialogModule,
     StoreModule.forFeature('videos', reducers),

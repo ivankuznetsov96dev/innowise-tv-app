@@ -116,6 +116,6 @@ export class VideosListComponent implements OnInit, OnDestroy {
   public openDialog(videoCard: VideoInfoModel): void {
     console.log(videoCard);
     this.store.dispatch(videoInfoAction({ video_id: videoCard.video_id }));
-    const dialogRef = this.dialog.open(VideoInfoComponent);
+    const dialogRef = this.dialog.open(VideoInfoComponent, { maxHeight: '600px' });
   }
 }

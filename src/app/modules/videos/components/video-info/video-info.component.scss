@@ -1,0 +1,42 @@
+@import "src/mixins";
+
+.info-container {
+  max-width: 800px;
+}
+
+.redirect-field {
+  @include flexMixin($justify: center, $direction: column);
+  margin-top: 10px;
+
+  .warning {
+    border-bottom: red 1px solid;
+  }
+}
+
+.picture {
+  @include flexMixin($justify: center);
+
+  .video-cover {
+    max-width: 300px;
+    max-height: 200px;
+  }
+
+  .video-art {
+    max-height: 300px;
+  }
+}
+
+.pictures {
+  @include flexMixin($justify: space-around);
+
+  .video-cover {
+    max-width: 300px;
+    max-height: 200px;
+    margin-right: 10px;
+  }
+
+  .video-art {
+    max-height: 300px;
+    margin-left: 10px;
+  }
+}

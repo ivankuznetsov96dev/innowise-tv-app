@@ -32,3 +32,8 @@ export const videoInfoSelector = createSelector(
   videosFeatureSelector,
   (videosState: VideosStoreInterface) => videosState.video_info,
 );
+
+export const videoStoreIsLoading = createSelector(
+  videosFeatureSelector,
+  (videosState: VideosStoreInterface) => videosState.isLoading,
+);

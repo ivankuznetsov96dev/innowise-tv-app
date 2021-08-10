@@ -51,6 +51,6 @@ export class SliderComponent implements OnInit {
   public openDialog(slide: VideoInfoModel): void {
     console.log(slide);
     this.store.dispatch(videoInfoAction({ video_id: slide.video_id }));
-    const dialogRef = this.dialog.open(VideoInfoComponent);
+    const dialogRef = this.dialog.open(VideoInfoComponent, { maxHeight: '600px' });
   }
 }
