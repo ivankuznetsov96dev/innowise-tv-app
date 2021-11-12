@@ -17,13 +17,14 @@ header {
   }
 
   nav {
-    width: 150px;
+    max-width: 200px;
     @include flexMixin;
     @include fontMediumBold;
 
     a {
       text-decoration: none;
       color: black;
+      margin: 0 5px;
     }
 
     a:hover {

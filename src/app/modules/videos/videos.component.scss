@@ -1,0 +1,13 @@
+@import "src/mixins";
+.videos {
+  @include flexMixin($direction: column);
+  padding-bottom: 10px;
+
+  h1 {
+    margin: 16px 0;
+  }
+
+  .sliders {
+    width: 100%;
+  }
+}

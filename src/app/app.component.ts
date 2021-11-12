@@ -4,14 +4,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import {Observable, Subject} from 'rxjs';
-import {select, Store} from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
+import { select, Store } from '@ngrx/store';
 import { LoginFormComponent } from './shared/components/login-form/login-form.component';
 import { AuthService } from './shared/services/auth.service';
 import { PersistenceService } from './shared/services/persistence.service';
 import { favoriteChannelsListAction } from './store/actions/favorite-channels-list.action';
-import {isLoggedInSelector} from "./store/selectors";
-import {channelsListAction} from "./store/actions/channels-list.action";
+import { isLoggedInSelector } from './store/selectors';
+import { channelsListAction } from './store/actions/channels-list.action';
 
 @Component({
   selector: 'app-root',
@@ -46,11 +46,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.viewportScroller.scrollToPosition([0, 0]);
   }
 
-  public openRegistrModalWindow(): void {
+  public openRegisterModalWindow(): void {
     // if (localStorage.getItem('auth')) {
     if (this.persistence.get('auth')) {
       this.auth.userLogout();
-      this.router.navigate(['channels', 0]);
+
+      const routUrl = this.router.routerState.snapshot.url.split('/')[1];
+      if (routUrl === 'channel-info' || routUrl === 'favorite') {
+        this.router.navigate(['channels', 0]);
+      }
+
       this.alertBar.open('Log out', 'Close', { duration: 3000 });
       this.store.dispatch(favoriteChannelsListAction());
     } else {

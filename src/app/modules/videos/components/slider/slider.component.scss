@@ -1,0 +1,22 @@
+@import "src/mixins";
+h3 {
+  margin: 0;
+}
+carousel {
+  margin: 5px 0 20px;
+  z-index: 0;
+}
+
+.category {
+  @include flexMixin;
+  width: 100%;
+}
+
+img {
+  pointer-events: none;
+  cursor: pointer;
+}
+
+.carousel-cell {
+  cursor: pointer !important;
+}

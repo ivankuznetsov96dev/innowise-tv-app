@@ -1,0 +1,38 @@
+<div class="wrapper">
+  <div class="videos-list">
+    <div class="description_navigation">
+      <h1>Category: {{(videosCategoryInfo$| async)?.name}}</h1>
+      <button mat-mini-fab (click)="goBack()" color="primary">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+    <button mat-icon-button (click)="chipsDropdown()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-chip-list  class="categories_chips" *ngIf="(videosCategoryInfo$ | async)?.genres && isChipsNotHidden">
+      <ng-container *ngFor="let genre of (videosCategoryInfo$ | async)?.genres">
+        <app-chips
+          [category]="genre"
+          (selectedCategory)="changeCategory($event)"></app-chips>
+      </ng-container>
+    </mat-chip-list>
+      <mat-card class="videos-category-list"
+                *ngFor="let videoCard of (videosListInfo$ | async)?.videos"
+                (click)="openDialog(videoCard)">
+        <div class="img-wrapper">
+          <img [src]="!!videoCard.cover ? videoCard.cover : videoCard.art">
+        </div>
+        <div class="description">
+          <p>{{videoCard.name}}</p>
+          <p *ngIf="videoCard.countries.length"><strong>Country: </strong>{{videoCard.countries}}</p>
+          <p *ngIf="videoCard.year"><strong>Year: </strong>{{videoCard.year}}</p>
+        </div>
+      </mat-card>
+  </div>
+  <ng-container class="paginator" *ngIf="paginatorValueArray | paginate: { itemsPerPage: 1, currentPage: page }">
+    <pagination-controls
+      class="paginator-controls"
+      (pageChange)="page = $event"
+      (click)="changeVideosList(page)"></pagination-controls>
+  </ng-container>
+</div>

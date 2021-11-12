@@ -1,6 +1,6 @@
 <!--<mat-spinner *ngIf="channel_info$"></mat-spinner>-->
 <div class="wrapper">
-  <div *ngIf="channelInfo$ | async as channelInfo">
+  <ng-container *ngIf="channelInfo$ | async as channelInfo">
     <div class="channel_header">
       <img class="channel_logo" [src]="channelInfo.logo" [alt]="channelInfo.name + ' channel logo'">
       <h1>{{channelInfo.name}}</h1>
@@ -27,18 +27,18 @@
     </mat-form-field>
 
     <p>Selected range: {{dateRange.value | json}}</p>
-  </div>
+  </ng-container>
 
   {{countOnChild}}
 
   <div class="tvshows">
     <div class="tvshows_content" *ngIf="(tvShows$ | async) as tvShows">
-      <div *ngFor="let show of tvShows">
+      <ng-container *ngFor="let show of tvShows">
         <app-tvshow
           [tvshow]="show"
           [countOnChild]="countOnChild"
           (selectedTvShow)="openTvShowInfo($event)"></app-tvshow>
-      </div>
+      </ng-container>
     </div>
 
     <app-tvshow-info

@@ -1,0 +1,41 @@
+<div class="info-container" *ngIf="!(isLoading$ | async) else loading">
+  <ng-container *ngIf="(videoInfo$ | async) as videoInfo">
+    <h2>{{videoInfo.name}}</h2>
+    <div [ngClass]="videoInfo.cover && videoInfo.art ? 'pictures' : 'picture'">
+      <img class="video-cover" [src]="videoInfo.cover">
+      <img class="video-art" [src]="videoInfo.art">
+    </div>
+    <div class="description">
+      <ng-container *ngIf="videoInfo.personal?.length">
+        <p><b>Directors & cast: </b></p>
+        <ul>
+          <li *ngFor="let person of videoInfo.personal"><p>{{person.role}} {{person.name}}</p></li>
+        </ul>
+      </ng-container>
+      <p *ngIf="videoInfo.year"><b>Year: </b>{{videoInfo.year}}</p>
+      <p *ngIf="videoInfo.countries.length"><b>Country: </b>{{videoInfo.countries}}</p>
+      <p *ngIf="videoInfo.description" [innerHTML]="videoInfo.description"></p>
+    </div>
+  </ng-container>
+
+  <div class="redirect-field" *ngIf="!(isLoggedIn$ | async) else userAuth">
+    <p class="warning">If you want go to the TvViewer cinema, login or register new account please</p>
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="openLoginForm()">Sign In/Sign Up</button>
+  </div>
+
+  <ng-template #userAuth>
+    <div class="redirect-field">
+      <button
+        mat-raised-button
+        color="primary"
+      >Watch in the cinema</button>
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #loading>
+  <mat-spinner></mat-spinner>
+</ng-template>

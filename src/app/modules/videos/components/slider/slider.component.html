@@ -1,0 +1,23 @@
+<div class="category">
+  <h3><strong>Category: </strong>{{category.name}}</h3>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="isLoading$ | async"
+    (click)="moveOnVideosCategoryList()">More</button>
+</div>
+<carousel
+  [cellsToScroll]="3"
+  [arrowsOutside]="true">
+  <div class="carousel-cell"
+       *ngFor="let slide of (videosCategoryContent$ | async)?.videos"
+       (click)="openDialog(slide)">
+    <ng-container *ngIf="slide.cover || slide.art">
+      <img class="slider-img" [src]="!!slide.cover ? slide.cover : slide.art">
+    </ng-container>
+    <ng-container *ngIf="!slide.cover && !slide.art">
+      <img class="slider-img" [src]="urlInterceptor">
+    </ng-container>
+  </div>
+</carousel>
+

@@ -27,7 +27,7 @@ export class ChannelService {
 
   public getChannelInfo(id: number): Observable<ChannelModel> {
     return this.http
-      .get<{ channels: Array<{}> }>(`https://api.persik.by/v2/content/channel?id[]=${id}`)
+      .get<{ channels: {}[] }>(`https://api.persik.by/v2/content/channel?id[]=${id}`)
       .pipe(
         map((data) => {
           return data.channels[0];
@@ -48,7 +48,7 @@ export class ChannelService {
     date_end: string,
   ): Observable<TvshowModel[]> {
     return this.http
-      .get<{tvshows: {items : TvshowModel[]}}>(
+      .get<{ tvshows: { items: TvshowModel[] } }>(
         `https://api.persik.by/v2/epg/tvshows?channels[]=${channelId}&from=${date_start}&to=${date_end}`,
       )
       .pipe(map((data) => data.tvshows.items));

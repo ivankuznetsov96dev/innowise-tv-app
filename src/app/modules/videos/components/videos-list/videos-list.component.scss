@@ -1,0 +1,44 @@
+@import "src/mixins";
+
+.description_navigation {
+  @include flexMixin($justify: space-around);
+  margin: 10px 0;
+  h1 {
+    margin: 0;
+  }
+}
+
+.img-wrapper {
+  @include flexMixin($justify: center);
+  width: 160px;
+
+  img {
+    max-width: 150px;
+    max-height: 100px;
+  }
+}
+
+.videos-category-list {
+  @include flexMixin($justify: flex-start);
+  margin: 20px;
+  cursor: pointer;
+
+  .description {
+    margin: 0 50px;
+  }
+}
+
+.paginator {
+  max-width: 550px;
+  margin: auto;
+
+  li {
+    margin-bottom: 5px;
+    list-style-type: none;
+  }
+}
+
+.paginator-controls::ng-deep .ngx-pagination {
+  @include flexMixin($justify: center);
+  padding-bottom: 20px;
+}
